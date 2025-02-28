@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using NuGet.Configuration;
 using SonicStore.Areas.SonicStore.Models;
+using SonicStore.Areas.SonicStore.Dtos;
 
 namespace SonicStore.Areas.SonicStore.Controllers.CartManage
 {
@@ -17,21 +18,7 @@ namespace SonicStore.Areas.SonicStore.Controllers.CartManage
         {
             _context = context;
         }
-        public class AddressInput
-        {
-            public int id { get; set; }
-            public string tinh { get; set; }
-            public string huyen { get; set; }
-            public string xa { get; set; }
-            public bool check { get; set; }
-        }
-        public class AddressInputAdding
-        {
-            public string tinh { get; set; }
-            public string huyen { get; set; }
-            public string xa { get; set; }
-            public bool check { get; set; }
-        }
+
         [HttpGet("cart")]
         public async Task<IActionResult> CartScreen()
         {

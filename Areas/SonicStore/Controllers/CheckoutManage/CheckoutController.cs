@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using SonicStore.Areas.SonicStore.Models;
 using SonicStore.Areas.SonicStore.Services;
-
+using SonicStore.Areas.SonicStore.Dtos;
 namespace SonicStore.Areas.SonicStore.Controllers.CheckoutManage
 {
     [Authorize(Roles = "customer")]
@@ -17,15 +17,6 @@ namespace SonicStore.Areas.SonicStore.Controllers.CheckoutManage
         {
             _vnPayService = vnPayService;
             _context = context;
-        }
-        public class userInput
-        {
-            public int ReceiveTypeID { get; set; }
-            public int storageId { get; set; }
-            public string tinh { get; set; }
-            public string huyen { get; set; }
-            public string xa { get; set; }
-
         }
         [HttpGet("checkout")]
         public async Task<IActionResult> CheckoutScreen()
