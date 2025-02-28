@@ -1,0 +1,330 @@
+﻿@inject SonicStoreContext _context
+
+@{
+    Layout = "_LayoutHome";
+}
+@using Newtonsoft.Json
+@using SonicStore.Areas.SonicStore.Models
+
+@{
+
+    var cateBrand = ViewBag.cateBrand;
+    // var productList = ViewBag.listProduct;
+    List<Product> products = ViewBag.product as List<Product>;
+    List<Product> productSamsung = ViewBag.productSamsung as List<Product>;
+    List<Product> productIphone = ViewBag.ProductIphone as List<Product>;
+}
+
+<title>Sonic-store</title>
+<main class="main site_main home-page">
+    <div class="main_home">
+        <section class="banner">
+            <div class="container">
+                <div class="top">
+                    <div class="top-left">
+                        <nav class="menu-category">
+                            <ul class="menu-category__list">
+                                <li class="menu-category__item">
+                                    <a class="menu-category__link is_has_child " rel asp-controller="ProductList" asp-action="ProductlistScreen" target="_self" aria-label="Điện thoại" title="Điện thoại">
+                                        <img class src="https://clickbuy.com.vn/uploads/images/2023/09/1-small.png" alt="1" title="https://clickbuy.com.vn/uploads/images/2023/09/1-small.png" width="24" height="24">
+                                        Điện thoại
+                                    </a>
+                                </li>
+                                @foreach(var item in _context.Brands.ToList())
+                                {
+                                    <li class="menu-category__item">
+                                        <a class="menu-category__link is_has_child " rel asp-controller="PhoneModel" asp-action="PhoneModelScreen" asp-route-brand="@item.Id" asp-route-brandName="@item.BrandName" target="_self" aria-label="@item.BrandName" title="@item.BrandName">
+                                            <img class src="https://clickbuy.com.vn/uploads/images/2023/09/1-small.png" alt="1" title="https://clickbuy.com.vn/uploads/images/2023/09/1-small.png" width="24" height="24">
+                                            @item.BrandName
+                                        </a>
+
+                                    </li>
+                                }
+                               
+                            </ul>
+                        </nav>
+                    </div>
+                    <div class="top-right">
+                        <div class="slide">
+                            <div class="slide-list s-wrap" id="slideList">
+                                @* <div class="s-content"> *@
+                                @*     @foreach(var item in sliders) *@
+                                @*     { *@
+                                @*         <div class="item" data-thumnail="@item.Title"> *@
+                                @*             <a href="#" aria-label="@item.Title" title="SIÊU DEAL HỘI TỤ - REALME - OPPO"> *@
+                                @*                 <img src="/images/Slider/@(item.Image)" alt="@item.Title" title="@item.Title" width="100%" height="320" /> *@
+                                @*             </a> *@
+                                @*         </div> *@
+                                @*     } *@
+                                   
+                                @* </div> *@
+                            </div>
+                            <div class="banner_bottom">
+                                <a href="https://clickbuy.com.vn/iphone-15-pro-iphone-15-pro-max" aria-label="IPHONE 15 PRO MAX GIÁ ĐÃ GIẢM SÂU MUA NGAY THÔI" title="IPHONE 15 PRO MAX GIÁ ĐÃ GIẢM SÂU MUA NGAY THÔI">
+                                    <div class="top-right__item">
+                                        <img loading="lazy" alt="IPHONE 15 PRO MAX GIÁ ĐÃ GIẢM SÂU MUA NGAY THÔI" width="100%" height="100" />
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="top-right__banner">
+                            <h3 class="banner_title">Sản phẩm mới nhất</h3>
+                            <a href="#" aria-label="INOI - THƯƠNG HIỆU CHÂU ÂU" title="INOI - THƯƠNG HIỆU CHÂU ÂU">
+                                <div class="top-right__item">
+                                    <img src="https://clickbuy.com.vn/uploads/media/637-cygxd.png" alt="INOI - THƯƠNG HIỆU CHÂU ÂU" width="265" height="140" />
+                                </div>
+                            </a>
+                            <a href="#" aria-label="TECNO GIÁ SỐC" title="TECNO GIÁ SỐC">
+                                <div class="top-right__item">
+                                    <img src="https://clickbuy.com.vn/uploads/media/610-Xfllb.png" alt="TECNO GIÁ SỐC" width="265" height="140" />
+                                </div>
+                            </a>
+                            <a href="#" aria-label="SALE HÈ CỰC HOT - ƯU ĐÃI CỰC COOL" title="SALE HÈ CỰC HOT - ƯU ĐÃI CỰC COOL">
+                                <div class="top-right__item">
+                                    <img src="https://clickbuy.com.vn/uploads/media/630-StFSf.png" alt="SALE HÈ CỰC HOT - ƯU ĐÃI CỰC COOL" width="265" height="140" />
+                                </div> 
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section class="hot-category pt-50">
+            <div class="container">
+                <div class="hot-category__item">
+                    <div class="menu_category flex block-title">
+                        <p class="flex">
+                            Điện thoại
+                        </p>
+                        <div class="menu_scroll flex">
+                            <ul class="flex">
+                                @foreach (var item in _context.Brands.Take(9))
+                                {
+                                    <li><a asp-controller="PhoneModel" asp-action="PhoneModelScreen" asp-route-brand="@item.Id" asp-route-brandName="@item.BrandName">@item.BrandName</a></li>
+                                }
+
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="list-products">
+                        @foreach(var items in products)
+                        {
+                            foreach(var itemOption in items.Storages)
+                            {
+                                <div class="list-products__item" data-id="180184">
+                                    <a asp-controller="ProductDetail" asp-action="ProductDetailScreen" asp-route-id="@items.Id" aria-label="@items.Name" title="@items.Name">
+                                        <div class="thumbnail">
+                                            <img class="lazyload" loading="lazy" src="@items.Image" alt="Samsung Galaxy S23 Ultra (5G) 8GB 256GB Chính Hãng" width="150" height="150">
+                                        </div>
+                                        <div class="detail">
+                                            <h3 class="title_name">@items.Name</h3>
+                                            <div class="ex_pricesale percent d-none" data-price="@itemOption.SalePrice" data-price1="@itemOption.OriginalPrice"></div>
+                                            <div class="price mb-12">
+                                                <ins class="new-price js-format-price" data-price="@itemOption.SalePrice">@itemOption.SalePrice</ins>
+                                                <del class="old-price js-format-price" data-price="@itemOption.OriginalPrice">@itemOption.OriginalPrice</del>
+                                            </div>
+                                            <div class="extra_tick">
+                                                <label class="installment">Trả góp 0%</label>
+                                                <label class="freeship">Miễn phí ship</label>
+                                            </div>
+                                            <div class="block-rate_product">
+                                                <div class="block-rate__star">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 576 512">
+                                                        <path d="M259.3 17.8L194 150.2 47.9 171.5c-26.2 3.8-36.7 36.1-17.7 54.6l105.7 103-25 145.5c-4.5 26.3 23.2 46 46.4 33.7L288 439.6l130.7 68.7c23.2 12.2 50.9-7.4 46.4-33.7l-25-145.5 105.7-103c19-18.5 8.5-50.8-17.7-54.6L382 150.2 316.7 17.8c-11.7-23.6-45.6-23.9-57.4 0z"></path>
+                                                    </svg>
+                                                    <svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 576 512">
+                                                        <path d="M259.3 17.8L194 150.2 47.9 171.5c-26.2 3.8-36.7 36.1-17.7 54.6l105.7 103-25 145.5c-4.5 26.3 23.2 46 46.4 33.7L288 439.6l130.7 68.7c23.2 12.2 50.9-7.4 46.4-33.7l-25-145.5 105.7-103c19-18.5 8.5-50.8-17.7-54.6L382 150.2 316.7 17.8c-11.7-23.6-45.6-23.9-57.4 0z"></path>
+                                                    </svg>
+                                                    <svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 576 512">
+                                                        <path d="M259.3 17.8L194 150.2 47.9 171.5c-26.2 3.8-36.7 36.1-17.7 54.6l105.7 103-25 145.5c-4.5 26.3 23.2 46 46.4 33.7L288 439.6l130.7 68.7c23.2 12.2 50.9-7.4 46.4-33.7l-25-145.5 105.7-103c19-18.5 8.5-50.8-17.7-54.6L382 150.2 316.7 17.8c-11.7-23.6-45.6-23.9-57.4 0z"></path>
+                                                    </svg>
+                                                    <svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 576 512">
+                                                        <path d="M259.3 17.8L194 150.2 47.9 171.5c-26.2 3.8-36.7 36.1-17.7 54.6l105.7 103-25 145.5c-4.5 26.3 23.2 46 46.4 33.7L288 439.6l130.7 68.7c23.2 12.2 50.9-7.4 46.4-33.7l-25-145.5 105.7-103c19-18.5 8.5-50.8-17.7-54.6L382 150.2 316.7 17.8c-11.7-23.6-45.6-23.9-57.4 0z"></path>
+                                                    </svg>
+                                                    <svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 576 512">
+                                                        <path d="M528.1 171.5L382 150.2 316.7 17.8c-11.7-23.6-45.6-23.9-57.4 0L194 150.2 47.9 171.5c-26.2 3.8-36.7 36.1-17.7 54.6l105.7 103-25 145.5c-4.5 26.3 23.2 46 46.4 33.7L288 439.6l130.7 68.7c23.2 12.2 50.9-7.4 46.4-33.7l-25-145.5 105.7-103c19-18.5 8.5-50.8-17.7-54.6zM388.6 312.3l23.7 138.4L288 385.4l-124.3 65.3 23.7-138.4-100.6-98 139-20.2 62.2-126 62.2 126 139 20.2-100.6 98z"></path>
+                                                    </svg>
+                                                </div>
+                                                <div class="rate_title">
+                                                    (13 đánh giá)
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </div>
+                                break;
+                            }
+                        }
+                        
+                    
+                    </div>
+                </div>
+                <div class="hot-category__item">
+                    <div class="menu_category flex block-title">
+                        <p class="flex">
+                            iPhone
+                        </p>
+                        <div class="menu_scroll flex">
+                            <ul class="flex">
+                                <li><a asp-controller="PhoneModel" asp-action="PhoneModelScreen" asp-route-name="Iphone 15" asp-route-fname="Iphone 15 Series" aria-label="iPhone 15 Series" title="iPhone 15 Series">iPhone 15 Series</a></li>
+                                <li><a asp-controller="PhoneModel" asp-action="PhoneModelScreen" asp-route-name="Iphone 14" asp-route-fname="Iphone 14 Series" aria-label="iPhone 14 Series" title="iPhone 14 Series">iPhone 14 Series</a></li>
+                                <li><a asp-controller="PhoneModel" asp-action="PhoneModelScreen" asp-route-name="Iphone 13" asp-route-fname="Iphone 13 Series" aria-label="iPhone 13 Series" title="iPhone 13 Series">iPhone 13 Series</a></li>
+                                <li><a asp-controller="PhoneModel" asp-action="PhoneModelScreen" asp-route-name="Iphone 12" asp-route-fname="Iphone 12 Series" aria-label="iPhone 12 Series" title="iPhone 12 Series">iPhone 12 Series</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="list-products">
+                        @foreach (var items in productIphone)
+                        {
+                            foreach (var itemOption in items.Storages)
+                            {
+                                <div class="list-products__item" data-id="180184">
+                                    <a asp-controller="ProductDetail" asp-action="ProductDetailScreen" asp-route-id="@items.Id" aria-label="@items.Name" title="@items.Name">
+                                        <div class="thumbnail">
+                                            <img class="lazyload" loading="lazy" src="@items.Image" alt="Samsung Galaxy S23 Ultra (5G) 8GB 256GB Chính Hãng" width="150" height="150">
+                                        </div>
+                                        <div class="detail">
+                                            <h3 class="title_name">@items.Name</h3>
+                                            <div class="ex_pricesale percent d-none" data-price="@itemOption.SalePrice" data-price1="@itemOption.OriginalPrice"></div>
+                                            <div class="price mb-12">
+                                                <ins class="new-price js-format-price" data-price="@itemOption.SalePrice">@itemOption.SalePrice</ins>
+                                                <del class="old-price js-format-price" data-price="@itemOption.OriginalPrice">@itemOption.OriginalPrice</del>
+                                            </div>
+                                            <div class="extra_tick">
+                                                <label class="installment">Trả góp 0%</label>
+                                                <label class="freeship">Miễn phí ship</label>
+                                            </div>
+                                            <div class="block-rate_product">
+                                                <div class="block-rate__star">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 576 512">
+                                                        <path d="M259.3 17.8L194 150.2 47.9 171.5c-26.2 3.8-36.7 36.1-17.7 54.6l105.7 103-25 145.5c-4.5 26.3 23.2 46 46.4 33.7L288 439.6l130.7 68.7c23.2 12.2 50.9-7.4 46.4-33.7l-25-145.5 105.7-103c19-18.5 8.5-50.8-17.7-54.6L382 150.2 316.7 17.8c-11.7-23.6-45.6-23.9-57.4 0z"></path>
+                                                    </svg>
+                                                    <svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 576 512">
+                                                        <path d="M259.3 17.8L194 150.2 47.9 171.5c-26.2 3.8-36.7 36.1-17.7 54.6l105.7 103-25 145.5c-4.5 26.3 23.2 46 46.4 33.7L288 439.6l130.7 68.7c23.2 12.2 50.9-7.4 46.4-33.7l-25-145.5 105.7-103c19-18.5 8.5-50.8-17.7-54.6L382 150.2 316.7 17.8c-11.7-23.6-45.6-23.9-57.4 0z"></path>
+                                                    </svg>
+                                                    <svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 576 512">
+                                                        <path d="M259.3 17.8L194 150.2 47.9 171.5c-26.2 3.8-36.7 36.1-17.7 54.6l105.7 103-25 145.5c-4.5 26.3 23.2 46 46.4 33.7L288 439.6l130.7 68.7c23.2 12.2 50.9-7.4 46.4-33.7l-25-145.5 105.7-103c19-18.5 8.5-50.8-17.7-54.6L382 150.2 316.7 17.8c-11.7-23.6-45.6-23.9-57.4 0z"></path>
+                                                    </svg>
+                                                    <svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 576 512">
+                                                        <path d="M259.3 17.8L194 150.2 47.9 171.5c-26.2 3.8-36.7 36.1-17.7 54.6l105.7 103-25 145.5c-4.5 26.3 23.2 46 46.4 33.7L288 439.6l130.7 68.7c23.2 12.2 50.9-7.4 46.4-33.7l-25-145.5 105.7-103c19-18.5 8.5-50.8-17.7-54.6L382 150.2 316.7 17.8c-11.7-23.6-45.6-23.9-57.4 0z"></path>
+                                                    </svg>
+                                                    <svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 576 512">
+                                                        <path d="M528.1 171.5L382 150.2 316.7 17.8c-11.7-23.6-45.6-23.9-57.4 0L194 150.2 47.9 171.5c-26.2 3.8-36.7 36.1-17.7 54.6l105.7 103-25 145.5c-4.5 26.3 23.2 46 46.4 33.7L288 439.6l130.7 68.7c23.2 12.2 50.9-7.4 46.4-33.7l-25-145.5 105.7-103c19-18.5 8.5-50.8-17.7-54.6zM388.6 312.3l23.7 138.4L288 385.4l-124.3 65.3 23.7-138.4-100.6-98 139-20.2 62.2-126 62.2 126 139 20.2-100.6 98z"></path>
+                                                    </svg>
+                                                </div>
+                                                <div class="rate_title">
+                                                    (13 đánh giá)
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </div>
+                                break;
+                            }
+                        }
+
+                    </div>
+                </div>
+                <div class="hot-category__item">
+                    <div class="menu_category flex block-title">
+                        <p class="flex">
+                            Samsung
+                        </p>
+                        <div class="menu_scroll flex">
+                            <ul class="flex">
+
+                                <li><a asp-controller="PhoneModel" asp-action="PhoneModelScreen" asp-route-name="Galaxy Z" aria-label="Galaxy Z" title="Galaxy Z">Galaxy Z</a></li>
+                                <li><a asp-controller="PhoneModel" asp-action="PhoneModelScreen" asp-route-name="Galaxy S" aria-label="Galaxy S" title="Galaxy S">Galaxy S</a></li>
+                                <li><a asp-controller="PhoneModel" asp-action="PhoneModelScreen" asp-route-name="Galaxy A" aria-label="Galaxy A" title="Galaxy A">Galaxy A</a></li>
+                                <li><a asp-controller="PhoneModel" asp-action="PhoneModelScreen" asp-route-name="Galaxy M" aria-label="Galaxy M" title="Galaxy M">Galaxy M</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="list-products">
+                        @foreach (var items in productSamsung)
+                        {
+                            foreach (var itemOption in items.Storages)
+                            {
+                                <div class="list-products__item" data-id="180184">
+                                    <a asp-controller="ProductDetail" asp-action="ProductDetailScreen" asp-route-id="@items.Id" aria-label="@items.Name" title="@items.Name">
+                                        <div class="thumbnail">
+                                            <img class="lazyload" loading="lazy" src="@items.Image" alt="Samsung Galaxy S23 Ultra (5G) 8GB 256GB Chính Hãng" width="150" height="150">
+                                        </div>
+                                        <div class="detail">
+                                            <h3 class="title_name">@items.Name</h3>
+                                            <div class="ex_pricesale percent d-none" data-price="@itemOption.SalePrice" data-price1="@itemOption.OriginalPrice"></div>
+                                            <div class="price mb-12">
+                                                <ins class="new-price js-format-price" data-price="@itemOption.SalePrice">@itemOption.SalePrice</ins>
+                                                <del class="old-price js-format-price" data-price="@itemOption.OriginalPrice">@itemOption.OriginalPrice</del>
+                                            </div>
+                                            <div class="extra_tick">
+                                                <label class="installment">Trả góp 0%</label>
+                                                <label class="freeship">Miễn phí ship</label>
+                                            </div>
+                                            <div class="block-rate_product">
+                                                <div class="block-rate__star">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 576 512">
+                                                        <path d="M259.3 17.8L194 150.2 47.9 171.5c-26.2 3.8-36.7 36.1-17.7 54.6l105.7 103-25 145.5c-4.5 26.3 23.2 46 46.4 33.7L288 439.6l130.7 68.7c23.2 12.2 50.9-7.4 46.4-33.7l-25-145.5 105.7-103c19-18.5 8.5-50.8-17.7-54.6L382 150.2 316.7 17.8c-11.7-23.6-45.6-23.9-57.4 0z"></path>
+                                                    </svg>
+                                                    <svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 576 512">
+                                                        <path d="M259.3 17.8L194 150.2 47.9 171.5c-26.2 3.8-36.7 36.1-17.7 54.6l105.7 103-25 145.5c-4.5 26.3 23.2 46 46.4 33.7L288 439.6l130.7 68.7c23.2 12.2 50.9-7.4 46.4-33.7l-25-145.5 105.7-103c19-18.5 8.5-50.8-17.7-54.6L382 150.2 316.7 17.8c-11.7-23.6-45.6-23.9-57.4 0z"></path>
+                                                    </svg>
+                                                    <svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 576 512">
+                                                        <path d="M259.3 17.8L194 150.2 47.9 171.5c-26.2 3.8-36.7 36.1-17.7 54.6l105.7 103-25 145.5c-4.5 26.3 23.2 46 46.4 33.7L288 439.6l130.7 68.7c23.2 12.2 50.9-7.4 46.4-33.7l-25-145.5 105.7-103c19-18.5 8.5-50.8-17.7-54.6L382 150.2 316.7 17.8c-11.7-23.6-45.6-23.9-57.4 0z"></path>
+                                                    </svg>
+                                                    <svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 576 512">
+                                                        <path d="M259.3 17.8L194 150.2 47.9 171.5c-26.2 3.8-36.7 36.1-17.7 54.6l105.7 103-25 145.5c-4.5 26.3 23.2 46 46.4 33.7L288 439.6l130.7 68.7c23.2 12.2 50.9-7.4 46.4-33.7l-25-145.5 105.7-103c19-18.5 8.5-50.8-17.7-54.6L382 150.2 316.7 17.8c-11.7-23.6-45.6-23.9-57.4 0z"></path>
+                                                    </svg>
+                                                    <svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 576 512">
+                                                        <path d="M528.1 171.5L382 150.2 316.7 17.8c-11.7-23.6-45.6-23.9-57.4 0L194 150.2 47.9 171.5c-26.2 3.8-36.7 36.1-17.7 54.6l105.7 103-25 145.5c-4.5 26.3 23.2 46 46.4 33.7L288 439.6l130.7 68.7c23.2 12.2 50.9-7.4 46.4-33.7l-25-145.5 105.7-103c19-18.5 8.5-50.8-17.7-54.6zM388.6 312.3l23.7 138.4L288 385.4l-124.3 65.3 23.7-138.4-100.6-98 139-20.2 62.2-126 62.2 126 139 20.2-100.6 98z"></path>
+                                                    </svg>
+                                                </div>
+                                                <div class="rate_title">
+                                                    (13 đánh giá)
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </div>
+                                break;
+                            }
+                        }
+
+                    </div>
+                </div>
+
+
+            </div>
+        </section>
+
+        <section class="home-content">
+            <div class="container">
+                <div class="home-content__container">
+                    <div class="css-content">
+                        <h1 style="text-align:center">Website b&aacute;n h&agrave;ng c&ocirc;ng nghệ uy t&iacute;n h&agrave;ng đầu Việt Nam</h1>
+                    </div>
+                    <div class="btn-main">
+                        <span class="show">
+                            Xem thêm
+                            <svg height="10px" width="10px" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 512 512" xml:space="preserve">
+<path style="fill: #212529;" d="M505.183,123.179c-9.087-9.087-23.824-9.089-32.912,0.002l-216.266,216.27L39.729,123.179
+										c-9.087-9.087-23.824-9.089-32.912,0.002c-9.089,9.089-9.089,23.824,0,32.912L239.55,388.82c4.364,4.364,10.283,6.816,16.455,6.816
+										c6.172,0,12.092-2.453,16.455-6.817l232.721-232.727C514.272,147.004,514.272,132.268,505.183,123.179z">
+</path>
+</svg>
+                        </span>
+                        <span class="hide">
+                            Ẩn bớt
+                            <svg height="10px" width="10px" version="1.1" id="Layer_2" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 512 512" xml:space="preserve">
+<path style="fill: #212529;" d="M505.183,123.179c-9.087-9.087-23.824-9.089-32.912,0.002l-216.266,216.27L39.729,123.179
+										c-9.087-9.087-23.824-9.089-32.912,0.002c-9.089,9.089-9.089,23.824,0,32.912L239.55,388.82c4.364,4.364,10.283,6.816,16.455,6.816
+										c6.172,0,12.092-2.453,16.455-6.817l232.721-232.727C514.272,147.004,514.272,132.268,505.183,123.179z">
+</path>
+</svg>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+</main>

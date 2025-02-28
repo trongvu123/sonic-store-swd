@@ -1,0 +1,140 @@
+﻿
+@{
+    Layout = "_Layout";
+}
+<link href="https://clickbuy.com.vn/assets/js/fancybox/fancybox.css" rel="stylesheet" />
+<link rel="stylesheet" href="~/css/fontawesome/css/all.min.css">
+<link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+<link rel="stylesheet" href="~/lib/bootstrap-icons/font/bootstrap-icons.css">
+<link rel="stylesheet" href="~/lib/bootstrap-select/css/bootstrap-select.min.css" />
+
+<style>
+    body {
+        display: flex;
+        flex-direction: column;
+    }
+
+    body {
+        min-height: 100vh;
+        margin: 0;
+    }
+
+    main {
+        flex: 1;
+    }
+    a{
+        text-decoration: none !important;
+        color: #4a4a4a !important;
+    }
+    .comments-add {
+        border-radius: 10px;
+        box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+        padding: 20px;
+        margin: 20px;
+    }
+
+    .feedback-box {
+        padding: 10px;
+        display: block;
+        border: 1px solid rgba(100, 100, 111, 0.2);
+        border-radius: 10px;
+        margin-bottom: 10px;
+    }
+
+    .comments-add__rate .rating.vote i {
+        cursor: pointer;
+    }
+
+    .comments-add__rate .rating.vote .fas {
+        color: gold;
+    }
+
+    .fa-star.active {
+        color: gold;
+    }
+
+    .fa-star {
+        color: #ccc;
+    }
+
+    .product-comment {
+        padding: 20px;
+    }
+
+    .form-control {
+        margin-bottom: 15px;
+        margin-top: 10px;
+    }
+
+    textarea.form-control {
+        margin-bottom: 15px;
+        border-radius: 10px;
+        width: 100%;
+        height: 125px;
+    }
+
+    ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+    }
+</style>
+<main>
+
+<div class="comments-add" id="comments-actions">
+    <span class="fw-bold" style="color: red;">Email của bạn sẽ không được hiển thị công khai.  Các trường bắt buộc được đánh dấu    <span class="required" aria-hidden="true">*</span></span>
+
+    <div class="comments-add__form">
+        <label for="comment" class="comment bold">
+            Nhận xét của bạn<span style="color: red;">*</span>
+        </label>
+        <div>
+            <input id="messageTitle" id="title" name="title" class="form-control" type="text" placeholder="Nhập title của bài viết" size="30" required>
+        </div>
+        <textarea class="form-control" name="content"
+                  placeholder="Nhập nhận xét của bạn..." id="messageRating"></textarea>
+        @* <div>
+            <input id="name" name="name" class="form-control" type="text" placeholder="Nhập tên của bạn" size="30" required>
+        </div> *@
+        @* <div>
+            <input id="email" name="email" class="form-control" type="email" placeholder="Nhập email của bạn"
+                   size="35" required>
+        </div> *@
+    </div>
+    <div class="comments-add__action mt-3">
+        <div class="comments-add__action-left">
+            <button type="button" class="btn btn-primary w-25" title="Gửi" data-comments_moreinfo
+                    data-comment_id="0" onclick="addReviewProduct()">
+                Gửi
+            </button>
+        </div>
+        <div class="comments-add__action-right">
+        </div>
+    </div>
+</div>
+</main>
+
+<script>
+
+    function addReviewProduct() {
+        let content = document.querySelector("#messageRating").value
+        let messageTitle = document.querySelector("#messageTitle").value
+        if (content === '') {
+            alert("Please fill in your comments")
+            return
+        }
+        var url = "/general-feedback/add?content=" + content + "&title=" + messageTitle;
+        fetch(url, { method: "post" }).then(response => response.json())
+            .then(result => {
+                console.log(result);
+                if (result === false) {
+                    alert('Error occurred while adding feedback');
+                } else {
+                    alert('Create feedback successful');
+                    window.location.reload();
+                }
+            }).catch(error => {
+                alert('Error occurred while adding feedback');
+            })
+    }
+</script>

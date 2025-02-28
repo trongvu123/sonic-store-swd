@@ -1,0 +1,101 @@
+﻿@import url('https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700');
+
+body {
+    background: #fff;
+    font-size: 14px;
+    color: #383838; /* lighten(black, 22%) trong SCSS */
+}
+
+.container {
+    padding-bottom: 200px;
+}
+
+.form-group {
+    position: relative;
+    margin: 40px auto;
+}
+
+.form-control {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    height: 35px;
+    border-radius: 0;
+    font-size: 16px;
+    box-shadow: none;
+    border: none;
+    border-bottom: 1px solid #cccccc;
+    background-color: transparent;
+}
+
+    .form-control + label {
+        position: absolute;
+        top: 10px;
+        left: 3px;
+        font-size: 16px;
+        color: #cccccc;
+        transition: all 0.4s ease-out;
+    }
+
+    .form-control:focus {
+        box-shadow: none;
+        outline: none;
+        border-width: 2px;
+        border-color: #009688; /* $color-primary trong SCSS */
+    }
+
+        .form-control:focus + label,
+        .form-control.has-value + label {
+            top: -15px;
+            color: #009688; /* $color-primary trong SCSS */
+            font-size: 12px;
+        }
+
+.form-group select, .mob, .det {
+    margin-bottom: 15px;
+    width: 40%;
+}
+
+.input-group-addon {
+    padding: 0;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 1;
+    color: #fff;
+    text-align: center;
+    background-color: transparent;
+    border: none;
+    border-radius: 0;
+}
+
+@media screen and (max-width: 768px) {
+    .form-group select, .mob {
+        min-width: 100%;
+    }
+}
+
+.inputfile {
+    width: 0.1px;
+    height: 0.1px;
+    opacity: 0;
+    overflow: hidden;
+    position: absolute;
+    z-index: -1;
+}
+
+    .inputfile + label {
+        font-size: 1.25em;
+        font-weight: 700;
+        color: white;
+        background-color: black;
+        display: inline-block;
+    }
+
+        .inputfile:focus + label,
+        .inputfile + label:hover {
+            background-color: red;
+        }
+
+    .inputfile + label {
+        cursor: pointer; /* "hand" cursor */
+    }

@@ -1,0 +1,200 @@
+﻿@{
+    Layout = "_LayoutSale";
+}
+
+@{
+    ViewData["Title"] = "Home Page";
+    var data = ViewBag.data;
+    var detail = ViewBag.detail;
+}
+<style>
+    .info-card {
+        padding: 20px;
+        width: 100%;
+        height: 150px;
+        margin-bottom: 20px;
+        border-radius: 5px;
+        box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+        color: #ffffff;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+    }
+</style>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script>
+<title>Bảng quản lí</title>
+@if (data != null)
+{
+    <div style="width: 100%; margin: auto; background-color:#ffffff;border-radius:5px;box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);">
+        <canvas id="myChart" width="800" height="400"></canvas>
+    </div>
+    <div class="row" style="margin-top:20px;">
+        <div class="col-md-3">
+            <div class="info-card" style="background-color:#007bff;">
+                <h5 style="margin:0;color:white"><i class="fa-solid fa-chart-simple"></i> Số đơn đã hoàn thành</h5>
+                <p style="font-size:36px;margin:0;">@detail.numdon Đơn</p>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="info-card" style="background-color:#007bff;">
+                <h5 style="margin:0;color:white"><i class="fa-solid fa-chart-simple"></i> Tổng doanh thu</h5>
+                <p class="js-format-price" data-price="@detail.totalp" style="font-size:36px;margin:0;">@detail.totalp</p>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="info-card" style="background-color:#28a745;">
+                <h5 style="margin:0;color:white"><i class="fa-solid fa-chart-simple"></i> Số đơn đang giao</h5>
+                <p style="font-size:36px;margin:0;">@detail.numdongiao Đơn</p>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="info-card" style="background-color:#dc3545;">
+                <h5 style="margin:0;color:white"><i class="fa-solid fa-chart-simple"></i> Số đơn bị hủy</h5>
+                <p style="font-size:36px;margin:0;">@detail.numdonhuy Đơn</p>
+            </div>
+        </div>
+    </div>
+
+
+
+    <div class="card mb-4 " style="margin-top:20px">
+        <div class="card-header">Khách hàng đã nhận được hàng</div>
+        <div class="card-body">
+            <table id="datatablesSimple">
+                <thead>
+                    <tr>
+                        <th>Mã đơn</th>
+                        <th>Tên khách hàng</th>
+                        <th>Ngày đặt</th>
+                        <th>Email</th>
+
+                    </tr>
+                </thead>
+                <tfoot>
+                    <tr>
+                        <th>Mã đơn</th>
+                        <th>Tên khách hàng</th>
+                        <th>Ngày đặt</th>
+                        <th>Email</th>
+
+                    </tr>
+                </tfoot>
+                <tbody>
+                    @foreach (var item in data)
+                    {
+                        <tr>
+                            <td>@item.Index</td>
+                            <td>@item.CusName</td>
+                            <td>@item.OrderDate</td>
+                            @{
+                                string mail = "mailto:" + @item.Email;
+                            }
+                            <td><a href="@mail">@item.Email</a></td>
+
+                        </tr>
+                    }
+                </tbody>
+            </table>
+
+        </div>
+    </div>
+}
+else
+{
+    <h5>Không có data</h5>
+}
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const labels = ['Tháng 1', 'Tháng 2', 'Tháng 3', 'Tháng 4', 'Tháng 5', 'Tháng 6', 'Tháng 7', 'Tháng 8', 'Tháng 9', 'Tháng 10', 'Tháng 11', 'Tháng 12'];
+        const dataGiao = @Html.Raw(Json.Serialize(ViewBag.DataGiao));
+        const dataHuy = @Html.Raw(Json.Serialize(ViewBag.DataHuy));
+
+        const data = {
+            labels: labels,
+            datasets: [{
+                label: 'Số lượng sản phẩm đã bán',
+                data: dataGiao,
+                borderColor: 'rgba(75, 192, 192, 1)',
+                backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                tension: 0.4,
+                fill: true
+            }, {
+                label: 'Số lượng sản phẩm bị hủy',
+                data: dataHuy,
+                borderColor: 'rgba(255, 99, 132, 1)',
+                backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                tension: 0.4,
+                fill: true
+            }]
+        };
+
+        var ctx = document.getElementById('myChart').getContext('2d');
+        var myChart = new Chart(ctx, {
+            type: 'line',
+            data: data,
+            options: {
+                plugins: {
+                    title: {
+                        display: true,
+                        text: 'Biểu đồ số lượng sản phẩm đã bán và bị hủy trong năm'
+                    },
+                    legend: {
+                        display: true,
+                        position: 'top'
+                    },
+                    title: {
+                        display: true,
+                        text: 'Biểu đồ số lượng sản lượng bán được và sản phẩm bị hủy' // Tiêu đề biểu đồ
+                    }
+
+                },
+                scales: {
+                    x: {
+                        display: true,
+                        title: {
+                            display: true,
+                            text: 'Tháng'
+                        }
+                    },
+                    y: {
+                        beginAtZero: true,
+                        title: {
+                            display: true,
+                            text: 'Số lượng'
+                        }
+                    }
+                }
+            }
+        });
+    });
+</script>
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+        var formatter = new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' });
+        var priceTags = document.querySelectorAll('.js-format-price');
+        priceTags.forEach(tag => {
+            var price = tag.getAttribute('data-price');
+            var formattedPrice = formatter.format(price);
+            tag.textContent = formattedPrice;
+        });
+
+        var saleTags = document.querySelectorAll('.ex_pricesale');
+        saleTags.forEach(tag => {
+            var price = parseFloat(tag.getAttribute('data-price'));
+            var originalPrice = parseFloat(tag.getAttribute('data-price1'));
+            var discountPercent = ((originalPrice - price) / originalPrice) * 100;
+            var roundedDiscountPercent = Math.round(discountPercent);
+            tag.textContent = roundedDiscountPercent + '%';
+        });
+        // Hiển thị thông báo nếu có
+        var statusMessage = "@TempData["Message"]";
+        if (statusMessage) {
+            alert(statusMessage);
+        }
+    })
+</script>
+<script>
+    sessionStorage.setItem('previousPageProfile', window.location.href);
+</script>

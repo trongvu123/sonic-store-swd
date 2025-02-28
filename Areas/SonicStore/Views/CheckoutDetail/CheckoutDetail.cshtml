@@ -1,0 +1,187 @@
+﻿@{
+    Layout = "_LayoutSale";
+}
+@{
+    var _data = ViewBag.data;
+}
+<form asp-action="OrderListScreen" asp-controller="OrderList" method="get">
+    <button class="btn btn-danger" type="submit">
+        Quay lại
+    </button>
+</form>
+
+
+<div class="card mb-4">
+    <div class="card-header">Quản lý đơn hàng</div>
+    <div class="card-body">
+        <table id="datatablesSimple">
+            <thead>
+                <tr>
+                    <th>Id sản phẩm</th>
+                    <th>Tên sản phẩm</th>
+                    <th>Bộ nhớ</th>
+                    <th>Số lượng mua</th>
+                    <th>Số lượng còn</th>
+                </tr>
+            </thead>
+            <tfoot>
+                <tr>
+                    <th>Id sản phẩm</th>
+                    <th>Tên sản phẩm</th>
+                    <th>Bộ nhớ</th>
+                    <th>Số lượng mua</th>
+                    <th>Số lượng còn</th>
+                </tr>
+            </tfoot>
+            <tbody>
+                @{
+                    var checkNum = true;
+                }
+                @foreach (var data in _data)
+                {
+                    <tr>
+                        <td>@data.proId</td>
+                        <td>@data.proName</td>
+                        <td>@data.storage</td>
+                        <td class="num">@data.num</td>
+                        <td class="stock">@data.stock</td>
+                    </tr>
+                    @if (@data.num > @data.stock)
+                    {
+                        checkNum = false;
+                    }
+                }
+            </tbody>
+        </table>
+        <div>
+            <table class="table">
+                <tr>
+                    <th>Mã đơn hàng</th>
+                    <th>Tên khách hàng</th>
+                    <th>Tình trạng đơn</th>
+                    <th>Tình trạng thanh toán</th>
+                    <th>Duyệt</th>
+                </tr>
+                <tr>
+                    <td>@_data[0].index</td>
+                    <td>@_data[0].cusName</td>
+                    @if (_data[0].OrderStatus.Equals("Chờ duyệt"))
+                    {
+                        <td>
+                            <div class="badge bg-warning text-white rounded-pill">
+                                @_data[0].OrderStatus
+                            </div>
+                        </td>
+                    }
+                    @if (@_data[0].OrderStatus.Equals("Đang vận chuyển"))
+                    {
+                        <td>
+                            <div class="badge bg-info text-white rounded-pill">
+                                @_data[0].OrderStatus
+                            </div>
+                        </td>
+                    }
+                    @if (@_data[0].OrderStatus.Equals("Vận chuyển thành công"))
+                    {
+                        <td>
+                            <div class="badge bg-success text-white rounded-pill">
+                                @_data[0].OrderStatus
+                            </div>
+                        </td>
+                    }
+                    @if (@_data[0].OrderStatus.Equals("Đã hủy"))
+                    {
+                        <td>
+                            <div class="badge bg-danger text-white rounded-pill">
+                                @_data[0].OrderStatus
+                            </div>
+                        </td>
+                    }
+                    @if (_data[0].paymentStatus.Equals("Đã thanh toán") || _data[0].paymentStatus.Equals("Đã nhận hàng"))
+                    {
+                        <td><div class="badge bg-success text-white rounded-pill">@_data[0].paymentStatus</div></td>
+                    }
+                    else
+                    {
+                        <td><div class="badge bg-danger text-white rounded-pill">@_data[0].paymentStatus</div></td>
+                    }
+                    @{
+                        var duyet_buton = "btn-success";
+                        var duyet_mes = "none";
+                        var duyet_submit = "submit";
+                        var ht_buton = "btn-success";
+                        var ht_mes = "none";
+                        var ht_submit = "submit";
+                        if (checkNum && @_data[0].OrderStatus.Equals("Chờ duyệt"))
+                        {
+                            duyet_buton = "btn-success";
+                            duyet_mes = "Duyệt đơn";
+                            duyet_submit = "submit";
+                        }
+                        else
+                        {
+                            duyet_buton = "btn-secondary";
+                            duyet_mes = "Không thể duyệt đơn";
+                            duyet_submit = "button";
+                        }
+
+                        if (@_data[0].OrderStatus.Equals("Đang vận chuyển"))
+                        {
+                            ht_buton = "btn-success";
+                            ht_mes = "Hoàn thành đơn";
+                            ht_submit = "submit";
+                        }
+                        else
+                        {
+                            ht_buton = "btn-secondary";
+                            ht_mes = "Không thể hoàn thành đơn";
+                            ht_submit = "button";
+                        }
+
+
+                    }
+                    <td>
+                        <form asp-controller="CheckoutDetail" asp-action="ComfirmCheckout" asp-route-id="@_data[0].index" method="post">
+                            <button id="approve-button" class="btn @duyet_buton" type="@duyet_submit">
+                                @duyet_mes
+                            </button>
+                        </form>
+
+                        <form asp-controller="CheckoutDetail" asp-action="CheckoutDone" asp-route-id="@_data[0].index" method="post">
+                            <button class="btn @ht_buton" type="@ht_submit" style="">
+                                @ht_mes
+                            </button>
+                        </form>
+
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+        var formatter = new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' });
+        var priceTags = document.querySelectorAll('.js-format-price');
+        priceTags.forEach(tag => {
+            var price = tag.getAttribute('data-price');
+            var formattedPrice = formatter.format(price);
+            tag.textContent = formattedPrice;
+        });
+
+        var saleTags = document.querySelectorAll('.ex_pricesale');
+        saleTags.forEach(tag => {
+            var price = parseFloat(tag.getAttribute('data-price'));
+            var originalPrice = parseFloat(tag.getAttribute('data-price1'));
+            var discountPercent = ((originalPrice - price) / originalPrice) * 100;
+            var roundedDiscountPercent = Math.round(discountPercent);
+            tag.textContent = roundedDiscountPercent + '%';
+        });
+        // Hiển thị thông báo nếu có
+        var statusMessage = @Html.Raw(Json.Serialize(@TempData["Message"]));
+        if (statusMessage) {
+            alert(statusMessage);
+        }
+    })
+</script>

@@ -1,0 +1,868 @@
+﻿@model User
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Admin dashboard</title>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+    
+    <link href="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/style.min.css" rel="stylesheet" />
+    <link href="https://sb-admin-pro.startbootstrap.com/css/styles.css" rel="stylesheet" />
+    <script data-search-pseudo-elements="" defer="" src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/js/all.min.js" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/feather-icons/4.29.0/feather.min.js" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <script src="https://cdn.jsdelivr.net/npm/izitoast@1.4.0/dist/js/iziToast.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/izitoast@1.4.0/dist/css/iziToast.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/izimodal/1.6.1/js/iziModal.min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/izimodal/1.6.1/css/iziModal.css" rel="stylesheet" />
+    <script src="https://code.jquery.com/ui/1.13.3/jquery-ui.js"></script>
+    <link rel="stylesheet" href=" https://cdn.jsdelivr.net/npm/pretty-checkbox@3.0/dist/pretty-checkbox.min.css">
+    <script src="https://hoanghamobile.com/Content/web/js/plugins/jquery-datepicker/datepicker.min.js"></script>
+    <link href="https://hoanghamobile.com/Content/web/js/plugins/jquery-datepicker/datepicker.min.css" rel="stylesheet" />
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.15.2/js/selectize.min.js"
+            integrity="sha512-IOebNkvA/HZjMM7MxL0NYeLYEalloZ8ckak+NDtOViP7oiYzG5vn6WVXyrJDiJPhl4yRdmNAG49iuLmhkUdVsQ=="
+            crossorigin="anonymous"
+            referrerpolicy="no-referrer"></script>
+    @* <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous"> *@
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.15.2/css/selectize.bootstrap5.min.css">
+    <script>
+        $(document).ready(function () {
+        $(function () {
+            $("#dob").datepicker();
+        });
+
+        });
+    </script>
+    <style>
+        .sb-customizer-toggler {
+            display: none !important;
+        }
+
+        .dropdown-notifications-item.active{
+            background-color: #e0e5ec;
+        }
+
+        tbody td:last-child{
+         text-align:center;
+        }
+
+        .dropdown-notifications{
+            position: relative;
+        }
+
+        .icon-button__badge{
+            position: absolute;
+            top: 7px;
+            right: 6px;
+            width: 14px;
+            height: 14px;
+            background: red;
+            color: #ffffff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: 50%;
+            font-size: 8px;
+        }
+        .bg-mess{
+            background-color: #e0e5ec;
+        }
+    </style>
+    <link href="~/css/PageDesign/AdminDashboard.css" rel="stylesheet" />
+</head>
+<body class="nav-fixed sidenav-toggled">
+    <nav class="topnav navbar navbar-expand shadow justify-content-between justify-content-sm-start navbar-light bg-white" id="sidenavAccordion">
+        <a class="navbar-brand pe-3 ps-4 ps-lg-2" style="margin-left:20px;">Bảng điều khiển</a>
+        <!-- Navbar Search Input-->
+        <!-- * * Note: * * Visible only on and above the lg breakpoint-->
+        <!-- Navbar Items-->
+        <ul class="navbar-nav align-items-center ms-auto">
+            <!-- Documentation Dropdown-->
+        
+            <!-- Navbar Search Dropdown-->
+            <!-- * * Note: * * Visible only below the lg breakpoint-->
+            <li class="nav-item dropdown no-caret me-3 d-lg-none">
+                <a class="btn btn-icon btn-transparent-dark dropdown-toggle" id="searchDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i data-feather="search"></i></a>
+                <!-- Dropdown - Search-->
+                <div class="dropdown-menu dropdown-menu-end p-3 shadow animated--fade-in-up" aria-labelledby="searchDropdown">
+                    <form class="form-inline me-auto w-100">
+                        <div class="input-group input-group-joined input-group-solid">
+                            <input class="form-control pe-0" type="text" placeholder="Tìm kiếm..." aria-label="Search" aria-describedby="basic-addon2" />
+                            <div class="input-group-text"><i data-feather="search"></i></div>
+                        </div>
+                    </form>
+                </div>
+            </li>
+            <!-- Alerts Dropdown-->
+        
+            <!-- Messages Dropdown-->
+            <li class="nav-item dropdown no-caret d-none d-sm-block me-3 dropdown-notifications" >
+                <a class="btn btn-icon btn-transparent-dark dropdown-toggle" id="navbarDropdownMessages" href="javascript:void(0);" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i data-feather="mail"></i></a>
+                <span class="icon-button__badge"></span>
+                <div class="dropdown-menu dropdown-menu-end border-0 shadow animated--fade-in-up" aria-labelledby="navbarDropdownMessages">
+                    <h6 class="dropdown-header dropdown-notifications-header">
+                        <i class="me-2" data-feather="mail"></i>
+                        Trung tâm tin nhắn
+                    </h6>
+                    <!-- Example Message 1  -->
+                    <div id="listMess">
+                    </div>
+                    <!-- Footer Link-->
+                    <a class="dropdown-item dropdown-notifications-footer" href="#!">Read All Messages</a>
+                </div>
+            </li>
+            <!-- User Dropdown-->
+            <li class="nav-item dropdown no-caret dropdown-user me-3 me-lg-4">
+                <a class="btn btn-icon btn-transparent-dark dropdown-toggle" id="navbarDropdownUserImage" href="javascript:void(0);" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><img class="img-fluid" src="~/images/vecteezy_user-profile-vector-flat-illustration-avatar-person-icon_37336395.jpg" /></a>
+                <div class="dropdown-menu dropdown-menu-end border-0 shadow animated--fade-in-up" aria-labelledby="navbarDropdownUserImage">
+                    <h6 class="dropdown-header d-flex align-items-center">
+                        <img class="dropdown-user-img" src="~/images/vecteezy_user-profile-vector-flat-illustration-avatar-person-icon_37336395.jpg" />
+                        <div class="dropdown-user-details">
+                            <div class="dropdown-user-details-name">@Model.FullName</div>
+                            <div class="dropdown-user-details-email"><a  class="__cf_email__" </a></div>
+                        </div>
+                    </h6>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" asp-controller="Profile" asp-action="ProfileScreen">
+                        <div class="dropdown-item-icon"><i data-feather="settings"></i></div>
+                        Thay đổi thông tin
+                    </a>
+                    <a class="dropdown-item" asp-controller="Login" asp-action="Logout">
+                        <div class="dropdown-item-icon"><i data-feather="log-out"></i></div>
+                        Đăng xuất
+                    </a>
+                </div>
+            </li>
+        </ul>
+    </nav>
+    <div id="layoutSidenav">
+@*         <div id="layoutSidenav_nav">        
+            <partial name="_NavLeftsideAdmin"></partial>
+        </div> *@
+        <div id="layoutSidenav_content">
+            <main>
+                <header class="page-header page-header-compact page-header-light border-bottom bg-white mb-4">
+                    <div class="container-fluid px-4">
+                        <div class="page-header-content">
+                            <div class="row align-items-center justify-content-between pt-3">
+                                <div class="col-auto mb-3">
+                                    <h1 class="page-header-title">
+                                        <div class="page-header-icon"><i data-feather="user"></i></div>
+                                        Danh sách người dùng
+                                    </h1>
+                                </div>
+                                <div class="col-12 col-xl-auto mb-3">
+                                    <a class="btn btn-sm btn-light text-primary" id="add-user">
+                                        <i class="me-1" data-feather="user-plus"></i>
+                                        Thêm thành viên
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </header>
+                <!-- Main page content-->
+                <div class="container-fluid px-4">
+                    <div class="card">
+                        <div class="card-body">
+                     
+                            <table id="datatablesSimple">
+                                <thead>
+                                    <tr>
+                                        <th>Người dùng</th>
+                                        <th>Email</th>
+                                        <th>Số điện thoại</th>
+                                        <th>Vai trò</th>
+                                        <th>Trạng thái</th>
+                                        <th>Thay đổi trạng thái</th>
+                                    </tr>
+                                </thead>
+                                <tfoot>
+                                    <tr>
+                                        <th>Người dùng</th>
+                                        <th>Email</th>
+                                        <th>Số điện thoại</th>
+                                        <th>Vai trò</th>
+                                        <th>Trạng thái</th>
+                                        <th>Thay đổi trạng thái</th>
+                                    </tr>
+                                </tfoot>
+                                <tbody id="dataBody">
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+    <div class="iziModal" id="modal-mess" style="display: none;">
+        <div class="modal-content" style="margin:10px 0; padding:0 18px;">
+            <p style="word-wrap: break-word; overflow-wrap: break-word;"></p>
+        </div>
+    </div>
+    <div class="contain" id="modal" style="display:none;">
+        <div class="form-controls">
+            <div class="controls">
+
+                <input type="text" placeholder="Tên" id="name" class="b-focus">
+            </div>
+
+        </div>
+        <div class="form-controls">
+            <div class="controls">
+                <select name="role"
+                        id="role"
+                        placeholder="Vai trò">
+                    <option value=""> </option>
+                    <option value="2">Sale</option>
+                    <option value="3">Marketing</option>
+                </select>
+                <input type="hidden" name="vaitro" id="vaitro" value="" />
+
+            </div>
+        </div>
+        <div class="form-controls">
+            <div class="controls">
+
+                <div class="pretty p-default p-round">
+                    <input type="radio" name="Sex" id="male" value="true">
+                    <div class="state">
+                        <label>Nam</label>
+                    </div>
+                </div>
+
+                <div class="pretty p-default p-round">
+                    <input type="radio" name="Sex" id="female" value="false">
+                    <div class="state">
+                        <label>Nữ</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="form-controls">
+            <div class="controls">
+
+                <input type="text" id="dob" placeholder="Ngày sinh">
+            </div>
+        </div>
+        <div class="form-controls">
+            <div class="controls">
+                <select name="SystemCityID"
+                        id="SystemCityID"
+                        placeholder="Tỉnh/Thành phố">
+                    <option value=""> </option>
+
+                </select>
+                <input type="hidden" name="tinh" value="" id="tinh"/>
+
+            </div>
+        </div>
+        <div class="form-controls">
+            <div class="controls">
+                <select id="SystemDistrictID"
+                        name="SystemDistrictID"
+                        placeholder="Quận/Huyện *"
+                        data-required="1">
+                    <option value=""> </option>
+                </select>
+                <input type="hidden" name="huyen" value="" id="huyen" />
+            </div>
+        </div>
+        <div class="form-controls">
+            <div class="controls">
+                <select id="SystemCommuneID"
+                        name="SystemCommuneID"
+                        placeholder="Xã/Phường*"
+                        data-required="1">
+                    <option value=""> </option>
+                </select>
+                <input type="hidden" name="xa" value="" id="xa"/>
+            </div>
+        </div>
+        <div class="btn-modal-contain">
+            <button id="btn-old">Xác nhận</button>
+            <button id="old-cancel">Hủy bỏ</button>
+        </div>
+    </div>
+    <script id="data-template" type="x-tmpl-mustache">
+        <tr data-id="{{id}}">
+                     <td>
+                         <div class="d-flex align-items-center">
+                          <div class="avatar me-2"><img class="avatar-img img-fluid" src="https://sb-admin-pro.startbootstrap.com/assets/img/illustrations/profiles/profile-1.png" /></div>
+                            {{fullName}}
+                        </div>
+                    </td>
+                   <td>{{email}}</td>
+                    <td>{{phone}}</td>
+                           <td><span class="badge {{roleClass}}" id="row-role-{{id}}" >{{roleName}}</span></td>
+                        <td><span class="{{statusClass}}" id="row-status-{{id}}" data-status="{{statusData}}">{{statusText}}</span></td>
+                          <td>
+                                    <a class="btn btn-datatable btn-icon btn-transparent-dark me-2" id="icon-edit" data-id={{id}} data-status="{{status}}"><i class="fa-regular fa-pen-to-square"></i></a>
+                                    <a class="btn btn-datatable btn-icon btn-transparent-dark me-2" id="icon-role" data-id={{id}} ><i class="fa-regular fa-circle-user"></i></a>
+                                  {{#byAdmin}}
+                                      <a class="btn btn-datatable btn-icon btn-transparent-dark me-2" id="icon-info" data-id={{id}}><i class="fa-solid fa-circle-info"></i></a>
+                                 {{/byAdmin}}
+                        </td>
+        </tr>
+    </script>
+    <script id="data-template2" type="x-tmpl-mustache">
+         <a class="dropdown-item dropdown-notifications-item {{bgClass}}" href="#!" data-id="{{id}}" >
+            <img class="dropdown-notifications-item-img" src="./images/vecteezy_user-profile-vector-flat-illustration-avatar-person-icon_37336395.jpg" />
+            <div class="dropdown-notifications-item-content">
+                <div class="dropdown-notifications-item-content-text">{{title}}</div>
+                <div class="dropdown-notifications-item-content-details">{{fullName}}</div>
+            </div>
+        </a>
+    </script>
+    <script data-cfasync="false" src="https://sb-admin-pro.startbootstrap.com/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+    <script src="https://sb-admin-pro.startbootstrap.com/js/scripts.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js" crossorigin="anonymous"></script>
+    @* <script src="https://sb-admin-pro.startbootstrap.com/js/datatables/datatables-simple-demo.js"></script> *@
+
+   <script src="https://assets.startbootstrap.com/js/sb-customizer.js"></script> 
+    <sb-customizer project="sb-admin-pro"></sb-customizer>
+    <script>(function () { function c() { var b = a.contentDocument || a.contentWindow.document; if (b) { var d = b.createElement('script'); d.innerHTML = "window.__CF$cv$params={r:'898e04802d408b45',t:'MTcxOTI0NTczNy4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);"; b.getElementsByTagName('head')[0].appendChild(d) } } if (document.body) { var a = document.createElement('iframe'); a.height = 1; a.width = 1; a.style.position = 'absolute'; a.style.top = 0; a.style.left = 0; a.style.border = 'none'; a.style.visibility = 'hidden'; document.body.appendChild(a); if ('loading' !== document.readyState) c(); else if (window.addEventListener) document.addEventListener('DOMContentLoaded', c); else { var e = document.onreadystatechange || function () { }; document.onreadystatechange = function (b) { e(b); 'loading' !== document.readyState && (document.onreadystatechange = e, c()) } } } })();</script>
+    <script defer src="https://static.cloudflareinsights.com/beacon.min.js/vcd15cbe7772f49c399c6a5babf22c1241717689176015" integrity="sha512-ZpsOmlRQV6y907TI0dKBHq9Md29nnaEIPlkf84rnaERnq6zvWvPUqr2ft8M1aS28oN72PdrCzSjY4U6VaAw1EQ==" data-cf-beacon='{"rayId":"898e04802d408b45","version":"2024.4.1","token":"6e2c2575ac8f44ed824cef7899ba8463"}' crossorigin="anonymous"></script>
+</body>
+</html>
+<script>
+
+    $(document).ready(function () {
+        let dataTable;
+        function loadData() {
+            $.ajax({
+                url: '/loadData-users',
+                type: 'GET',
+                dataType: 'json',
+                success: function (response) {
+                    var data = response.data;
+                    var html = '';
+                    var template = $('#data-template').html();
+                    $.each(data, function (i, item) {
+                        html += Mustache.render(template, {
+                            id: item.id,
+                            fullName: item.fullName,
+                            email: item.email,
+                            phone: item.phone,
+                            roleName: item.roleName,
+                            roleClass: getRoleClass(item.roleName),
+                            status: item.status,
+                            statusData: item.status ? 'on' : 'off',
+                            statusClass: getStatusClass(item.status),
+                            statusText: getStatusText(item.status),
+                            byAdmin: item.byAdmin
+                        });
+                    });
+                    if (dataTable) {
+                         dataTable.destroy();
+                    }
+                    $('#dataBody').html(html);
+                    
+                    dataTable = new simpleDatatables.DataTable("#datatablesSimple");
+
+                }
+            });
+        }
+        function loadDataFeedback() {
+            $.ajax({
+                url: '/feedback-user',
+                type: 'GET',
+                dataType: 'json',
+                success: function (response) {
+                    var data = response.data;
+                    var html = '';
+                    var template = $('#data-template2').html();
+                    var unreadFeedbacks = 0;
+                    $.each(data, function (i, item) {
+                        html += Mustache.render(template, {
+                            id: item.id,
+                            title: item.title,
+                            status: item.status,
+                            fullName: item.fullName,
+                            bgClass: getClassFeedback(item.status)
+                        });
+                        if (!item.status) {
+                            unreadFeedbacks++;
+                        }
+                    });
+                    $('#listMess').html(html);
+                    if (unreadFeedbacks == 0) {
+                        $('.icon-button__badge').fadeOut();
+                    } else {
+                        $('.icon-button__badge').text(unreadFeedbacks)
+                    }
+
+                    console.log('Số phản hồi chưa đọc: ' + unreadFeedbacks);
+                }
+            });
+        }
+        var modal = $("#modal-mess").iziModal({      
+            headerColor: '#88A0B9',
+            width: 500,
+            transitionIn: 'fadeInUp',
+            transitionOut: 'fadeOutDown'
+        });
+        $("#modal").iziModal({
+            title: 'Thông tin người dùng',
+            subtitle: 'Vui lòng điền các thông tin dưới đây',
+            width: 600,
+            height: 450,
+            padding: 20,
+            fullscreen: false,
+            closeOnEscape: true,
+            overlayClose: false
+        });
+        function changeStatusFeedbackAjax(id) {
+            $.ajax({
+                url: '/status-feedback',
+                data: {
+                    id: id
+                },
+                type: 'POST',
+                dataType: 'json',
+                success: function (response) {
+                    loadDataFeedback();
+                    showMessage(response.title, response.content, response.fullName);
+                }
+            });
+        }
+        $(document).on('click', '.dropdown-item', function () {
+            var id = $(this).data('id');
+            changeStatusFeedbackAjax(id);
+        });
+        $(document).on('click', '#add-user', function () {
+            $('#modal').iziModal('open');
+        });
+        function showMessage(title, content,fullName) {
+            modal.iziModal('setSubtitle', fullName);
+            modal.iziModal('setTitle', title); 
+            modal.find('.modal-content p').text(content);
+            modal.iziModal('open');
+        }
+        function getRoleClass(roleName) {
+            switch (roleName) {
+                case 'sale': return 'bg-green-soft text-green';
+                // case 'Developers': return 'bg-blue-soft text-blue';
+                case 'marketing': return 'bg-red-soft text-red';
+                case 'admin': return 'bg-purple-soft text-purple';
+                case 'customer': return 'bg-yellow-soft text-yellow';
+                default: return '';
+            }
+        }
+        function getRoleText(roleName) {
+            switch (roleName) {
+                case 'sale': return 'sale';
+                case 'marketing': return 'marketing';
+                case 'admin': return 'admin';
+                case 'customer': return 'customer';
+                default: return '';
+            }
+        }
+        function getClassFeedback(status) {
+            return status === false ? 'bg-mess' : '';
+        }
+        function getStatusClass(status) {
+            console.log("Getting status class for:", status);
+            return status === 'on' ? 'green-badge' : 'red-badge';
+        }
+
+        function getStatusText(status) {
+            console.log("Getting status text for:", status);
+            return status === 'on' ? 'Hoạt động' : 'Khóa';
+        }
+        function changeStatusAjax(newStatus, id, statusElement) {
+            console.log("New status:", newStatus);
+            $.ajax({
+                url: '/change-status-user',
+                data: {
+                    change: newStatus,
+                    id: id
+                },
+                type: 'POST',
+                dataType: 'json',
+                success: function (response) {
+                    iziToast.success({
+                        message: 'Thay đổi thành công!',
+                    });
+                    loadData();
+                    updateStatusUI(statusElement, newStatus);
+                },
+                error: function (err) {
+                    console.log(err);
+                }
+            });
+        }
+        function changeRoleUserAjax(newRole , id, roleElement) {
+            $.ajax({
+                url: '/change-role-user',
+                data: {
+                    id: id,
+                    roleName: newRole
+                },
+                type: 'POST',
+                dataType: 'json',
+                success: function (response) {
+                    iziToast.success({
+                        message: 'Thay đổi thành công!',
+                    });
+                    updateRoleUI(roleElement, newRole);
+                },
+                error: function (err) {
+                    console.log(err);
+                }
+            });
+        }
+        function addUserAjax() {
+            var fullName = $('#name').val();
+            var role = $('#vaitro').val();
+            var gender = $('input[name="Sex"]:checked').val();
+            var dob = $('#dob').val();
+            var tinh = $('#tinh').val();
+            var huyen = $('#huyen').val();
+            var xa = $('#xa').val();
+            var userInput = {
+                fullName: fullName,
+                role: role,
+                gender: gender,
+                dob: dob,
+                tinh: tinh,
+                huyen: huyen, 
+                xa: xa
+            }
+            if (!fullName || !role || !gender || !dob || !tinh || !huyen || !xa || fullName.trim == "" || role.trim == "" || gender.trim == "" || dob.trim == "" || tinh.trim == "" || huyen.trim == "" || xa.trim == "") {
+                iziToast.warning({
+                    title: 'Cảnh báo',
+                    message: 'Vui lòng điền đầy đủ thông tin',
+                });
+                return;
+            }
+            $.ajax({
+                url: '/add-user-admin',
+                data: {
+                    userData : JSON.stringify(userInput)
+                },
+                type: 'POST',
+                dataType: 'json',
+                success: function (response) {
+                    $('#modal').iziModal('close');
+                    iziToast.success({
+                        message: 'Thay đổi thành công!',
+                    });
+                    loadData();
+                },
+                error: function (err) {
+                    console.log(err);
+                }
+            });
+        }
+        function getUsernameAjax(id) {
+            $.ajax({
+                url: '/get-username',
+                data: {
+                    id: id
+                },
+                type: 'POST',
+                dataType: 'json',
+                success: function (response) {
+                    // bootbox.prompt({
+                    //     title: "Tên tài khoản",
+                    //     inputType: 'text',
+                    //     value: response.username,
+                    //     callback: function (result) {
+                    //         if (result !== null) {
+                    //             console.log(result);
+                    //         }
+                    //     }
+                    // });
+                    bootbox.dialog({
+                        title: 'Tài khoản!',
+                        message: '<form class="bootbox-form">' +
+                            '<div class="mb-2">' +
+                            '<input class="bootbox-input bootbox-input-text form-control" ' +
+                            'autocomplete="off" type="text" placeholder="Username" value="' + response.username + '">' +
+                            '</div>' +
+                            '<div class="input-group">' +
+                            '<input class="bootbox-input bootbox-input-password form-control" id="inp-acc"' +
+                            'autocomplete="off" type="password" placeholder="Password" value="123">' +
+                            '<div class="input-group-append">' +
+                            '<button class="btn btn-outline-secondary toggle-password" type="button">' +
+                            '<i class="fa fa-eye"></i>' +
+                            '</button>' +
+                            '</div>' +
+                            '</div>' +
+                            '</form>',
+                        buttons: {
+                            cancel: {
+                                label: 'Cancel',
+                                className: 'btn btn-secondary'
+                            },
+                            ok: {
+                                label: 'OK',
+                                className: 'btn btn-primary',
+                                callback: function () {
+                                    var password = $('.bootbox-input-password').val();
+                                    console.log('Password entered:', password);
+                                    // Xử lý password ở đây
+                                }
+                            }
+                        },
+                        closeButton: true
+                    });
+                
+                },
+                error: function (err) {
+                    console.log(err);
+                }
+            });
+        }
+        loadData();
+        loadDataFeedback();
+        $(document).on('click', '#icon-info', function () {
+            console.log('Icon clicked');
+            var id = $(this).data('id');
+            getUsernameAjax(id);
+        });
+        $(document).on('click', '#btn-old', function () {
+            addUserAjax();
+        });
+        $(document).on('click', '#old-cancel', function () {
+            $('#modal').iziModal('close');
+        });
+        var checkPass = false;
+        $(document).on('click', '.toggle-password', function () {
+            if (!checkPass) {
+                $('#inp-acc').prop('type', 'text');
+                checkPass = true;
+            } else {
+                $('#inp-acc').prop('type', 'password');
+                checkPass = false;
+            }
+        });
+        $(document).on('click', '#icon-role', function () {
+            var id = $(this).data('id');
+            var statusElement = $(this).closest('tr').find('[id^=row-role]');
+            console.log('click');
+            bootbox.prompt({
+                title: 'Lựa chọn vai trò thay đổi!',
+                inputType: 'select',
+                inputOptions: [{
+                    text: 'Chọn một...',
+                    value: ''
+                },
+                {
+                    text: 'Sale',
+                    value: 'sale'
+                },
+                {
+                    text: 'Marketing',
+                    value: 'marketing'
+                }],
+                callback: function (result) {
+                    if (result) {
+                        changeRoleUserAjax(result, id, statusElement);
+                    }
+                }
+            });
+        });
+        $(document).on('click', '#icon-edit', function () {
+            var id = $(this).data('id');
+            var statusElement = $(this).closest('tr').find('[id^=row-status]');
+            var currentStatus = statusElement.data('status');
+            console.log("Status element:", statusElement.text)
+            bootbox.prompt({
+                title: 'Thay đổi trạng thái',
+                message: '<p>Vui lòng chọn trạng thái mới:</p>',
+                inputType: 'radio',
+                inputOptions: [{
+                    text: 'Hoạt động',
+                    value: 'on',
+                    checked: currentStatus === 'on'
+                },
+                {
+                    text: 'Khóa',
+                    value: 'off',
+                    checked: currentStatus === 'off'
+                }],
+                callback: function (result) {
+                    if (result) {
+                        changeStatusAjax(result, id, statusElement);
+                    }
+                }
+            });
+        });
+        // function updateStatusUI(element) {
+        //     // Đảm bảo element là một đối tượng jQuery
+        //     var $element = $(element);
+
+        //     // Lấy nội dung văn bản hiện tại
+        //     var currentText = $element.text().trim();
+
+        //     if (currentText === 'Hoạt động') {
+        //         $element.removeClass('green-badge')
+        //             .addClass('red-badge')
+        //             .text('Khóa');
+        //     } else if (currentText === 'Khóa') {
+        //         $element.removeClass('red-badge')
+        //             .addClass('green-badge')
+        //             .text('Hoạt động');
+        //     }
+        //     // Update the internal data of the datatable
+        //     var rowIndex = $element.closest('tr').index();
+        //     var rowData = dataTable.data[rowIndex];
+
+        //     // Assuming column indexes based on your template
+        //     rowData[4] = newStatusText;
+
+        //     dataTable.refresh();
+        //     dataTable.refresh();
+        // }
+        function updateStatusUI(element, newStatus) {
+            var $element = $(element);
+            var newStatusText = getStatusText(newStatus);
+            var newStatusClass = getStatusClass(newStatus);
+
+            $element.removeClass('green-badge red-badge')
+                .addClass(newStatusClass)
+                .text(newStatusText);
+
+            // Update the internal data of the datatable
+            var rowIndex = $element.closest('tr').index();
+            var rowData = dataTable.data[rowIndex];
+
+            // Assuming column indexes based on your template
+            rowData[4] = newStatusText;
+
+            dataTable.refresh();
+        }
+        function updateRoleUI(element, newRole) {
+            var $element = $(element);
+            var newRoleText = getRoleText(newRole);
+            var newRoleClass = getRoleClass(newRole);
+
+            $element.removeClass('bg-green-soft text-green bg-red-soft text-red bg-purple-soft text-purple bg-yellow-soft text-yellow')
+                .addClass(newRoleClass)
+                .text(newRoleText);
+
+            // Update the internal data of the datatable
+            var rowIndex = $element.closest('tr').index();
+            var rowData = dataTable.data[rowIndex];
+
+            // Assuming column indexes based on your template
+            rowData[3] = newStatusText;
+
+            dataTable.refresh();
+        }
+    });
+</script>
+<script>
+    $(document).ready(function () {
+        // Khởi tạo Selectize cho tất cả các select, nhưng chỉ cho phép tương tác với select đầu tiên
+        $('#role').selectize();
+        var $citySelect = $('#SystemCityID').selectize({
+            sortField: 'text',
+            onChange: function (value) {
+                if (value) {
+                    loadDistricts(value);
+                }
+            }
+        });
+
+        var $districtSelect = $('#SystemDistrictID').selectize({
+            sortField: 'text',
+            onChange: function (value) {
+                if (value) {
+                    loadCommunes(value);
+                }
+            }
+        });
+
+        var $communeSelect = $('#SystemCommuneID').selectize({
+            sortField: 'text'
+        });
+
+        var citySelectize = $citySelect[0].selectize;
+        var districtSelectize = $districtSelect[0].selectize;
+        var communeSelectize = $communeSelect[0].selectize;
+
+        // Vô hiệu hóa các select quận/huyện và xã/phường ban đầu
+        districtSelectize.disable();
+        communeSelectize.disable();
+
+        function loadCities() {
+            $.getJSON('https://esgoo.net/api-tinhthanh/1/0.htm', function (data_tinh) {
+                if (data_tinh.error == 0) {
+                    citySelectize.clearOptions();
+                    citySelectize.addOption({ value: '', text: '' });
+                    $.each(data_tinh.data, function (key_tinh, val_tinh) {
+                        citySelectize.addOption({ value: val_tinh.id, text: val_tinh.full_name });
+                    });
+                    citySelectize.refreshOptions();
+                }
+            });
+        }
+
+        function loadDistricts(cityId) {
+            $.getJSON('https://esgoo.net/api-tinhthanh/2/' + cityId + '.htm', function (data_quan) {
+                if (data_quan.error == 0) {
+                    districtSelectize.clear();
+                    districtSelectize.clearOptions();
+                    districtSelectize.addOption({ value: '', text: '' });
+                    $.each(data_quan.data, function (key_quan, val_quan) {
+                        districtSelectize.addOption({ value: val_quan.id, text: val_quan.full_name });
+                    });
+                    districtSelectize.refreshOptions();
+                    districtSelectize.enable();
+                    communeSelectize.clear();
+                    communeSelectize.disable();
+                }
+            });
+        }
+
+        function loadCommunes(districtId) {
+            $.getJSON('https://esgoo.net/api-tinhthanh/3/' + districtId + '.htm', function (data_phuong) {
+                if (data_phuong.error == 0) {
+                    communeSelectize.clear();
+                    communeSelectize.clearOptions();
+                    communeSelectize.addOption({ value: '', text: '' });
+                    $.each(data_phuong.data, function (key_phuong, val_phuong) {
+                        communeSelectize.addOption({ value: val_phuong.id, text: val_phuong.full_name });
+                    });
+                    communeSelectize.refreshOptions();
+                    communeSelectize.enable();
+                }
+            });
+        }
+
+        // Tải dữ liệu tỉnh/thành phố khi trang được tải
+        loadCities();
+
+        // Xử lý sự kiện thay đổi
+        $('#SystemCityID').on('change', function () {
+            $('input[name="tinh"]').val(citySelectize.getItem(this.value).text());
+        });
+
+        $('#SystemDistrictID').on('change', function () {
+            $('input[name="huyen"]').val(districtSelectize.getItem(this.value).text());
+        });
+
+        $('#SystemCommuneID').on('change', function () {
+            $('input[name="xa"]').val(communeSelectize.getItem(this.value).text());
+        });
+        $('#role').on('change', function () {
+            $('input[name="vaitro"]').val($('#role option:selected').val());
+        });
+    });
+</script>
+<script src="~/js/mustache.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootbox@6.0.0/dist/bootbox.min.js"></script>

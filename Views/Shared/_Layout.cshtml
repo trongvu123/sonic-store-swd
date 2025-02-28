@@ -1,0 +1,553 @@
+﻿@using Newtonsoft.Json
+@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
+@using Microsoft.AspNetCore.Http
+@using SonicStore.Areas.SonicStore.Models
+@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
+
+@inject SonicStoreContext context
+@{
+    var userJson = HttpContextAccessor.HttpContext.Session.GetString("user");
+    User user = null;
+    if (!string.IsNullOrEmpty(userJson))
+    {
+        user = JsonConvert.DeserializeObject<User>(userJson);
+    }
+}
+
+
+
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="vi" xml:lang="vi">
+<head>
+    <title>
+        Sonic Store - Hệ thống bán lẻ điện thoại, máy tính bảng, laptop, phụ kiện chính hãng
+    </title>
+    <meta name="google-site-verification" content="K2ytpb2EHZ41w9EVix1nUPGg0ceq1F_VCQf8MC5ODWw" />
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link href="" type="image/x-icon" rel="shortcut icon" />
+    <script src="https://clickbuy.com.vn/assets/js/jquery.min.js"></script>
+    <link href="~/css/Home/Header.css" rel="stylesheet" />
+    <link href="~/lib/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" />
+    @* <link href="~/css/Footer/Footer.css" rel="stylesheet" /> *@
+    @* <link href="~/css/PageDesign/ProductDetailMain1.css" rel="stylesheet" /> *@
+    <style>
+        .footer-top {
+            background: #fff;
+            box-shadow: 0 1px 2px 0 rgba(60, 64, 67, .102), 0 2px 6px 2px rgba(60, 64, 67, .149);
+            position: relative;
+            padding: 35px 0 25px;
+        }
+
+        a {
+            text-decoration: none;
+            color: #4a4a4a;
+        }
+
+            a:hover {
+                color: #dd0000;
+            }
+
+        .user-menu {
+            position: relative;
+            display: inline-block;
+        }
+
+        .user-name {
+            cursor: pointer;
+        }
+
+        .user-menu-dropdown {
+            display: none;
+            position: absolute;
+            background-color: darkred;
+            color: white !important;
+            border-radius: 8px;
+            box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
+            padding: 8px 16px;
+            z-index: 1;
+            width: 130px;
+            top: 100%;
+            left: 0;
+        }
+
+        .user-menu:hover .user-menu-dropdown {
+            display: block;
+        }
+
+        .user-menu-dropdown .nav-link {
+            display: block;
+            padding: 8px 0;
+            color: white; /* Ensure text color contrasts with the black background */
+            text-decoration: none;
+            font-weight: 500;
+            font-size: larger:
+        }
+
+            .user-menu-dropdown .nav-link:hover {
+                background-color: #555; /* Slightly lighter shade for hover effect */
+            }
+
+        .trending-item:hover {
+            background-color: #e0e5ec;
+        }
+    </style>
+    <script>
+        !function (w, d, t) {
+            w.TiktokAnalyticsObject = t; var ttq = w[t] = w[t] || []; ttq.methods = ["page", "track", "identify", "instances", "debug", "on", "off", "once", "ready", "alias", "group", "enableCookie", "disableCookie"], ttq.setAndDefer = function (t, e) { t[e] = function () { t.push([e].concat(Array.prototype.slice.call(arguments, 0))) } }; for (var i = 0; i < ttq.methods.length; i++)ttq.setAndDefer(ttq, ttq.methods[i]); ttq.instance = function (t) { for (var e = ttq._i[t] || [], n = 0; n < ttq.methods.length; n++)ttq.setAndDefer(e, ttq.methods[n]); return e }, ttq.load = function (e, n) { var i = "https://analytics.tiktok.com/i18n/pixel/events.js"; ttq._i = ttq._i || {}, ttq._i[e] = [], ttq._i[e]._u = i, ttq._t = ttq._t || {}, ttq._t[e] = +new Date, ttq._o = ttq._o || {}, ttq._o[e] = n || {}; var o = document.createElement("script"); o.type = "text/javascript", o.async = !0, o.src = i + "?sdkid=" + e + "&lib=" + t; var a = document.getElementsByTagName("script")[0]; a.parentNode.insertBefore(o, a) };
+
+            ttq.load('CMV0EVRC77U1PJEFT2D0');
+            ttq.page();
+        }(window, document, 'ttq');
+    </script>
+
+    <script>
+        !function (f, b, e, v, n, t, s) {
+            if (f.fbq) return; n = f.fbq = function () {
+                n.callMethod ?
+                    n.callMethod.apply(n, arguments) : n.queue.push(arguments)
+            };
+            if (!f._fbq) f._fbq = n; n.push = n; n.loaded = !0; n.version = '2.0';
+            n.queue = []; t = b.createElement(e); t.async = !0;
+            t.src = v; s = b.getElementsByTagName(e)[0];
+            s.parentNode.insertBefore(t, s)
+        }(window, document, 'script',
+            'https://connect.facebook.net/en_US/fbevents.js');
+        fbq('init', '748140023587304');
+        fbq('track', 'PageView');
+    </script>
+    <noscript>
+        <img height="1" width="1" style="display:none"
+             src="https://www.facebook.com/tr?id=748140023587304&ev=PageView&noscript=1" />
+    </noscript>
+
+
+    <script>
+        !function (f, b, e, v, n, t, s) {
+            if (f.fbq) return; n = f.fbq = function () {
+                n.callMethod ?
+                    n.callMethod.apply(n, arguments) : n.queue.push(arguments)
+            };
+            if (!f._fbq) f._fbq = n; n.push = n; n.loaded = !0; n.version = '2.0';
+            n.queue = []; t = b.createElement(e); t.async = !0;
+            t.src = v; s = b.getElementsByTagName(e)[0];
+            s.parentNode.insertBefore(t, s)
+        }(window, document, 'script',
+            'https://connect.facebook.net/en_US/fbevents.js');
+        fbq('init', '1711312462628843');
+        fbq('track', 'PageView');
+    </script>
+    <noscript>
+        <img height="1" width="1" style="display:none"
+             src="https://www.facebook.com/tr?id=1711312462628843&ev=PageView&noscript=1" />
+    </noscript>
+
+
+    <meta name="facebook-domain-verification" content="kgv0qh2i3o1tpfewvoky7qq73f6ryo" />
+
+    <script>
+        (function (w, d, s, l, i) {
+            w[l] = w[l] || []; w[l].push({
+                'gtm.start':
+                    new Date().getTime(), event: 'gtm.js'
+            }); var f = d.getElementsByTagName(s)[0],
+                j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : ''; j.async = true; j.src =
+                    'https://www.googletagmanager.com/gtm.js?id=' + i + dl; f.parentNode.insertBefore(j, f);
+        })(window, document, 'script', 'dataLayer', 'GTM-W2X5BG4');</script>
+
+
+    <script>
+        (function (w, d, s, l, i) {
+            w[l] = w[l] || []; w[l].push({
+                'gtm.start':
+                    new Date().getTime(), event: 'gtm.js'
+            }); var f = d.getElementsByTagName(s)[0],
+                j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : ''; j.async = true; j.src =
+                    'https://www.googletagmanager.com/gtm.js?id=' + i + dl; f.parentNode.insertBefore(j, f);
+        })(window, document, 'script', 'dataLayer', 'GTM-5T5S3TG');</script>
+
+
+    <script async src="https://www.googletagmanager.com/gtag/js?id=AW-999283561"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+
+        gtag('config', 'AW-999283561');
+    </script>
+    <script>
+        gtag('event', 'page_view', {
+            'send_to': 'AW-999283561',
+            'user_id': 'replace with value',
+            'value': 'replace with value',
+            'items': [{
+                'id': 'replace with value',
+                'google_business_vertical': 'retail'
+            }, {
+                'id': 'replace with value',
+                'location_id': 'replace with value',
+                'google_business_vertical': 'custom'
+            }]
+        });
+    </script>
+
+    <script async src="https://www.googletagmanager.com/gtag/js?id=AW-971114017"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+
+        gtag('config', 'AW-971114017');
+    </script>
+    <script>
+        gtag('event', 'page_view', {
+            'send_to': 'AW-971114017',
+            'value': 'replace with value',
+            'items': [{
+                'id': 'replace with value',
+                'google_business_vertical': 'retail'
+            }, {
+                'id': 'replace with value',
+                'location_id': 'replace with value',
+                'google_business_vertical': 'custom'
+            }]
+        });
+    </script>
+    <meta name="author" content="Clickbuy" />
+    <link rel="canonical" href="https://clickbuy.com.vn/" />
+    <link rel="alternate" href="https://clickbuy.com.vn/" hreflang="vi" />
+    <meta property="og:type" content="Website" />
+    <meta property="og:site_name" content="Clickbuy" />
+    <meta property="og:title" content="Clickbuy.com.vn - Hệ thống bán lẻ điện thoại, máy tính bảng, laptop, phụ kiện chính hãng" />
+    <meta property="og:url" content="clickbuy.com.vn/" />
+    <meta property="og:image" content="/uploads/images/2023/12/INOI/banner-logo-tet.png" />
+    <meta property="og:description" content="Clickbuy - Hệ thống bán lẻ điện thoại, máy tính bảng, laptop, phụ kiện chính hãng với 20 chi nhánh trên toàn quốc. Hỗ trợ trả góp lãi suất 0%. Giao hàng miễn phí. Thu cũ lên đời, trợ giá tối đa lên tới 3 triệu." />
+    <meta name="twitter:card" content="Website" />
+    <meta name="twitter:domain" content="Clickbuy" />
+    <meta name="twitter:url" content="clickbuy.com.vn/" />
+    <meta name="twitter:title" content="Clickbuy.com.vn - Hệ thống bán lẻ điện thoại, máy tính bảng, laptop, phụ kiện chính hãng" />
+    <meta name="twitter:description" content="Clickbuy - Hệ thống bán lẻ điện thoại, máy tính bảng, laptop, phụ kiện chính hãng với 20 chi nhánh trên toàn quốc. Hỗ trợ trả góp lãi suất 0%. Giao hàng miễn phí. Thu cũ lên đời, trợ giá tối đa lên tới 3 triệu." />
+    <meta name="twitter:image" content="/uploads/images/2023/12/INOI/banner-logo-tet.png" />
+    <meta name="description" content="Clickbuy - Hệ thống bán lẻ điện thoại, máy tính bảng, laptop, phụ kiện chính hãng với 20 chi nhánh trên toàn quốc. Hỗ trợ trả góp lãi suất 0%. Giao hàng miễn phí. Thu cũ lên đời, trợ giá tối đa lên tới 3 triệu." />
+</head>
+<body>
+    <input name="ctl00$hdnToken" type="hidden" id="hdnToken" value="DorbO+vpZ9JGV5UkWENXnWC5/Og3GDUyJlSl/l5wCSE=" />
+
+
+    <noscript>
+        <iframe src="https://www.googletagmanager.com/ns.html?id=GTM-W2X5BG4"
+                height="0" width="0" style="display:none;visibility:hidden"></iframe>
+    </noscript>
+
+
+    <noscript>
+        <iframe src="https://www.googletagmanager.com/ns.html?id=GTM-5T5S3TG"
+                height="0" width="0" style="display:none;visibility:hidden"></iframe>
+    </noscript>
+    <header class="header">
+        <div class="header-top">
+            <div class="grid grid-flex">
+                <div class="logo">
+                    <a href="/" aria-label="Logo" title="Logo">
+                        <img class src="~/images/logo/image-removebg-preview (2).png" alt="Clickbuy.com.vn - Hệ thống bán lẻ điện thoại, máy tính bảng, laptop, phụ kiện chính hãng" title="Clickbuy.com.vn - Hệ thống bán lẻ điện thoại, máy tính bảng, laptop, phụ kiện chính hãng" width="245px" height="45px" />
+                    </a>
+                </div>
+                <div class="search">
+                    <form>
+                        <input class="color-white" id="inp-search" type="text" name="key" placeholder="Bạn cần tìm gì..." autocomplete="off" aria-label="Bạn cần tìm gì..." title="Bạn cần tìm gì..." value />
+                        <button aria-label="Tìm kiếm" title="Tìm kiếm" name="search">
+                            <svg width="20" height="20" viewBox="0 0 16 16" fill="#dd0000">
+                                <path d="M15.504 13.616l-3.79-3.223c-0.392-0.353-0.811-0.514-1.149-0.499 0.895-1.048 1.435-2.407 1.435-3.893 0-3.314-2.686-6-6-6s-6 2.686-6 6 2.686 6 6 6c1.486 0 2.845-0.54 3.893-1.435-0.016 0.338 0.146 0.757 0.499 1.149l3.223 3.79c0.552 0.613 1.453 0.665 2.003 0.115s0.498-1.452-0.115-2.003zM6 10c-2.209 0-4-1.791-4-4s1.791-4 4-4 4 1.791 4 4-1.791 4-4 4z"></path>
+                            </svg>
+                        </button>
+                    </form>
+                    <div class="suggest"></div>
+                    <div class="suggest-search">
+                        <div class="trending-search">
+                            <div class="d-flex trending-search-title">
+                                <div class="d-flex">
+                                    <p class="title-trending mr-1" style="margin:0; padding:0 3px;">Xu hướng tìm kiếm</p>
+                                    <svg width="15" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 92.27 122.88" xml:space="preserve">
+                                    <style type="text/css">
+                                        .st0 {
+                                            fill-rule: evenodd;
+                                            clip-rule: evenodd;
+                                            fill: #EC6F59;
+                                        }
+
+                                        .st1 {
+                                            fill-rule: evenodd;
+                                            clip-rule: evenodd;
+                                            fill: #FAD15C;
+                                        }
+</style>
+                                    <g>
+                                    <path d="M18.61,54.89C15.7,28.8,30.94,10.45,59.52,0C42.02,22.71,74.44,47.31,76.23,70.89 c4.19-7.15,6.57-16.69,7.04-29.45c21.43,33.62,3.66,88.57-43.5,80.67c-4.33-0.72-8.5-2.09-12.3-4.13C10.27,108.8,0,88.79,0,69.68 C0,57.5,5.21,46.63,11.95,37.99C12.85,46.45,14.77,52.76,18.61,54.89L18.61,54.89z" class="st0"></path>
+                                    <path d="M33.87,92.58c-4.86-12.55-4.19-32.82,9.42-39.93c0.1,23.3,23.05,26.27,18.8,51.14 c3.92-4.44,5.9-11.54,6.25-17.15c6.22,14.24,1.34,25.63-7.53,31.43c-26.97,17.64-50.19-18.12-34.75-37.72 C26.53,84.73,31.89,91.49,33.87,92.58L33.87,92.58z" class="st1"></path>
+    </g></svg>
+                                </div>
+
+                            </div>
+                            <div class="banner_bottom">
+                                <a href="https://clickbuy.com.vn/iphone-15-pro-iphone-15-pro-max" aria-label="IPHONE 15 PRO MAX GIÁ ĐÃ GIẢM SÂU MUA NGAY THÔI" title="IPHONE 15 PRO MAX GIÁ ĐÃ GIẢM SÂU MUA NGAY THÔI">
+                                    <img loading="lazy" src="https://clickbuy.com.vn/uploads/media/623-lFyBB.png" alt="IPHONE 15 PRO MAX GIÁ ĐÃ GIẢM SÂU MUA NGAY THÔI" style="width: 100%; border-radius: 8px;" />
+                                </a>
+                            </div>
+                            <div class="d-flex trending-box" style="
+                                                flex-direction: column;
+                                                padding: 0 10px;
+                                            ">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="info_website">
+                    <div class="hotline info_website_item">
+                        <a href="/general-feedback/add" title="Hotline Miền Bắc" aria-label="Hotline Miền Bắc">
+                            <div class="hotline_icon info_website_icon">
+                                <svg xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" width="512" height="512" x="0" y="0" viewBox="0 0 512 512" style="enable-background:new 0 0 512 512" xml:space="preserve" class=""><g><path d="M117.333 149.333H352a10.66 10.66 0 0 0 10.667-10.667A10.66 10.66 0 0 0 352 127.999H117.333a10.66 10.66 0 0 0-10.667 10.667 10.662 10.662 0 0 0 10.667 10.667zM245.333 256h-128a10.66 10.66 0 0 0-10.667 10.667 10.66 10.66 0 0 0 10.667 10.667h128A10.66 10.66 0 0 0 256 266.667 10.66 10.66 0 0 0 245.333 256z" fill="#ffffff" opacity="1" data-original="#000000" class=""></path><path d="M471.167 64c-.618 0-1.217.155-1.833.184V64c0-23.531-19.146-42.667-42.667-42.667h-384C19.146 21.333 0 40.469 0 64v416a10.67 10.67 0 0 0 6.583 9.854c1.313.552 2.708.813 4.083.813 2.771 0 5.5-1.083 7.542-3.125L121.75 384h304.917c23.521 0 42.667-19.135 42.667-42.667V164.411l30.708-30.703v-.01c7.604-7.604 11.958-18.125 11.958-28.865C512 82.313 493.688 64 471.167 64zM448 341.333c0 11.76-9.563 21.333-21.333 21.333H117.333a10.66 10.66 0 0 0-7.542 3.125L21.333 454.25V64c0-11.76 9.563-21.333 21.333-21.333h384C438.438 42.667 448 52.24 448 64v7.286c-2.025 1.392-3.962 2.923-5.708 4.672L326.232 192H117.333a10.66 10.66 0 0 0-10.667 10.667 10.66 10.66 0 0 0 10.667 10.667h191.785l-10.243 51.24c-.708 3.5.396 7.115 2.917 9.635a10.68 10.68 0 0 0 7.542 3.125c.688 0 1.396-.073 2.083-.208l53.313-10.667a10.601 10.601 0 0 0 5.458-2.917l77.812-77.8v155.591zm-90.604-95.156-34.458 6.896 6.896-34.5 96.828-96.828 27.587 27.587-96.853 96.845zm127.562-127.552-15.625 15.625-27.589-27.589 15.63-15.63a19.662 19.662 0 0 1 13.792-5.698c10.75 0 19.5 8.75 19.5 19.5.001 5.125-2.083 10.157-5.708 13.792z" fill="#ffffff" opacity="1" data-original="#000000" class=""></path></g></svg>
+                            </div>
+                            <span>
+                                Gửi đánh giá
+                                <br>
+                                <span class="phone-number">hệ thống</span>
+                            </span>
+                        </a>
+                    </div>
+                    <div class="cart info_website_item">
+                        <a asp-area="SonicStore" asp-controller="Cart" asp-action="CartScreen" title="Chi tiết giỏ hàng" aria-label="Chi tiết giỏ hàng">
+                            <div class="cart_icon info_website_icon">
+                                <span class="cart_counter">0</span>
+                                <svg style="fill: #fff" enable-background="new 0 0 208.955 208.955" version="1.1" viewBox="0 0 208.96 208.96" xml:space="preserve" xmlns="http://www.w3.org/2000/svg">
+                                <path d="m190.85 200.23-12.715-141.6c-0.347-3.867-3.588-6.829-7.47-6.829h-26.221v-11.826c0-22.04-17.93-39.971-39.969-39.971-22.038 0-39.966 17.931-39.966 39.971v11.826h-26.239c-3.882 0-7.123 2.962-7.47 6.829l-12.765 142.16c-0.188 2.098 0.514 4.177 1.935 5.731s3.43 2.439 5.535 2.439h157.93 0.02c4.143 0 7.5-3.358 7.5-7.5-1e-3 -0.417-0.035-0.828-0.101-1.227zm-111.34-160.26c0-13.769 11.2-24.971 24.967-24.971 13.768 0 24.969 11.202 24.969 24.971v11.826h-49.936v-11.826zm-45.8 153.98 11.418-127.16h19.382v13.412c0 4.142 3.357 7.5 7.5 7.5s7.5-3.358 7.5-7.5v-13.412h49.936v13.412c0 4.142 3.357 7.5 7.5 7.5s7.5-3.358 7.5-7.5v-13.412h19.364l11.418 127.16h-141.52z"></path>
+    </svg>
+                            </div>
+                            <span>
+                                Chi tiết
+                                <br />
+                                <span>Giỏ Hàng</span>
+                            </span>
+                        </a>
+                    </div>
+                    <div class="policy info_website_item">
+                        <a asp-area="SonicStore" asp-controller="TechNews" asp-action="TechNewsScreen" title="Hệ thống cửa hàng" aria-label="Hệ thống cửa hàng">
+
+                            <div class="cart_icon info_website_icon">
+                                <svg xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" width="512" height="512" x="0" y="0" viewBox="0 0 442 442" style="enable-background:new 0 0 512 512" xml:space="preserve" class=""><g><path d="M171 336H70c-5.523 0-10 4.477-10 10s4.477 10 10 10h101c5.523 0 10-4.477 10-10s-4.477-10-10-10zM322 336H221c-5.523 0-10 4.477-10 10s4.477 10 10 10h101c5.522 0 10-4.477 10-10s-4.478-10-10-10zM322 86H70c-5.523 0-10 4.477-10 10s4.477 10 10 10h252c5.522 0 10-4.477 10-10s-4.478-10-10-10zM322 136H221c-5.523 0-10 4.477-10 10s4.477 10 10 10h101c5.522 0 10-4.477 10-10s-4.478-10-10-10zM322 186H221c-5.523 0-10 4.477-10 10s4.477 10 10 10h101c5.522 0 10-4.477 10-10s-4.478-10-10-10zM322 236H221c-5.523 0-10 4.477-10 10s4.477 10 10 10h101c5.522 0 10-4.477 10-10s-4.478-10-10-10zM322 286H221c-5.523 0-10 4.477-10 10s4.477 10 10 10h101c5.522 0 10-4.477 10-10s-4.478-10-10-10zM171 286H70c-5.523 0-10 4.477-10 10s4.477 10 10 10h101c5.523 0 10-4.477 10-10s-4.477-10-10-10zM171 136H70c-5.523 0-10 4.477-10 10v101c0 5.523 4.477 10 10 10h101c5.523 0 10-4.477 10-10V146c0-5.523-4.477-10-10-10zm-10 101H80v-81h81v81z" fill="#fff" opacity="1" data-original="#000000" class=""></path><path d="M422 76h-30V46c0-11.028-8.972-20-20-20H20C8.972 26 0 34.972 0 46v320c0 27.57 22.43 50 50 50h342c27.57 0 50-22.43 50-50V96c0-11.028-8.972-20-20-20zm0 290c0 16.542-13.458 30-30 30H50c-16.542 0-30-13.458-30-30V46h352v305c0 13.785 11.215 25 25 25 5.522 0 10-4.477 10-10s-4.478-10-10-10c-2.757 0-5-2.243-5-5V96h30v270z" fill="#fff" opacity="1" data-original="#000000" class=""></path></g></svg>
+                            </div>
+                            <span>
+                                Tin tức sản phẩm
+                            </span>
+                        </a>
+                    </div>
+
+                    <div class="policy info_website_item @(user != null ? "user-menu" : "")">
+
+                        @if (user == null)
+                        {
+
+                            <a asp-area="SonicStore" asp-controller="Login" asp-action="Index" title="Hệ thống cửa hàng" aria-label="Hệ thống cửa hàng">
+                                <div class="policy_icon info_website_icon">
+                                    <svg xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" x="0" y="0" viewBox="0 0 24 24" style="fill: #fff" style="enable-background:new 0 0 512 512" xml:space="preserve" class=""><g><g fill="#000"><path d="M14.945 1.25c-1.367 0-2.47 0-3.337.117-.9.12-1.658.38-2.26.981-.524.525-.79 1.17-.929 1.928-.135.737-.161 1.638-.167 2.72a.75.75 0 0 0 1.5.008c.006-1.093.034-1.868.142-2.457.105-.566.272-.895.515-1.138.277-.277.666-.457 1.4-.556.755-.101 1.756-.103 3.191-.103h1c1.436 0 2.437.002 3.192.103.734.099 1.122.28 1.4.556s.456.665.555 1.4c.102.754.103 1.756.103 3.191v8c0 1.435-.001 2.437-.103 3.192-.099.734-.279 1.122-.556 1.399s-.665.457-1.399.556c-.755.101-1.756.103-3.192.103h-1c-1.435 0-2.436-.002-3.192-.103-.733-.099-1.122-.28-1.399-.556-.243-.243-.41-.572-.515-1.138-.108-.589-.136-1.364-.142-2.457a.75.75 0 1 0-1.5.008c.006 1.082.032 1.983.167 2.72.14.758.405 1.403.93 1.928.601.602 1.36.86 2.26.982.866.116 1.969.116 3.336.116h1.11c1.368 0 2.47 0 3.337-.117.9-.12 1.658-.38 2.26-.981.602-.602.86-1.36.982-2.26.116-.867.116-1.97.116-3.337v-8.11c0-1.367 0-2.47-.116-3.337-.121-.9-.38-1.658-.982-2.26-.602-.602-1.36-.86-2.26-.981-.867-.117-1.97-.117-3.337-.117z" fill="#fff" opacity="1" data-original="#000000" class=""></path><path d="M2.001 11.249a.75.75 0 0 0 0 1.5h11.973l-1.961 1.68a.75.75 0 1 0 .976 1.14l3.5-3a.75.75 0 0 0 0-1.14l-3.5-3a.75.75 0 0 0-.976 1.14l1.96 1.68z" fill="#fff" opacity="1" data-original="#000000" class=""></path></g></g></svg>
+                                </div>
+                                <span>
+                                    Đăng nhập
+                                </span>
+                            </a>
+                        }
+                        else
+                        {
+                            <a title="Hệ thống cửa hàng" aria-label="Hệ thống cửa hàng">
+                                <div class="policy_icon info_website_icon">
+                                    <svg stroke="1.5px" xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" width="512" height="512" x="0" y="0" viewBox="0 0 1024 1024" style="enable-background:new 0 0 512 512" xml:space="preserve" class=""><g><path d="M712.7 277.3c0 5.6-.2 11.2-.6 16.8-.2 2.8-.5 5.5-.8 8.3-.2 1.7.4 5.3 0 .1.1 1.7-.5 3.8-.8 5.4-1.8 11.1-4.5 22.1-8 32.8-1.7 5.1-3.6 10.1-5.5 15-1.7 4.3 1.9-4.1-.1.1-.5 1.2-1.1 2.4-1.6 3.6-1.3 2.8-2.6 5.6-4.1 8.3-4.8 9.4-10.3 18.4-16.4 27-1.3 1.9-2.8 4.9-4.7 6.3 3.5-2.7 1.1-1.4-.1.1-.8 1-1.6 2-2.5 3-3.6 4.4-7.4 8.6-11.4 12.6-3.6 3.8-7.4 7.4-11.3 10.9-2 1.7-3.9 3.5-5.9 5.1-1 .8-2 1.7-3 2.5-.7.5-1.4 1.1-2.1 1.6 2.3-1.8 2.6-2 .9-.7-8.5 6.3-17.2 12.1-26.4 17.1-4.6 2.6-9.3 4.9-14.1 7.2-1.2.6-2.4 1.1-3.6 1.6-4.3 1.9 4.2-1.7-.1.1-2.9 1.2-5.8 2.3-8.7 3.4-10.6 3.8-21.4 6.8-32.4 9-2.7.5-5.4 1-8.1 1.4-1.2.2-2.8.7-4.1.6 4 .3 2.8-.4 1.2-.2-6 .6-12 1.2-18 1.4-11.7.4-23.2-.2-34.8-1.4-4.8-.5 4.6.7-.1 0-1.4-.2-2.7-.4-4.1-.6-2.7-.4-5.4-.9-8-1.5-5.7-1.2-11.4-2.6-17.1-4.2-5.1-1.5-10.2-3.1-15.3-5-2.1-.8-4.2-1.6-6.2-2.4-.4-.2-.8-.3-1.2-.5-2-.8-1.6-.7 1.1.5-1.3 0-3.7-1.6-4.8-2.2-10-4.6-19.6-9.9-28.8-16-2.2-1.4-4.4-2.9-6.5-4.4-1.9-1.3-4.9-2.8-6.3-4.7 2.7 3.5 1.4 1.1-.1-.1-1-.8-2-1.6-3-2.5-2.3-2-4.7-4-6.9-6-7.8-7-15-14.6-21.7-22.6-.8-1-1.7-2-2.5-3-1.2-1.5-3.7-2.8-.1-.1-1.8-1.4-3.3-4.5-4.7-6.3-3.3-4.6-6.4-9.4-9.3-14.3-2.7-4.5-5.3-9.1-7.6-13.9-1.2-2.4-2.3-4.7-3.5-7.1-.6-1.2-1.1-2.4-1.6-3.6-.9-2-.7-1.6.4 1.1-.3-.8-.7-1.6-1-2.5-4-9.9-7.3-20.2-9.8-30.6-1.3-5.3-2.4-10.6-3.2-16-.2-1.4-.4-2.7-.6-4.1-.7-4.8.5 4.7 0-.1-.3-3.2-.7-6.4-.9-9.6-.9-11.6-.8-23.3.1-34.9.2-2.8.5-5.5.8-8.3.5-4.8-.7 4.6 0-.1.2-1.4.4-2.7.6-4.1 1-5.8 2.1-11.6 3.6-17.3 2.6-10.4 6-20.6 10-30.5 1.7-4.3-1.9 4.1.1-.1.5-1.2 1.1-2.4 1.6-3.6 1.1-2.4 2.3-4.8 3.5-7.1 2.6-5.1 5.4-10.1 8.3-15 2.7-4.5 5.6-8.9 8.7-13.2 1.3-1.9 2.8-4.9 4.7-6.3-3.5 2.7-1.1 1.4.1-.1 1.1-1.4 2.2-2.7 3.3-4 6.7-8 14.1-15.5 21.9-22.5 2-1.7 3.9-3.5 5.9-5.1 1-.8 2-1.7 3-2.5 1.5-1.2 2.8-3.7.1-.1 1.4-1.8 4.5-3.3 6.3-4.7 2.5-1.8 5-3.5 7.6-5.2 9.2-6 18.9-11.3 28.9-15.8.8-.4 2.7-1.6 3.6-1.6-.8.3-1.6.7-2.3 1 .8-.3 1.6-.7 2.5-1 2.1-.8 4.1-1.6 6.2-2.4 5.4-2 11-3.8 16.6-5.4 5.2-1.5 10.5-2.7 15.8-3.8 2.7-.5 5.4-1 8-1.5 1.4-.2 2.7-.4 4.1-.6 2.2-.3 1.8-.3-1.2.2l2.7-.3c11.6-1.3 23.2-1.7 34.9-1.2 5.3.2 10.6.7 15.9 1.3 1.8.2 4.1-.4-.5-.1 1.2-.1 2.8.4 4.1.6 3.1.5 6.3 1.1 9.4 1.7 11 2.2 21.8 5.3 32.3 9.2 2.5.9 5 1.9 7.4 2.9 4.3 1.7-4.1-1.9.1.1 1.2.5 2.4 1.1 3.6 1.6 5.2 2.4 10.3 5 15.3 7.8 4.6 2.6 9.1 5.3 13.5 8.2 1.8 1.2 3.6 2.4 5.4 3.7 2.2 1.5 5.8 3.3 7.4 5.4-2.7-3.5-1.4-1.1.1.1 1 .8 2 1.6 3 2.5 2 1.7 4 3.4 5.9 5.1 4.2 3.8 8.3 7.7 12.2 11.8 3.6 3.8 7.1 7.7 10.5 11.7.8 1 1.7 2 2.5 3 1.2 1.5 3.7 2.8.1.1 2.1 1.6 3.9 5.2 5.4 7.4 6 8.6 11.5 17.7 16.2 27.1 1.2 2.4 2.3 4.7 3.5 7.1.6 1.2 1.1 2.4 1.6 3.6 1.9 4.3-1.7-4.2.1.1 2.1 5.4 4.2 10.8 5.9 16.3 3.4 10.7 6.1 21.7 7.8 32.9.2 1.2.7 2.8.6 4.1.4-5.1-.2-1.5 0 .1.3 2.8.6 5.5.8 8.3.1 5.5.3 11.1.4 16.7 0 10.5 9.2 20.5 20 20s20-8.8 20-20c-.2-49-15.1-98.2-43.7-138.2-28.9-40.4-68.7-71-115.3-88.2-46.7-17.2-99.5-18.8-147.3-5.2-46.1 13.1-88.5 40.4-119 77.4-32.1 39.1-51.3 86.3-55.3 136.7-3.9 49.2 8.4 99.8 34 142 24.7 40.7 61.9 74.5 105.5 94.1 46.8 21.1 98.5 27.1 149 17.1 47.2-9.4 91.5-34.1 124.8-68.8 33.4-34.8 56.6-79.9 64-127.7 2-13 3.3-26.1 3.3-39.2 0-10.5-9.2-20.5-20-20-10.9.5-20 8.8-20 20zM841.5 947.4H182.6c-.9 0-1.9 0-2.8-.1.2 0-2.7-.1-2.7-.2-.1-.2 5.2 1 1.3.1-1.7-.4-3.5-.8-5.2-1.3-.6-.2-1.3-.6-1.9-.6-2.5-.4 3.3 1.9 1.1.5-1.3-.8-2.7-1.4-4-2.1-1.3-.8-2.5-1.7-3.8-2.5-1.9-1.1 1.6 1 1.5 1.2-.1.1-2.2-1.9-2.4-2.1-1.1-1-2.1-2.2-3.1-3.3-2.4-2.4 1.9 3.2-.4-.6-.8-1.3-1.6-2.5-2.4-3.9-.4-.8-.8-1.6-1.2-2.3-1.5-2.9.5 1.2.5 1.2-.9.1-2-8.1-2.5-9 1.4 2.6.3 3.4.2 1.3 0-.9-.1-1.8-.2-2.8V805.5c0-10.1 1.6-20 1.8-30 0 0-.6 4.2-.3 1.9.1-.9.3-1.8.4-2.7.2-1.6.5-3.2.8-4.7.6-3.4 1.2-6.7 2-10 1.4-6.4 3.1-12.7 5-18.9 2-6.4 4.3-12.6 6.8-18.8 1.3-3.3-1.7 3.9.3-.7.6-1.4 1.3-2.8 1.9-4.2 1.4-3 2.9-6 4.4-8.9 6-11.5 13-22.3 20.7-32.8 2.1-2.8-2.4 2.9.5-.6 1-1.2 1.9-2.4 2.9-3.6 2.1-2.5 4.2-5 6.4-7.4 4.4-4.9 9-9.5 13.8-14 4.6-4.3 9.5-8.4 14.4-12.4 2.7-2.2-3 2.2.6-.5 1.2-.9 2.5-1.8 3.7-2.7 2.8-2 5.7-4 8.7-5.9 10.7-7 22-12.9 33.6-18.2 3.2-1.5-3.5 1.4.7-.3 1.4-.6 2.9-1.2 4.3-1.7 3.3-1.3 6.7-2.5 10.1-3.6 6.2-2 12.4-3.8 18.8-5.3s12.9-2.8 19.4-3.8c.7-.1 2-.5 2.7-.4.1 0-4.2.5-1.9.3 1.6-.2 3.2-.4 4.8-.5 3.7-.4 7.4-.7 11.1-.9 7.6-.4 15.3-.3 22.9-.3h282.4c9.9 0 19.7 1.6 29.5 1.8 0 0-4.2-.6-1.9-.3.9.1 1.8.3 2.7.4 1.6.2 3.2.5 4.7.8 3.4.6 6.7 1.2 10 2 6.4 1.4 12.7 3.1 18.9 5 6.4 2 12.6 4.3 18.8 6.8 3.3 1.3-3.9-1.7.7.3 1.4.6 2.8 1.3 4.2 1.9 3 1.4 6 2.9 8.9 4.4 11.5 6 22.3 13 32.8 20.7 2.8 2.1-2.9-2.4.6.5 1.2 1 2.4 1.9 3.6 2.9 2.5 2.1 5 4.2 7.4 6.4 4.9 4.4 9.5 9 14 13.8 4.3 4.6 8.4 9.5 12.4 14.4 2.2 2.7-2.2-3 .5.6.9 1.2 1.8 2.5 2.7 3.7 2 2.8 4 5.7 5.9 8.7 7 10.7 12.9 22 18.2 33.6 1.5 3.2-1.4-3.5.3.7.6 1.4 1.2 2.9 1.7 4.3 1.3 3.3 2.5 6.7 3.6 10.1 2 6.2 3.8 12.4 5.3 18.8s2.8 12.9 3.8 19.4c.1.7.5 2 .4 2.7 0 .1-.5-4.2-.3-1.9.2 1.6.4 3.2.5 4.8.4 3.7.7 7.4.9 11.1.6 11.8.3 23.6.3 35.4 0 30.5.3 61 0 91.5v1.8c0 .7-.4 6.1-.1 2.8s-.5 1.8-.7 2.6c-.1.4-1.3 5.1-1.6 5-.3 0 2-3.7.7-1.8-.3.5-.6 1.2-.9 1.8-.8 1.5-1.7 3-2.6 4.5-.3.5-.8 1-1.1 1.6-1.2 2.2 2.6-2.7.7-1-1.1 1-2 2.3-3.1 3.3-.5.5-1 .9-1.4 1.3-.2.1-.3.3-.5.4-1.3 1.1-1.3 1.1 0 .1.5-1.2 1.3-.9 0 0-.7.5-1.4 1-2.2 1.4-1.3.8-2.6 1.5-4 2.2-3.9 2.1 2.7-.7-.7.3-1.5.4-2.9.9-4.5 1.3-.7.2-1.3.3-2 .4-3.9.9 1.4-.3 1.3-.1.1.4-4.6.3-5.2.3-10.5.1-20.5 9.1-20 20 .5 10.7 8.8 20.2 20 20 36.1-.5 64.8-28.2 67.8-63.9.9-11 .2-22.3.2-33.3 0-30.4.7-60.8-.1-91.2-1.4-57.9-22.9-113.3-60.2-157.4-35.6-42.2-86.5-72.3-140.7-82.9-26.5-5.2-52.8-5-79.6-5H414.2c-19.1 0-38.2-.5-57.3.2C299.2 556 244 578 200.3 615.7c-41.8 36.1-71.4 87.3-81.4 141.7-6.5 35.1-4.5 71.2-4.5 106.7v49.1c0 4.4 0 8.7.5 13.1 2.1 16.9 9.5 33.2 22.8 44.3 13.4 11.2 29.3 16.9 46.8 16.9h656.9c10.5 0 20.5-9.2 20-20-.4-11-8.7-20.1-19.9-20.1z" fill="#FFFFFF" opacity="1" data-original="#FFFFFF"></path></g></svg>
+
+                                </div>
+                                <span>
+                                    @user.FullName
+                                </span>
+                            </a>
+                        }
+
+                        <div class="user-menu-dropdown">
+                            <a style="font-size:16px" class="nav-link" asp-area="SonicStore" asp-controller="Profile" asp-action="ProfileScreen">Thông Tin</a>
+                            <a style="font-size:16px" class="nav-link" asp-area="SonicStore" asp-controller="Login" asp-action="Logout">Đăng xuất</a>
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </header>
+    @RenderBody()
+
+    <section id="loading_box">
+        <div id="loading_image"></div>
+    </section>
+    <div id="toast-container" class="toast-top-right">
+        <div class="toast" aria-live="assertive">
+            <div class="toast-message">
+                <p></p>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-top">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-3 footer-about wow fadeInUp">
+                        <h3 style="font-weight:600;">Về chúng tôi</h3>
+                        <p>
+                            Chúng tôi là một công ty trẻ luôn tìm kiếm những ý tưởng mới và sáng tạo để hỗ trợ bạn với các sản phẩm của chúng tôi trong công việc hàng ngày.
+                        </p>
+                        <p>&copy; Company Inc.</p>
+                    </div>
+                    <div class="col-md-4 offset-md-1 footer-contact wow fadeInDown">
+                        <h3 style="font-weight:600;">Liên hệ</h3>
+                        <p><i class="fas fa-map-marker-alt"></i> Hòa Lạc, Thạch Thất, Hà Nội</p>
+                        <p><i class="fas fa-phone"></i> Phone: (0039) 333 12 68 347</p>
+                        <p><i class="fas fa-envelope"></i> Email: <a href="mailto:hello@domain.com">hello@domain.com</a></p>
+                        <p><i class="fab fa-skype"></i> Skype: you_online</p>
+                    </div>
+                    <div class="col-md-4 footer-links wow fadeInUp">
+                        <div class="row">
+                            <div class="col">
+                                <h3 style="font-weight:600;">Liên kết</h3>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <p><a class="scroll-link" href="/">Trang chủ</a></p>
+                                <p><a href="product-list">Sản phẩm</a></p>
+                                <p><a href="checkout">Thanh toán </a></p>
+                                <p><a href="cart">Giỏ hàng</a></p>
+                            </div>
+                            <div class="col-md-6">
+                                <p><a href="#">Kế hoạch &amp; định giá</a></p>
+                                <p><a href="#">chi nhánh</a></p>
+                                <p><a href="#">Điều kiện</a></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <div class="container">
+                    <div class="row">
+                        <div class="col footer-social">
+                            <a href="#"><i class="fab fa-facebook-f"></i></a>
+                            <a href="#"><i class="fab fa-twitter"></i></a>
+                            <a href="#"><i class="fab fa-google-plus-g"></i></a>
+                            <a href="#"><i class="fab fa-instagram"></i></a>
+                            <a href="#"><i class="fab fa-pinterest"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('#load-footer').load("/blocks/footer.aspx", function () {
+                $("#region-menu li").click((function () {
+                    const t = $(this).data("tab");
+                    $(".tab-pane").removeClass("active"),
+                        $(t).addClass("active"),
+                        $("#region-menu li").removeClass("active"),
+                        $(this).addClass("active")
+                }))
+            });
+        });
+    </script>
+    <script id="data-template2" type="x-tmpl-mustache">
+        <a href="/product-detail/{{id}}" class="d-flex trending-item">
+              <img src="{{image}}" style="width:55px" alt="">
+        <div class="product-info">
+            <p style="margin-left:5px">{{name}}</p>
+            <div class="js-format-price" data-price="{{salePrice}}" style="color:#d80920;margin-left:5px">{{salePrice}}</div>
+        </div>
+        </a>
+    </script>
+    <script>
+        $(document).ready(function () {
+
+            $(document).on('click', '#inp-search', function (e) {
+                $('.suggest-search').css({
+                    'opacity': '1',
+                    'visibility': 'visible'
+                });
+                e.stopPropagation(); // Ngăn sự kiện click lan ra document
+            });
+            $(document).on('click', function (e) {
+                if (!$(e.target).closest('.suggest-search').length && !$(e.target).is('input')) {
+                    $('.suggest-search').css({
+                        'opacity': '0',
+                        'visibility': 'hidden'
+                    });
+                }
+            });
+            $('#inp-search').keyup(function () {
+                var searchTerm = $(this).val();
+
+                if (searchTerm.length >= 3) {
+                    performSearch(searchTerm);
+                } else if (searchTerm.length === 0) {
+                    $('.trending-box').html('<div style="margin:auto;"> <p>Không tìm thấy kết quả</p> </div>');
+                }
+            });
+            function performSearch(searchTerm) {
+                $.ajax({
+                    url: '/search-key',
+                    method: 'POST',
+                    data: { searchTerm: searchTerm },
+                    dataType: 'json',
+                    success: function (response) {
+                        var data = response.list;
+                        var html = '';
+                        var template = $('#data-template2').html();
+                        console.log('Template:', template);
+                        console.log('Data:', data);
+
+                        $.each(data, function (i, item) {
+                            html += Mustache.render(template, {
+                                id: item.id,
+                                image: item.image,
+                                name: item.name,
+                                salePrice: item.salePrice
+                            });
+                        });
+                        if (data.length == 0) {
+                            $('.trending-box').html('<div style="margin:auto;"> <p>Không tìm thấy kết quả</p> </div>');
+                            return;
+                        }
+                        $('.trending-box').html(html);
+                        var formatter = new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' });
+                        var priceTags = document.querySelectorAll('.js-format-price');
+                        priceTags.forEach(tag => {
+                            var price = tag.getAttribute('data-price');
+                            var formattedPrice = formatter.format(price);
+                            tag.textContent = formattedPrice;
+                        });
+
+                    },
+                    error: function (error) {
+                        console.error('Error:', error);
+                    }
+                });
+            }
+        });
+    </script>
+    <script src="~/js/mustache.min.js"></script>
+
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

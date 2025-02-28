@@ -1,0 +1,120 @@
+﻿@{
+    Layout = "_LayoutSale";
+}
+@{
+    var _data = ViewBag.data;
+}
+<title>Danh sách đơn hàng</title>
+<div class="card mb-4">
+    <div class="card-header">Quản lý đơn hàng</div>
+    <div class="card-body">
+        <table id="datatablesSimple">
+            <thead>
+                <tr>
+                    <th>Mã đơn</th>
+                    <th>Khách Hàng</th>
+                    <th>Thời gian</th>
+                    <th>Trạng thái đơn hàng</th>
+                    <th>Trạng thái thanh toán</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tfoot>
+                <tr>
+                    <th>Mã đơn</th>
+                    <th>Khách Hàng</th>
+                    <th>Thời gian</th>
+                    <th>Trạng thái đơn hàng</th>
+                    <th>Trạng thái thanh toán</th>
+                    <th></th>
+                </tr>
+            </tfoot>
+            <tbody>
+                @foreach (var data in _data)
+                {
+                    <tr>
+                        <td>@data.Index</td>
+                        <td>@data.CusName</td>
+                        <td>@data.OrderDate</td>
+                        @if (@data.OrderStatus.Equals("Chờ duyệt"))
+                        {
+                            <td>
+                                <div class="badge bg-warning text-white rounded-pill">
+                                    @data.OrderStatus
+                                </div>
+                            </td>
+                        }
+                        @if (@data.OrderStatus.Equals("Đang vận chuyển"))
+                        {
+                            <td>
+                                <div class="badge bg-info text-white rounded-pill">
+                                    @data.OrderStatus
+                                </div>
+                            </td>
+                        }
+                        @if (@data.OrderStatus.Equals("Vận chuyển thành công"))
+                        {
+                            <td>
+                                <div class="badge bg-success text-white rounded-pill">
+                                    @data.OrderStatus
+                                </div>
+                            </td>
+                        }
+                        @if (@data.OrderStatus.Equals("Đã hủy"))
+                        {
+                            <td>
+                                <div class="badge bg-danger text-white rounded-pill">
+                                    @data.OrderStatus
+                                </div>
+                            </td>
+                        }
+
+                        @if (data.PaymentStatus.Equals("Đã thanh toán"))
+                        {
+                            <td><div class="badge bg-success text-white rounded-pill">@data.PaymentStatus</div></td>
+                        }
+                        else
+                        {
+                            <td><div class="badge bg-danger text-white rounded-pill">@data.PaymentStatus</div></td>
+
+                        }
+                        <td>
+                            <form asp-controller="CheckoutDetail" asp-action="CheckoutDetail" asp-route-id="@data.Index" method="post">
+                                <button class="btn btn-primary" type="submit">
+                                    Chi tiết
+                                </button>
+                            </form>
+
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+        sessionStorage.setItem('previousPageProfile', window.location.href);
+        var formatter = new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' });
+        var priceTags = document.querySelectorAll('.js-format-price');
+        priceTags.forEach(tag => {
+            var price = tag.getAttribute('data-price');
+            var formattedPrice = formatter.format(price);
+            tag.textContent = formattedPrice;
+        });
+
+        var saleTags = document.querySelectorAll('.ex_pricesale');
+        saleTags.forEach(tag => {
+            var price = parseFloat(tag.getAttribute('data-price'));
+            var originalPrice = parseFloat(tag.getAttribute('data-price1'));
+            var discountPercent = ((originalPrice - price) / originalPrice) * 100;
+            var roundedDiscountPercent = Math.round(discountPercent);
+            tag.textContent = roundedDiscountPercent + '%';
+        });
+        // Hiển thị thông báo nếu có
+        var statusMessage = @Html.Raw(Json.Serialize(@TempData["Message"]));
+        if (statusMessage) {
+            alert(statusMessage);
+        }
+    })
+</script>

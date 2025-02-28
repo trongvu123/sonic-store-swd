@@ -1,0 +1,92 @@
+﻿.red-badge {
+    background-color: #fee2e2; /* bg-red-100 */
+    color: #b91c1c; /* text-red-800 */
+    font-size: 0.75rem; /* text-xs */
+    font-weight: 500; /* font-medium */
+    margin-right: 0.5rem; /* me-2 (margin-end in LTR context) */
+    padding: 0.125rem 0.625rem; /* px-2.5 py-0.5 */
+    border-radius: 9999px; /* rounded-full */
+}
+
+/* Dark mode styles */
+@media (prefers-color-scheme: dark) {
+    .red-badge {
+        background-color: #7f1d1d; /* dark:bg-red-900 */
+        color: #fca5a5; /* dark:text-red-300 */
+    }
+}
+.green-badge {
+    background-color: #d1fae5; /* bg-green-100 */
+    color: #065f46; /* text-green-800 */
+    font-size: 0.75rem; /* text-xs */
+    font-weight: 500; /* font-medium */
+    margin-right: 0.5rem; /* me-2 (margin-end in LTR context) */
+    padding: 0.125rem 0.625rem; /* px-2.5 py-0.5 */
+    border-radius: 9999px; /* rounded-full */
+}
+
+/* Dark mode styles */
+@media (prefers-color-scheme: dark) {
+    .green-badge {
+        background-color: #009870; /* dark:bg-green-900 */
+        color: #86efac; /* dark:text-green-300 */
+    }
+}
+.contain {
+    width: 593px;
+    padding: 30px;
+}
+
+input {
+    width: 100%;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+    margin-bottom: 3px;
+    padding: 6px;
+    font-size: 14px;
+    padding-left: 13px;
+}
+
+.form-controls {
+    margin: 15px 0;
+}
+
+input {
+    border: 1px solid #ccc; /* Màu viền mặc định */
+    transition: all 0.3s ease; /* Thêm hiệu ứng chuyển đổi mượt mà */
+}
+
+    input:focus {
+        border-color: #3498db;
+        box-shadow: 0 0 5px rgba(52, 152, 219, 0.5);
+        outline: none;
+    }
+
+.btn-modal-contain {
+    margin-top: 29px;
+    height: 50px;
+}
+
+#btn-old {
+    background: #28CA97;
+    color: white;
+    margin: 0;
+    border: 0;
+    cursor: pointer;
+    width: 50%;
+    height: 32px;
+    float: left;
+    border-radius: 3px 0 0 3px;
+}
+
+#old-cancel {
+    color: white;
+    margin: 0;
+    border: 0;
+    cursor: pointer;
+    width: 50%;
+    height: 32px;
+    float: left;
+    border-radius: 0px 3px 3px 0px;
+    background: #aaa;
+}

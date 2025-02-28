@@ -1,0 +1,280 @@
+﻿@model IQueryable<Product>
+@inject SonicStoreContext _context
+@{
+    Layout = "_Layout";
+}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+<title>Điện thoại</title>
+<link href="~/css/PageDesign/product-list.css" rel="stylesheet" />
+<link href="~/css/PageDesign/list-item.css" rel="stylesheet" />
+<link href="~/css/PageDesign/PhoneModel.css" rel="stylesheet" />
+<style>
+
+    .col-sm-4 {
+        width: 20%;
+    }
+
+    .product-image-wrapper {
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+
+    ul.category_type_2 li a img {
+        max-width: 120px;
+        max-height: 70px;
+        margin: -10px auto;
+        border-radius: 4px;
+    }
+
+    .delete-option {
+        margin: auto 0;
+        color: #00483d;
+        display: none;
+        cursor: pointer;
+    }
+
+    ul li a.active {
+        color: #009a82;
+    }
+
+    body {
+        display: flex;
+        flex-direction: column;
+    }
+
+    body {
+        min-height: 100vh;
+        margin: 0;
+    }
+
+    main {
+        flex: 1;
+    }
+
+</style>
+<main>
+    @if (!string.IsNullOrEmpty(ViewBag.fname))
+    {
+        <div class="header-breadcrumb">
+            <div class="grid">
+
+                <a href="home">
+                    <svg xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" width="18" height="20" x="0" y="0" viewBox="0 0 460.298 460.297" style="enable-background:new 0 0 512 512" xml:space="preserve" class=""><g><path d="M230.149 120.939 65.986 256.274c0 .191-.048.472-.144.855-.094.38-.144.656-.144.852v137.041c0 4.948 1.809 9.236 5.426 12.847 3.616 3.613 7.898 5.431 12.847 5.431h109.63V303.664h73.097v109.64h109.629c4.948 0 9.236-1.814 12.847-5.435 3.617-3.607 5.432-7.898 5.432-12.847V257.981c0-.76-.104-1.334-.288-1.707L230.149 120.939z" fill="#fff" opacity="1" data-original="#00483d" class=""></path><path d="M457.122 225.438 394.6 173.476V56.989c0-2.663-.856-4.853-2.574-6.567-1.704-1.712-3.894-2.568-6.563-2.568h-54.816c-2.666 0-4.855.856-6.57 2.568-1.711 1.714-2.566 3.905-2.566 6.567v55.673l-69.662-58.245c-6.084-4.949-13.318-7.423-21.694-7.423-8.375 0-15.608 2.474-21.698 7.423L3.172 225.438c-1.903 1.52-2.946 3.566-3.14 6.136-.193 2.568.472 4.811 1.997 6.713l17.701 21.128c1.525 1.712 3.521 2.759 5.996 3.142 2.285.192 4.57-.476 6.855-1.998L230.149 95.817l197.57 164.741c1.526 1.328 3.521 1.991 5.996 1.991h.858c2.471-.376 4.463-1.43 5.996-3.138l17.703-21.125c1.522-1.906 2.189-4.145 1.991-6.716-.195-2.563-1.242-4.609-3.141-6.132z" fill="#fff" opacity="1" data-original="#000000" class=""></path></g></svg>
+
+                    <span class="syntax-next">
+                        Homepage
+                        <span>
+                            <svg xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" width="15" height="15" x="0" y="0" viewBox="0 0 128 128" style="enable-background:new 0 0 512 512;/* margin-right: 24px;" xml:space="preserve" class=""><g><path d="M44 108a3.988 3.988 0 0 1-2.828-1.172 3.997 3.997 0 0 1 0-5.656L78.344 64 41.172 26.828c-1.563-1.563-1.563-4.094 0-5.656s4.094-1.563 5.656 0l40 40a3.997 3.997 0 0 1 0 5.656l-40 40A3.988 3.988 0 0 1 44 108z" fill="#fff" opacity="1" data-original="#000000" class=""></path></g></svg>
+                        </span>
+                    </span>
+                    <span>@ViewBag.fname</span>
+                </a>
+            </div>
+
+        </div>
+
+    }
+    else if (!string.IsNullOrEmpty(ViewBag.name))
+    {
+        <div class="header-breadcrumb">
+            <div class="grid">
+
+                <a href="home">
+                    <svg xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" width="18" height="20" x="0" y="0" viewBox="0 0 460.298 460.297" style="enable-background:new 0 0 512 512" xml:space="preserve" class=""><g><path d="M230.149 120.939 65.986 256.274c0 .191-.048.472-.144.855-.094.38-.144.656-.144.852v137.041c0 4.948 1.809 9.236 5.426 12.847 3.616 3.613 7.898 5.431 12.847 5.431h109.63V303.664h73.097v109.64h109.629c4.948 0 9.236-1.814 12.847-5.435 3.617-3.607 5.432-7.898 5.432-12.847V257.981c0-.76-.104-1.334-.288-1.707L230.149 120.939z" fill="#fff" opacity="1" data-original="#00483d" class=""></path><path d="M457.122 225.438 394.6 173.476V56.989c0-2.663-.856-4.853-2.574-6.567-1.704-1.712-3.894-2.568-6.563-2.568h-54.816c-2.666 0-4.855.856-6.57 2.568-1.711 1.714-2.566 3.905-2.566 6.567v55.673l-69.662-58.245c-6.084-4.949-13.318-7.423-21.694-7.423-8.375 0-15.608 2.474-21.698 7.423L3.172 225.438c-1.903 1.52-2.946 3.566-3.14 6.136-.193 2.568.472 4.811 1.997 6.713l17.701 21.128c1.525 1.712 3.521 2.759 5.996 3.142 2.285.192 4.57-.476 6.855-1.998L230.149 95.817l197.57 164.741c1.526 1.328 3.521 1.991 5.996 1.991h.858c2.471-.376 4.463-1.43 5.996-3.138l17.703-21.125c1.522-1.906 2.189-4.145 1.991-6.716-.195-2.563-1.242-4.609-3.141-6.132z" fill="#fff" opacity="1" data-original="#000000" class=""></path></g></svg>
+
+                    <span class="syntax-next">
+                        Homepage
+                        <span>
+                            <svg xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" width="15" height="15" x="0" y="0" viewBox="0 0 128 128" style="enable-background:new 0 0 512 512;/* margin-right: 24px;" xml:space="preserve" class=""><g><path d="M44 108a3.988 3.988 0 0 1-2.828-1.172 3.997 3.997 0 0 1 0-5.656L78.344 64 41.172 26.828c-1.563-1.563-1.563-4.094 0-5.656s4.094-1.563 5.656 0l40 40a3.997 3.997 0 0 1 0 5.656l-40 40A3.988 3.988 0 0 1 44 108z" fill="#fff" opacity="1" data-original="#000000" class=""></path></g></svg>
+                        </span>
+                    </span>
+                    <span>@ViewBag.name</span>
+                </a>
+            </div>
+
+        </div>
+    }
+    else
+    {
+        <div class="header-breadcrumb">
+            <div class="grid">
+
+                <a href="home">
+                    <svg xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" width="18" height="20" x="0" y="0" viewBox="0 0 460.298 460.297" style="enable-background:new 0 0 512 512" xml:space="preserve" class=""><g><path d="M230.149 120.939 65.986 256.274c0 .191-.048.472-.144.855-.094.38-.144.656-.144.852v137.041c0 4.948 1.809 9.236 5.426 12.847 3.616 3.613 7.898 5.431 12.847 5.431h109.63V303.664h73.097v109.64h109.629c4.948 0 9.236-1.814 12.847-5.435 3.617-3.607 5.432-7.898 5.432-12.847V257.981c0-.76-.104-1.334-.288-1.707L230.149 120.939z" fill="#fff" opacity="1" data-original="#00483d" class=""></path><path d="M457.122 225.438 394.6 173.476V56.989c0-2.663-.856-4.853-2.574-6.567-1.704-1.712-3.894-2.568-6.563-2.568h-54.816c-2.666 0-4.855.856-6.57 2.568-1.711 1.714-2.566 3.905-2.566 6.567v55.673l-69.662-58.245c-6.084-4.949-13.318-7.423-21.694-7.423-8.375 0-15.608 2.474-21.698 7.423L3.172 225.438c-1.903 1.52-2.946 3.566-3.14 6.136-.193 2.568.472 4.811 1.997 6.713l17.701 21.128c1.525 1.712 3.521 2.759 5.996 3.142 2.285.192 4.57-.476 6.855-1.998L230.149 95.817l197.57 164.741c1.526 1.328 3.521 1.991 5.996 1.991h.858c2.471-.376 4.463-1.43 5.996-3.138l17.703-21.125c1.522-1.906 2.189-4.145 1.991-6.716-.195-2.563-1.242-4.609-3.141-6.132z" fill="#fff" opacity="1" data-original="#000000" class=""></path></g></svg>
+
+                    <span class="syntax-next">
+                        Homepage
+                        <span>
+                            <svg xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" width="15" height="15" x="0" y="0" viewBox="0 0 128 128" style="enable-background:new 0 0 512 512;/* margin-right: 24px;" xml:space="preserve" class=""><g><path d="M44 108a3.988 3.988 0 0 1-2.828-1.172 3.997 3.997 0 0 1 0-5.656L78.344 64 41.172 26.828c-1.563-1.563-1.563-4.094 0-5.656s4.094-1.563 5.656 0l40 40a3.997 3.997 0 0 1 0 5.656l-40 40A3.988 3.988 0 0 1 44 108z" fill="#fff" opacity="1" data-original="#000000" class=""></path></g></svg>
+                        </span>
+                    </span>
+                    <span>@ViewBag.brandName</span>
+                </a>
+            </div>
+
+        </div>
+    }
+
+    @* sliderder *@
+    @* filter bar *@
+    <div class="grid">
+        @if (!string.IsNullOrEmpty(ViewBag.fname))
+        {
+            <h2 class="title">
+                @ViewBag.fname
+            </h2>
+
+        }
+        else if (!string.IsNullOrEmpty(ViewBag.name))
+        {
+            <h2 class="title">
+                @ViewBag.name
+            </h2>
+        }
+        else
+        {
+            <h2 class="title">
+                Thương hiệu @ViewBag.brandName
+            </h2>
+        }
+        @if(ViewBag.brand != null)
+        {
+            
+            <div class="container" style="margin:10px 0">
+                <div class="section-list__content">
+                    @foreach (var item in ViewBag.listBrand as List<Brand>)
+                    {
+                        <div class="section-list__item  ">
+                            <a asp-action="PhoneModelScreen" asp-route-brand="@item.Id" asp-route-brandName="@item.BrandName" class="@(item.Id.ToString()==Context.Request.Query["brand"].ToString() ? "active" : "")">@item.BrandName</a>
+                        </div>
+                    }            
+                </div>
+            </div>
+        }
+        <div class="detail-title">Cùng với sự phát triển của khoa học công nghệ, <span>điện thoại</span> (hay smartphone) ngày càng được cải tiến để phục vụ tốt hơn cho cuộc sống con người.</div>
+        <div class="list-products" style="margin-bottom: 28px;">
+            @foreach (var item in Model)
+            {
+                foreach(var s in item.Storages)
+                {
+                    
+                <div class="list-products__item" data-id="138922">
+                    <a asp-controller="ProductDetail" asp-action="ProductDetailScreen" asp-route-id="@item.Id" aria-label="iPhone 13 128GB chính hãng VN/A - Tặng BH rơi vỡ vào nước" title="@item.Name">
+                        <div class="thumbnail">
+                            <img class="lazyload" loading="lazy" src=@item.Image alt="iPhone 13 128GB chính hãng VN/A - Tặng BH rơi vỡ vào nước" width="150" height="150">
+                        </div>
+                        <div class="detail">
+                            <h3 class="title_name" style="font-weight:700; font-size:13.5px" >@item.Name</h3>
+                            <div class="ex_pricesale percent d-none" data-price="@s.SalePrice" data-price1="@s.OriginalPrice">&nbsp;</div>
+                            <div class="price mb-12">
+                                <ins class="new-price js-format-price" data-price="@s.SalePrice">&nbsp;</ins>
+                                <del class="old-price js-format-price" data-price="@s.OriginalPrice">&nbsp;</del>
+                            </div>
+                            <div class="extra_tick">
+                                <label class="installment">Trả góp 0%</label>
+                                <label class="freeship">Miễn phí ship</label>
+                            </div>
+                            <div class="block-rate_product">
+                                <div class="block-rate__star">
+                                    <svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 576 512">
+                                        <path d="M259.3 17.8L194 150.2 47.9 171.5c-26.2 3.8-36.7 36.1-17.7 54.6l105.7 103-25 145.5c-4.5 26.3 23.2 46 46.4 33.7L288 439.6l130.7 68.7c23.2 12.2 50.9-7.4 46.4-33.7l-25-145.5 105.7-103c19-18.5 8.5-50.8-17.7-54.6L382 150.2 316.7 17.8c-11.7-23.6-45.6-23.9-57.4 0z"></path>
+                                    </svg>
+                                    <svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 576 512">
+                                        <path d="M259.3 17.8L194 150.2 47.9 171.5c-26.2 3.8-36.7 36.1-17.7 54.6l105.7 103-25 145.5c-4.5 26.3 23.2 46 46.4 33.7L288 439.6l130.7 68.7c23.2 12.2 50.9-7.4 46.4-33.7l-25-145.5 105.7-103c19-18.5 8.5-50.8-17.7-54.6L382 150.2 316.7 17.8c-11.7-23.6-45.6-23.9-57.4 0z"></path>
+                                    </svg>
+                                    <svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 576 512">
+                                        <path d="M259.3 17.8L194 150.2 47.9 171.5c-26.2 3.8-36.7 36.1-17.7 54.6l105.7 103-25 145.5c-4.5 26.3 23.2 46 46.4 33.7L288 439.6l130.7 68.7c23.2 12.2 50.9-7.4 46.4-33.7l-25-145.5 105.7-103c19-18.5 8.5-50.8-17.7-54.6L382 150.2 316.7 17.8c-11.7-23.6-45.6-23.9-57.4 0z"></path>
+                                    </svg>
+                                    <svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 576 512">
+                                        <path d="M259.3 17.8L194 150.2 47.9 171.5c-26.2 3.8-36.7 36.1-17.7 54.6l105.7 103-25 145.5c-4.5 26.3 23.2 46 46.4 33.7L288 439.6l130.7 68.7c23.2 12.2 50.9-7.4 46.4-33.7l-25-145.5 105.7-103c19-18.5 8.5-50.8-17.7-54.6L382 150.2 316.7 17.8c-11.7-23.6-45.6-23.9-57.4 0z"></path>
+                                    </svg>
+                                    <svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 576 512">
+                                        <path d="M528.1 171.5L382 150.2 316.7 17.8c-11.7-23.6-45.6-23.9-57.4 0L194 150.2 47.9 171.5c-26.2 3.8-36.7 36.1-17.7 54.6l105.7 103-25 145.5c-4.5 26.3 23.2 46 46.4 33.7L288 439.6l130.7 68.7c23.2 12.2 50.9-7.4 46.4-33.7l-25-145.5 105.7-103c19-18.5 8.5-50.8-17.7-54.6zM388.6 312.3l23.7 138.4L288 385.4l-124.3 65.3 23.7-138.4-100.6-98 139-20.2 62.2-126 62.2 126 139 20.2-100.6 98z"></path>
+                                    </svg>
+                                </div>
+                                <div class="rate_title">
+                                    (268 đánh giá)
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+                break;
+                }
+            }
+        </div>
+    </div>
+
+
+    <div id="pagination" class="pagination"></div>
+</main>
+@* slider brand *@
+<script>
+    $(".ex_pricesale").each(function () {
+        var price = $(this).attr("data-price");
+        var price1 = $(this).attr("data-price1");
+        if (price1 > price) {
+            $(this).removeClass('d-none');
+            $(this).html(100 - (Math.round((price / price1) * 100)) + '%');
+        }
+    });
+   
+</script>
+<script>
+    window.addEventListener('DOMContentLoaded', (event) => {
+        // Tạo một đối tượng Intl.NumberFormat
+        var formatter = new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' });
+
+        // Lấy tất cả các thẻ có class là 'js-format-price'
+        var priceTags = document.querySelectorAll('.js-format-price');
+
+        // Duyệt qua từng thẻ và định dạng giá trị
+        priceTags.forEach(tag => {
+            var price = tag.getAttribute('data-price');
+            var formattedPrice = formatter.format(price);
+            tag.textContent = formattedPrice;
+        });
+        // Lấy tất cả các thẻ có class là 'ex_pricesale'
+        var saleTags = document.querySelectorAll('.ex_pricesale');
+
+        // Duyệt qua từng thẻ và tính toán phần trăm giảm giá
+        saleTags.forEach(tag => {
+            var price = parseFloat(tag.getAttribute('data-price'));
+            var originalPrice = parseFloat(tag.getAttribute('data-price1'));
+
+            // Tính toán phần trăm giảm giá
+            var discountPercent = ((originalPrice - price) / originalPrice) * 100;
+
+            // Làm tròn phần trăm giảm giá
+            var roundedDiscountPercent = Math.round(discountPercent);
+
+            // Gán phần trăm giảm giá vào thẻ
+            tag.textContent = roundedDiscountPercent + '%';
+        });
+    });
+
+
+</script>
+<script>
+    $(document).ready(function () {
+        $('.title').click(function () {
+            bootbox.prompt({
+                title: 'This is a prompt, vertically centered!',
+                centerVertical: true,
+                callback: function (result) {
+                    console.log(result);
+                }
+            });
+        });
+    });
+</script>
+<script>
+    sessionStorage.setItem('previousPageProfile', window.location.href);
+</script>
+@section scripts {
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdn.jsdelivr.net/npm/owl.carousel@2.3.4/dist/owl.carousel.min.js"></script>
+    <script src="~/js/mustache.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootbox@6.0.0/dist/bootbox.min.js"></script>
+}

@@ -1,0 +1,166 @@
+﻿@{
+    ViewData["Title"] = "ViewDetailSale";
+    Layout = "~/Views/Shared/_layoutSale.cshtml";
+    var product = ViewBag.product;
+    var spec = ViewBag.spec;
+    var image = ViewBag.image;
+    var storage = ViewBag.storage;
+
+}
+<style>
+    .btn-hover-blue:hover {
+        background-color: #007bff;
+        color: white;
+    }
+</style>
+<title>Chi tiết sản phẩm</title>
+<div class="product-details-container">
+    <div>
+        <a asp-action="ProductListSale" asp-controller="ProductListSale" class="nav-link collapsed">
+            <button class="btn btn-danger" type="submit">
+                Quay lại
+            </button>
+        </a>
+
+        <h2 style="font-weight:bold; color:#4a4a4a">@product.Name</h2>
+        <div class="row" style="margin-top : 25px">
+
+            <div class="col-md-4"><img src="@product.Image" class="img-thumbnail"></div>
+            <div class="col-md-5">
+                <h4>Số lượng sản phẩm từng bộ nhớ</h4>
+                <ul class="list-group">
+                    <li class="list-group-item">
+                        <div class="row">
+                            <div class="col-md-6">Bộ nhớ trong</div>
+                            <div class="col-md-6">@storage.Storage_capacity GB</div>
+                        </div>
+                    </li>
+                    <li class="list-group-item">
+                        <div class="row">
+                            <div class="col-md-6">Giá gốc</div>
+                            <div class="col-md-6 js-format-price" data-price="@storage.OriginalPrice">@storage.OriginalPrice</div>
+                        </div>
+                    </li>
+                    <li class="list-group-item">
+                        <div class="row">
+                            <div class="col-md-6">Giá bán</div>
+                            <div class="col-md-6 js-format-price" data-price="@storage.SalePrice">@storage.SalePrice</div>
+                        </div>
+                    </li>
+                    <li class="list-group-item">
+                        <div class="row">
+                            <div class="col-md-6">Số lượng</div>
+                            <div class="col-md-6">@storage.quantity Chiếc</div>
+                        </div>
+                    </li>
+                </ul>
+                <div class="row">
+                    <div class="col-md-6">
+                        <form asp-action="deleteSale" asp-controller="RemoveSaleprice" asp-route-id="@storage.Id" method="post">
+
+                            <div style="margin-top : 20px">
+                                <button type="submit" class="btn btn-danger">
+                                    Xóa giảm giá
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="col-md-6" style="display:flex;align-items:center">
+                        <a href="@Url.Action("EditCreen", "EditProduct", new { area = "SonicStore", id = @storage.Id })">
+                            <button class="btn btn-info">
+                                Chỉnh sửa
+                            </button>
+                        </a>
+
+
+                    </div>
+                </div>
+
+
+
+            </div>
+            <!-- Loading Specicaltion -->
+            <div class="col-md-3">
+                <h4>Thông số kĩ thuật</h4>
+                <ul class="list-group">
+                    <li class="list-group-item">
+                        <div class="row">
+                            <div class="col-md-6">Kích cỡ màn hình</div>
+                            <div class="col-md-6">@spec.ScreenSize inches</div>
+                        </div>
+                    </li>
+                    <li class="list-group-item">
+                        <div class="row">
+                            <div class="col-md-6">Độ phân giải màn hình</div>
+                            <div class="col-md-6">@spec.ScreenResolution pixels</div>
+                        </div>
+                    </li>
+                    <li class="list-group-item">
+                        <div class="row">
+                            <div class="col-md-6">CPU</div>
+                            <div class="col-md-6">@spec.Cpu</div>
+                        </div>
+                    </li>
+                    <li class="list-group-item">
+                        <div class="row">
+                            <div class="col-md-6">Hệ điều hành</div>
+                            <div class="col-md-6">@spec.OperatingSystem</div>
+                        </div>
+                    </li>
+                    <li class="list-group-item">
+                        <div class="row">
+                            <div class="col-md-6">Ram</div>
+                            <div class="col-md-6">@spec.Ram GB</div>
+                        </div>
+                    </li>
+                    <li class="list-group-item">
+                        <div class="row">
+                            <div class="col-md-6">Camera chính</div>
+                            <div class="col-md-6">@spec.MainCamera MP</div>
+                        </div>
+                    </li>
+                    <li class="list-group-item">
+                        <div class="row">
+                            <div class="col-md-6">Dung lượng pin mAh</div>
+                            <div class="col-md-6">@spec.BatteryCapacity </div>
+                        </div>
+                    </li>
+                    <li class="list-group-item">
+                        <div class="row">
+                            <div class="col-md-6">Camera trước MB</div>
+                            <div class="col-md-6">@spec.FrontCamera</div>
+                        </div>
+                    </li>
+                </ul>
+
+            </div>
+        </div>
+    </div>
+
+</div>
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+        var formatter = new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' });
+        var priceTags = document.querySelectorAll('.js-format-price');
+        priceTags.forEach(tag => {
+            var price = tag.getAttribute('data-price');
+            var formattedPrice = formatter.format(price);
+            tag.textContent = formattedPrice;
+        });
+
+        var saleTags = document.querySelectorAll('.ex_pricesale');
+        saleTags.forEach(tag => {
+            var price = parseFloat(tag.getAttribute('data-price'));
+            var originalPrice = parseFloat(tag.getAttribute('data-price1'));
+            var discountPercent = ((originalPrice - price) / originalPrice) * 100;
+            var roundedDiscountPercent = Math.round(discountPercent);
+            tag.textContent = roundedDiscountPercent + '%';
+        });
+        // Hiển thị thông báo nếu có
+        var statusMessage = "@TempData["Message"]";
+        if (statusMessage) {
+            alert(statusMessage);
+        }
+    })
+</script>
+

@@ -1,0 +1,577 @@
+﻿@using SonicStore.Areas.SonicStore.Dtos;
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/MaterialDesign-Webfont/5.3.45/css/materialdesignicons.css" integrity="sha256-NAxhqDvtY0l4xn+YVa6WjAcmd94NNfttjNsDmNatFVc=" crossorigin="anonymous" />
+<link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+<link href='~/css/order.css' rel='stylesheet'>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
+
+
+@{
+    List<OrderModel> orders = (List<OrderModel>)ViewBag.Orders;
+    var orders1 = orders.Where(x => x.Status == "Đã mua" || x.Status == "Vận chuyển thành công").ToList();
+    var orders2 = orders.Where(x => x.Status == "Chờ duyệt").ToList();
+    var orders3 = orders.Where(x => x.Status == "Đang vận chuyển").ToList();
+    var orders4 = orders.Where(x => x.Status == "Vận chuyển thành công").ToList();
+    var orders5 = orders.Where(x => x.Status == "Đã hủy").ToList();
+
+    int tabIndex = (int)ViewBag.TabIndex;
+    string keyword = ViewBag.KeyWord;
+}
+
+@{
+    Layout = null;
+
+}
+<!doctype html>
+<html>
+<head>
+
+    <meta charset="utf-8">
+    <meta name="author" content="hoanghamobile.com">
+    <meta property='og:site_name' content='hoanghamobile.com' />
+    <meta name="google-site-verification" content="JOFGGI7j9vWfBf-xpElM5Tec0UJ1k_CfdNjpaHm5z10" />
+    <meta name="msvalidate.01" content="5C8CDF0992489498A30F9E5F6668A4D5" />
+    <meta name="geo.placename" content="Hanoi, Hoàn Kiếm, Hanoi, Vietnam" />
+    <meta name="geo.position" content="21.017249242314964;105.84134504199028" />
+    <meta name="geo.region" content="VN-Hanoi" />
+    <meta name="ICBM" content="21.017249242314964, 105.84134504199028" />
+
+    <title>Đơn hàng</title>
+    <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+    <link rel="preload" href="/Content/web/fonts/Segoe UI/Segoe UI.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="/Content/web/fonts/Segoe UI/Segoe UI Italic.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="/Content/web/fonts/Segoe UI/Segoe UI Bold.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="/Content/web/fonts/Segoe UI/Segoe UI Bold Italic.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="/Content/web/fonts/Segoe UI/Segoe UI Semilight.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="/Content/web/fonts/Segoe UI/Segoe UI Semilight Italic.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="/Content/web/fonts/icon/fonts/hoangha.woff" as="font" type="font/woff" crossorigin>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <link rel="preload" as="style" href="~/css/UserProfile/main.css">
+    <link href="~/css/UserProfile/main2.css" rel="stylesheet" type="text/css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/izimodal/1.6.1/js/iziModal.min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/izimodal/1.6.1/css/iziModal.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <style>
+        .product-center .current-product-price label.text-green {
+            display: none
+        }
+
+        .status-tag {
+            color: white;
+            width: 160px;
+            border-radius: 5px;
+            text-align: center;
+        }
+
+        .bg-green {
+            background: green;
+        }
+
+
+        a, a:link, a:visited, a:hover {
+            text-decoration: none;
+            color: white;
+        }
+
+        .btn-info:hover {
+            color: white;
+            background-color: #31d3f2;
+        }
+
+        .nav-link, .nav-link:link, .nav-link:visited {
+            color: black;
+        }
+
+        .nav-tabs .nav-item.show .nav-link, .nav-tabs .nav-link.active {
+            color: blue;
+            font-weight: bold;
+        }
+    </style>
+    <script>
+        $(function () {
+            $("#dob").datepicker();
+        });
+    </script>
+    <script>
+        $(document).ready(function () {
+            var formatter = new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' });
+            var priceTags = document.querySelectorAll('.js-format-price');
+            priceTags.forEach(tag => {
+                var price = tag.getAttribute('data-price');
+                var formattedPrice = formatter.format(price);
+                tag.textContent = formattedPrice;
+            });
+        });
+    </script>
+
+
+    <link href="https://hoanghamobile.com/Content/web/css/styles.users.css?c=638546836954349887" rel="stylesheet" />
+
+</head>
+
+<body class="account">
+
+    <section class="account">
+        <div class="sidebar">
+            <div class="ctn">
+                <div class="header">
+                    <div class="logo" style="
+                         background-color: gray;
+                         opacity: 0.3;
+                         padding: 13px;
+                         border-radius: 4px;
+                         margin-bottom: 21px" ;>
+                        <a href="/"><img src="~/images/logo/image-removebg-preview (2).png" alt="Hoàng Hà Mobile" /></a>
+                    </div>
+
+                    <div class="info">
+                        <div class="avt" id="myAvatar">
+                            <strong>N</strong>
+                        </div>
+
+                        <div class="summer" style="margin:auto 0;">
+                            <p><strong id="name-user2">@Model?.FullName</strong></p>
+                        </div>
+                    </div>
+                </div>
+                <nav>
+                    <ul>
+                        <li><a asp-controller="Profile" asp-action="ProfileScreen"><i class="fa-regular fa-user"></i><span>Thông tin tài khoản</span></a></li>
+                        @if (Model?.RoleId == 1)
+                        {
+                            <li><a asp-controller="Orders" asp-action="Index" class="actived"><i class="fa-solid fa-cart-shopping"></i><span>Đơn hàng của bạn</span></a></li>
+                        }
+                        <li><a asp-controller="Login" asp-action="Logout"><i class="fa-solid fa-right-from-bracket"></i><span>Đăng xuất</span></a></li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+        <div class="body-content">
+            <h5 class="fw-bold">Đơn hàng của bạn</h5>
+
+            <div class="header mb-3">
+                <div class="bg">
+                    <div class="text">
+                        <h2>CHÀO MỪNG QUAY TRỞ LẠI, <span id="name-user1">@Model?.FullName</span></h2>
+                        <p><i>Kiểm tra thông tin đơn hàng của bạn tại đây</i></p>
+                    </div>
+                </div>
+                <div class="icon">
+                    <img src="https://hoanghamobile.com/Content/web/content-icon/icon-account-order.png" />
+                </div>
+            </div>
+
+            <div>
+
+                <nav class="bg-white ">
+                    <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                        <a href="?tabIndex=1" class="nav-link  @(tabIndex == 1 ? "active" : "")" id="nav-1-tab" type="button" role="tab" aria-controls="nav-1" aria-selected="true">
+                            Đã mua
+                        </a>
+                        <a href="?tabIndex=2" class="nav-link @(tabIndex == 2 ? "active" : "")" id="nav-2-tab" type="button" role="tab" aria-controls="nav-2" aria-selected="false">
+                            Chờ duyệt
+                        </a>
+                        <a href="?tabIndex=3" class="nav-link @(tabIndex == 3 ? "active" : "")" id="nav-3-tab" type="button" role="tab" aria-controls="nav-3" aria-selected="false">
+                            Đang vận chuyển
+                        </a>
+                        <a href="?tabIndex=4" class="nav-link @(tabIndex == 4 ? "active" : "")" id="nav-4-tab" type="button" role="tab" aria-controls="nav-4" aria-selected="false">
+                            Vận chuyển thành công
+                        </a>
+                        <a href="?tabIndex=5" class="nav-link @(tabIndex == 5 ? "active" : "")" id="nav-5-tab" type="button" role="tab" aria-controls="nav-5" aria-selected="false">
+                            Đã hủy
+                        </a>
+                    </div>
+                </nav>
+                <div class="tab-content mt-2" id="nav-tabContent">
+                    <div class="tab-pane   @(tabIndex == 1 ? "show active" : "fade")" id="nav-1" role="tabpanel" aria-labelledby="nav-1-tab">
+                        <form method="get" asp-controller="Orders" asp-action="Index">
+                            <div class="d-flex d-row">
+                                <input class="form-control me-2" name="keyword" value="@keyword" placeholder="Nhập từ khóa để tìm kiếm" />
+                                <button class="btn btn-primary">Search</button>
+                            </div>
+                            <input type="hidden" value="@tabIndex" name="tabIndex" />
+                        </form>
+
+                        @if (orders1.Any())
+                        {
+                            @foreach (OrderModel item in orders1)
+                            {
+                                <div class="card border shadow-none">
+                                    <div class="card-body">
+
+                                        <div class="row d-flex align-items-start border-bottom pb-3">
+                                            <div class="col-md-4">
+                                                <div class="flex-grow-1 align-self-center overflow-hidden ">
+                                                    <h5 class="text-truncate font-size-18">
+                                                        <i class="mdi mdi-cart-outline me-1"></i>
+                                                        Đơn hàng #@item.Index
+                                                    </h5>
+                                                    <div> <i class="bi-calendar me-2"></i>Ngày đặt: @item.OrderDate?.ToShortDateString()</div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-8 d-flex justify-content-end">
+                                                @if (item?.Status == "Đã mua" || item?.Status == "Vận chuyển thành công")
+                                                {
+                                                    <div class="status-tag bg-green">Đã mua</div>
+                                                }
+
+                                                @if (item?.Status == "Đang vận chuyển")
+                                                {
+                                                    <div class="status-tag bg-info">@item?.Status</div>
+                                                }
+
+                                                @if (item?.Status == "Chờ duyệt")
+                                                {
+                                                    <div class="status-tag bg-warning">@item?.Status</div>
+                                                }
+
+                                                @if (item?.Status == "Đã hủy")
+                                                {
+                                                    <div class="status-tag bg-danger">@item?.Status</div>
+                                                }
+                                            </div>
+                                        </div>
+                                        <div class="row mt-3">
+                                            <div class="col-md-4">
+                                                <p class="text-muted mb-2 js-format-price" data-price="@item.Total">Tổng: @item.Total</p>
+                                            </div>
+                                            <div class="col-md-8 text-end">
+
+                                                <a asp-controller="Orders" asp-action="Details" asp-route-id="@item.Index" class="btn btn-info">Xem chi tiết</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                        }
+                        else
+                        {
+                            <p>Không tìm thấy hóa đơn.</p>
+                        }
+
+                    </div>
+                    <div class="tab-pane  @(tabIndex == 2 ? "show active" : "fade")" id="nav-2" role="tabpanel" aria-labelledby="nav-2-tab">
+                        <form method="get" asp-controller="Orders" asp-action="Index">
+                            <div class="d-flex d-row">
+                                <input class="form-control me-2" name="keyword" value="@keyword" placeholder="Nhập từ khóa để tìm kiếm" />
+                                <button class="btn btn-primary">Search</button>
+                            </div>
+                            <input type="hidden" value="@tabIndex" name="tabIndex" />
+                        </form>
+
+                        @if (orders2.Any())
+                        {
+
+                            @foreach (OrderModel item in orders2)
+                            {
+                                <div class="card border shadow-none">
+                                    <div class="card-body">
+
+                                        <div class="row d-flex align-items-start border-bottom pb-3">
+                                            <div class="col-md-4">
+                                                <div class="flex-grow-1 align-self-center overflow-hidden ">
+                                                    <h5 class="text-truncate font-size-18">
+                                                        <i class="mdi mdi-cart-outline me-1"></i>
+                                                        Đơn hàng #@item.Index
+                                                    </h5>
+                                                    <div> <i class="bi-calendar me-2"></i>Ngày đặt: @item.OrderDate?.ToShortDateString()</div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-8 d-flex justify-content-end">
+                                                @if (item?.Status == "Đã mua")
+                                                {
+                                                    <div class="status-tag bg-green">@item?.Status</div>
+                                                }
+
+                                                @if (item?.Status == "Đang vận chuyển")
+                                                {
+                                                    <div class="status-tag bg-info">@item?.Status</div>
+                                                }
+
+                                                @if (item?.Status == "Chờ duyệt")
+                                                {
+                                                    <div class="status-tag bg-warning">@item?.Status</div>
+                                                }
+
+                                                @if (item?.Status == "Đã hủy")
+                                                {
+                                                    <div class="status-tag bg-danger">@item?.Status</div>
+                                                }
+
+                                                @if (item?.Status == "Vận chuyển thành công")
+                                                {
+                                                    <div class="status-tag bg-secondary">@item?.Status</div>
+                                                }
+                                            </div>
+                                        </div>
+                                        <div class="row mt-3">
+                                            <div class="col-md-4">
+                                                <p class="text-muted mb-2 js-format-price" data-price="@item.Total">Tổng: @item?.Total</p>
+                                            </div>
+                                            <div class="col-md-8 text-end">
+                                                <a asp-controller="Orders" asp-action="Details" asp-route-id="@item?.Index" class="btn btn-primary me-2">Xem chi tiết</a>
+                                                <a asp-action="Cancel" asp-controller="Orders" asp-route-id="@item?.Index" class="btn btn-danger">
+                                                    <i class="fa fa-trash"></i> Hủy đơn hàng
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                        }
+                        else
+                        {
+                            <p>Không tìm thấy hóa đơn.</p>
+                        }
+                    </div>
+                    <div class="tab-pane  @(tabIndex == 3 ? "show active" : "fade")" id="nav-3" role="tabpanel" aria-labelledby="nav-3-tab">
+                        <form method="get" asp-controller="Orders" asp-action="Index">
+                            <div class="d-flex d-row">
+                                <input class="form-control me-2" name="keyword" value="@keyword" placeholder="Nhập từ khóa để tìm kiếm" />
+                                <button class="btn btn-primary">Search</button>
+                            </div>
+                            <input type="hidden" value="@tabIndex" name="tabIndex" />
+                        </form>
+
+                        @if (orders3.Any())
+                        {
+                            @foreach (OrderModel item in orders3)
+                            {
+                                <div class="card border shadow-none">
+                                    <div class="card-body">
+
+                                        <div class="row d-flex align-items-start border-bottom pb-3">
+                                            <div class="col-md-4">
+                                                <div class="flex-grow-1 align-self-center overflow-hidden ">
+                                                    <h5 class="text-truncate font-size-18">
+                                                        <i class="mdi mdi-cart-outline me-1"></i>
+                                                        Đơn hàng #@item.Index
+                                                    </h5>
+                                                    <div> <i class="bi-calendar me-2"></i>Ngày đặt: @item.OrderDate?.ToShortDateString()</div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-8 d-flex justify-content-end">
+                                                @if (item?.Status == "Đã mua")
+                                                {
+                                                    <div class="status-tag bg-green">@item?.Status</div>
+                                                }
+
+                                                @if (item?.Status == "Đang vận chuyển")
+                                                {
+                                                    <div class="status-tag bg-info">@item?.Status</div>
+                                                }
+
+                                                @if (item?.Status == "Chờ duyệt")
+                                                {
+                                                    <div class="status-tag bg-warning">@item?.Status</div>
+                                                }
+
+                                                @if (item?.Status == "Đã hủy")
+                                                {
+                                                    <div class="status-tag bg-danger">@item?.Status</div>
+                                                }
+
+                                                @if (item?.Status == "Vận chuyển thành công")
+                                                {
+                                                    <div class="status-tag bg-secondary">@item?.Status</div>
+                                                }
+                                            </div>
+                                        </div>
+                                        <div class="row mt-3">
+                                            <div class="col-md-4">
+                                                <p class="text-muted mb-2 js-format-price" data-price="@item.Total">Tổng: @item?.Total</p>
+                                            </div>
+                                            <div class="col-md-8 text-end">
+                                                <a asp-controller="Orders" asp-action="Details" asp-route-id="@item?.Index" class="btn btn-info">Xem chi tiết</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                        }
+                        else
+                        {
+                            <p>Không tìm thấy hóa đơn.</p>
+                        }
+                    </div>
+                    <div class="tab-pane @(tabIndex == 4 ? "show active" : "fade")" id="nav-4" role="tabpanel" aria-labelledby="nav-4-tab">
+                        <form method="get" asp-controller="Orders" asp-action="Index">
+                            <div class="d-flex d-row">
+                                <input class="form-control me-2" name="keyword" value="@keyword" placeholder="Nhập từ khóa để tìm kiếm" />
+                                <button class="btn btn-primary">Search</button>
+                            </div>
+                            <input type="hidden" value="@tabIndex" name="tabIndex" />
+                        </form>
+
+                        @if (orders4.Any())
+                        {
+                            @foreach (OrderModel item in orders4)
+                            {
+                                <div class="card border shadow-none">
+                                    <div class="card-body">
+
+                                        <div class="row d-flex align-items-start border-bottom pb-3">
+                                            <div class="col-md-4">
+                                                <div class="flex-grow-1 align-self-center overflow-hidden ">
+                                                    <h5 class="text-truncate font-size-18">
+                                                        <i class="mdi mdi-cart-outline me-1"></i>
+                                                        Đơn hàng #@item.Index
+                                                    </h5>
+                                                    <div> <i class="bi-calendar me-2"></i>Ngày đặt: @item.OrderDate?.ToShortDateString()</div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-8 d-flex justify-content-end">
+                                                @if (item?.Status == "Đã mua")
+                                                {
+                                                    <div class="status-tag bg-green">@item?.Status</div>
+                                                }
+
+                                                @if (item?.Status == "Đang vận chuyển")
+                                                {
+                                                    <div class="status-tag bg-info">@item?.Status</div>
+                                                }
+
+                                                @if (item?.Status == "Chờ duyệt")
+                                                {
+                                                    <div class="status-tag bg-warning">@item?.Status</div>
+                                                }
+
+                                                @if (item?.Status == "Đã hủy")
+                                                {
+                                                    <div class="status-tag bg-danger">@item?.Status</div>
+                                                }
+
+                                                @if (item?.Status == "Vận chuyển thành công")
+                                                {
+                                                    <div class="status-tag bg-secondary">@item?.Status</div>
+                                                }
+                                            </div>
+                                        </div>
+                                        <div class="row mt-3">
+                                            <div class="col-md-4">
+                                                <p class="text-muted mb-2 js-format-price" data-price="@item.Total">Tổng: @item?.Total</p>
+                                            </div>
+                                            <div class="col-md-8 text-end">
+                                                <a asp-controller="Orders" asp-action="Details" asp-route-id="@item?.Index" class="btn btn-primary me-2">Đánh giá hóa đơn</a>
+                                                <a asp-controller="Orders" asp-action="Details" asp-route-id="@item?.Index" class="btn btn-info">Xem chi tiết</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                        }
+                        else
+                        {
+                            <p>Không tìm thấy hóa đơn.</p>
+                        }
+                    </div>
+                    <div class="tab-pane @(tabIndex == 5 ? "show active" : "fade")" id="nav-5" role="tabpanel" aria-labelledby="nav-5-tab">
+                        <form method="get" asp-controller="Orders" asp-action="Index">
+                            <div class="d-flex d-row">
+                                <input class="form-control me-2" name="keyword" value="@keyword" placeholder="Nhập từ khóa để tìm kiếm" />
+                                <button class="btn btn-primary">Search</button>
+                            </div>
+                            <input type="hidden" value="@tabIndex" name="tabIndex" />
+                        </form>
+                        @if (orders5.Any())
+                        {
+                            @foreach (OrderModel item in orders5)
+                            {
+                                <div class="card border shadow-none">
+                                    <div class="card-body">
+
+                                        <div class="row d-flex align-items-start border-bottom pb-3">
+                                            <div class="col-md-4">
+                                                <div class="flex-grow-1 align-self-center overflow-hidden ">
+                                                    <h5 class="text-truncate font-size-18">
+                                                        <i class="mdi mdi-cart-outline me-1"></i>
+                                                        Đơn hàng #@item.Index
+                                                    </h5>
+                                                    <div> <i class="bi-calendar me-2"></i>Ngày đặt: @item.OrderDate?.ToShortDateString()</div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-8 d-flex justify-content-end">
+                                                @if (item?.Status == "Đã mua")
+                                                {
+                                                    <div class="status-tag bg-green">@item?.Status</div>
+                                                }
+
+                                                @if (item?.Status == "Đang vận chuyển")
+                                                {
+                                                    <div class="status-tag bg-info">@item?.Status</div>
+                                                }
+
+                                                @if (item?.Status == "Chờ duyệt")
+                                                {
+                                                    <div class="status-tag bg-warning">@item?.Status</div>
+                                                }
+
+                                                @if (item?.Status == "Đã hủy")
+                                                {
+                                                    <div class="status-tag bg-danger">@item?.Status</div>
+                                                }
+
+                                                @if (item?.Status == "Vận chuyển thành công")
+                                                {
+                                                    <div class="status-tag bg-secondary">@item?.Status</div>
+                                                }
+                                            </div>
+                                        </div>
+                                        <div class="row mt-3">
+                                            <div class="col-md-4">
+                                                <p class="text-muted mb-2 js-format-price" data-price="@item.Total">Tổng: @item.Total</p>
+                                            </div>
+                                            <div class="col-md-8 text-end">
+
+                                                <a asp-controller="Orders" asp-action="Details" asp-route-id="@item.Index" class="btn btn-info">Xem chi tiết</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                        }
+                        else
+                        {
+                            <p>Không tìm thấy hóa đơn.</p>
+                        }
+                    </div>
+                </div>
+
+                <!-- end row -->
+
+            </div>
+        </div>
+    </section>
+    <iframe src="https://asia.creativecdn.com/tags?id=pr_n4X0y6ApZyJaHX1dNxQd&amp;ncm=1" width="1" height="1" scrolling="no" frameBorder="0" style="display: none;"></iframe>
+
+    <!-- Google Tag Manager -->
+    <script src="/js-css/web_v1.2.2.9.js"></script>
+    <script src="/Content/web/js/app.users.js?c=638546836954349887"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            var reqPath = '/account' + location.pathname.toLowerCase();
+            var hasActived = false;
+            $('nav ul li a').each(function (idx, value) {
+                var href = $(this).attr('href').toLowerCase();
+                if (href && reqPath.indexOf(href) >= 0) {
+                    $(this).addClass('actived');
+                    hasActived = true;
+                }
+            });
+
+            if (!hasActived) {
+                $('nav ul li:eq(0) a').addClass('actived');
+            }
+        });
+    </script>
+
+    <script src="https://hoanghamobile.com/Content/web/js/plugins/jquery-datepicker/datepicker.min.js"></script>
+    <link href="https://hoanghamobile.com/Content/web/js/plugins/jquery-datepicker/datepicker.min.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/bootbox@6.0.0/dist/bootbox.min.js"></script>
+</body>
+</html>
+<script>
+    sessionStorage.setItem('previousPageProfile', window.location.href);
+</script>

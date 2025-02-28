@@ -1,0 +1,254 @@
+﻿@{
+    Layout = null;
+    var mess = TempData["StatusMessage"] as string;
+    int? status = ViewBag.check;
+    bool? signupSuccess = TempData["SignupSuccess"] as bool?;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Đăng kí</title>
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.3/themes/base/jquery-ui.css">
+    <link rel="stylesheet" href="/css/Register/Style.css">
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script>
+        $(function () {
+            $("#datepicker").datepicker({
+                maxDate: new Date(),
+                dateFormat: "yy-mm-dd"
+            });
+        });
+    </script>
+
+    <link rel="preload"
+          as="script"
+          href="https://hoanghamobile.com/js-css/web_v1.2.2.4.js" />
+    <link rel="preload"
+          as="style"
+          href="https://hoanghamobile.com/js-css/web_v1.2.2.4.css" />
+    <link href="https://hoanghamobile.com/js-css/web_v1.2.2.4.css"
+          rel="stylesheet"
+          type="text/css" />
+</head>
+<body>
+    <div class="container">
+        <div class="login-form">
+            <div class="login-bg">
+                <img src="https://hoanghamobile.com/Content/web/img/login-bg.png" />
+            </div>
+
+            <div class="form">
+                <div class="center" style="text-align: center;margin-bottom: 10px">
+                    <h1>Đăng ký tài khoản</h1>
+                </div>
+
+                <div id="registerForm" class="hh-form">
+
+                    <div class="login-wrapper">
+
+                        <form id="registrationForm" asp-action="Register" method="post">
+                            <div class="form-controls">
+                                <label for="Username" class="sr-only">Tên đăng nhập</label>
+                                <div class="controls">
+                                    <input type="text" name="accounts.Username" required />
+                                </div>
+                            </div>
+
+                            <div class="form-controls">
+                                <label for="Password" class="sr-only">Mật khẩu</label>
+                                <div class="controls">
+                                    <input type="password" name="accounts.Password" required />
+                                </div>
+                            </div>
+
+                            <div class="form-controls">
+                                <label for="FullName" class="sr-only">Họ và tên</label>
+                                <div class="controls">
+                                    <input type="text" name="users.FullName" required />
+                                </div>
+                            </div>
+                            <div class="form-controls">
+                                <label for="Phone" class="sr-only">Số điện thoại</label>
+                                <div class="controls">
+                                    <input type="text" name="users.Phone" id="Phone" required />
+                                </div>
+                            </div>
+                            <div class="form-controls">
+                                <label for="Email" class="sr-only">Email</label>
+                                <div class="controls">
+                                    <input type="email" name="users.Email" required />
+                                </div>
+                            </div>
+                            <div class="form-controls">
+                                <label for="Gender" class="sr-only">Giới tính</label>
+                                <div class="controls">
+                                    <label class="radio-ctn">
+                                        <input type="radio" name="users.Gender" value="true" />
+                                        <span class="checkmark"></span>
+                                        <span><strong>Nam</strong></span>
+                                    </label>
+
+                                    <label class="radio-ctn">
+                                        <input type="radio" name="users.Gender" value="false" />
+                                        <span class="checkmark"></span>
+                                        <span><strong>Nữ</strong></span>
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="form-controls">
+                                <label for="Dob" class="sr-only">Ngày sinh</label>
+                                <div class="controls">
+                                    <input type="text" id="datepicker" style="width: 350px;" name="users.Dob" required />
+                                </div>
+                            </div>
+
+                            <div class="form-controls">
+                                <label>Tỉnh/Thành phố:</label>
+                                <div class="controls">
+                                    <select required name="SystemCityID"
+                                            id="SystemCityID"
+                                            placeholder="Tỉnh/Thành phố">
+                                        <option value=""> </option>
+
+                                    </select>
+                                    <input type="hidden" name="tinh" value="" />
+                                </div>
+                            </div>
+                            <div class="form-controls">
+                                <label>Quận/Huyện:</label>
+                                <div class="controls">
+                                    <select required id="SystemDistrictID"
+                                            name="SystemDistrictID"
+                                            placeholder="Quận/Huyện *"
+                                            data-required="1">
+                                        <option value=""> </option>
+                                    </select>
+                                    <input type="hidden" name="huyen" value="" />
+                                </div>
+                            </div>
+                            <div class="form-controls">
+                                <label>Xã/Phường:</label>
+                                <div class="controls">
+                                    <select required id="SystemCommuneID"
+                                            name="SystemCommuneID"
+                                            placeholder="Xã/Phường*"
+                                            data-required="1">
+                                        <option value=""> </option>
+                                    </select>
+
+                                    <input type="hidden" name="xa" value="" />
+                                </div>
+                            </div>
+                            <div class="form-controls">
+                                <div class="controls submit-controls" style="margin-top: 10px">
+                                    <button id="submitButton" style="background: rgb(1, 114, 71); font-size: medium" type="submit">
+                                        Xác Nhận
+                                    </button>
+                                </div>
+                            </div>
+                            <br />
+
+                        </form>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"
+                integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g=="
+                crossorigin="anonymous"
+                referrerpolicy="no-referrer"></script>
+
+        <script src="https://hoanghamobile.com/Content/web/js/plugins/jquery-datepicker/datepicker.min.js"></script>
+        <link href="https://hoanghamobile.com/Content/web/js/plugins/jquery-datepicker/datepicker.min.css"
+              rel="stylesheet" />
+
+        <script>
+            $(document).ready(function () {
+                //Lấy tỉnh thành
+                $.getJSON('https://esgoo.net/api-tinhthanh/1/0.htm', function (data_tinh) {
+                    if (data_tinh.error == 0) {
+                        $.each(data_tinh.data, function (key_tinh, val_tinh) {
+                            $("#SystemCityID").append('<option value="' + val_tinh.id + '">' + val_tinh.full_name + '</option>');
+                        });
+                        $("#SystemCityID").change(function (e) {
+                            var idtinh = $(this).val();
+                            $('input[name="tinh"]').val($('#SystemCityID option:selected').text());
+
+                            //Lấy quận huyện
+                            $.getJSON('https://esgoo.net/api-tinhthanh/2/' + idtinh + '.htm', function (data_quan) {
+                                if (data_quan.error == 0) {
+                                    $("#SystemDistrictID").html('<option value="0"></option>');
+                                    $("#SystemCommuneID").html('<option value="0"></option>');
+                                    $.each(data_quan.data, function (key_quan, val_quan) {
+                                        $("#SystemDistrictID").append('<option value="' + val_quan.id + '">' + val_quan.full_name + '</option>');
+                                    });
+                                    //Lấy phường xã
+                                    $("#SystemDistrictID").change(function (e) {
+                                        var idquan = $(this).val();
+
+                                        $('input[name="huyen"]').val($('#SystemDistrictID option:selected').text());
+                                        $.getJSON('https://esgoo.net/api-tinhthanh/3/' + idquan + '.htm', function (data_phuong) {
+                                            if (data_phuong.error == 0) {
+                                                $("#SystemCommuneID").html('<option value="0"></option>');
+                                                $.each(data_phuong.data, function (key_phuong, val_phuong) {
+                                                    $("#SystemCommuneID").append('<option value="' + val_phuong.id + '">' + val_phuong.full_name + '</option>');
+                                                });
+                                            }
+                                            $("#SystemCommuneID").change(function (e) {
+                                                $('input[name="xa"]').val($('#SystemCommuneID option:selected').text());
+                                            });
+                                        });
+                                    });
+
+                                }
+                            });
+                        });
+
+                    }
+                });
+
+                $("#registrationForm").submit(function (event) {
+                    var phone = $("#Phone").val();
+                    var dob = $("#datepicker").val();
+                    var city = $("#SystemCityID").val();
+                    var district = $("#SystemDistrictID").val();
+                    var commune = $("#SystemCommuneID").val();
+                    var gender = $("input[name='users.Gender']:checked").val();
+                    var errorMessage = "";
+
+
+                    if (!/^\d{10}$/.test(phone)) {
+                        errorMessage += "Số điện thoại phải đủ 10 chữ số.\n";
+                    }
+
+
+                    var today = new Date().toISOString().split('T')[0];
+                    if (new Date(dob) >= new Date(today)) {
+                        errorMessage += "Ngày sinh phải trước ngày hiện tại.\n";
+                    }
+
+
+                    if (!city || city == "0" || !district || district == "0" || !commune || commune == "0") {
+                        errorMessage += "Vui lòng chọn đủ Tỉnh/Thành phố, Quận/Huyện, Xã/Phường.\n";
+                    }
+
+
+                    if (!gender) {
+                        errorMessage += "Vui lòng chọn giới tính.\n";
+                    }
+
+                    if (errorMessage) {
+                        alert(errorMessage);
+                        event.preventDefault();
+                    }
+                });
+            });
+        </script>
+
+
+    </div>
+</body>
+</html>

@@ -1,0 +1,898 @@
+﻿@model User
+@{
+    Layout = null;
+    string regexEmail = @"/^[^\s@]*@[^\s@]*\.[^\s@]*$/";
+
+}
+<!doctype html>
+<html>
+<head>
+
+    <meta charset="utf-8">
+    <meta name="author" content="hoanghamobile.com">
+    <meta property='og:site_name' content='hoanghamobile.com' />
+    <meta name="google-site-verification" content="JOFGGI7j9vWfBf-xpElM5Tec0UJ1k_CfdNjpaHm5z10" />
+    <meta name="msvalidate.01" content="5C8CDF0992489498A30F9E5F6668A4D5" />
+    <meta name="geo.placename" content="Hanoi, Hoàn Kiếm, Hanoi, Vietnam" />
+    <meta name="geo.position" content="21.017249242314964;105.84134504199028" />
+    <meta name="geo.region" content="VN-Hanoi" />
+    <meta name="ICBM" content="21.017249242314964, 105.84134504199028" />
+
+    <title>Th&#244;ng tin t&#224;i khoản</title>
+    <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+    <link rel="preload" href="/Content/web/fonts/Segoe UI/Segoe UI.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="/Content/web/fonts/Segoe UI/Segoe UI Italic.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="/Content/web/fonts/Segoe UI/Segoe UI Bold.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="/Content/web/fonts/Segoe UI/Segoe UI Bold Italic.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="/Content/web/fonts/Segoe UI/Segoe UI Semilight.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="/Content/web/fonts/Segoe UI/Segoe UI Semilight Italic.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="/Content/web/fonts/icon/fonts/hoangha.woff" as="font" type="font/woff" crossorigin>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <link rel="preload" as="style" href="~/css/UserProfile/main.css">
+    <link href="~/css/UserProfile/main2.css" rel="stylesheet" type="text/css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/izimodal/1.6.1/js/iziModal.min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/izimodal/1.6.1/css/iziModal.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.15.2/css/selectize.default.min.css"
+          integrity="sha512-pTaEn+6gF1IeWv3W1+7X7eM60TFu/agjgoHmYhAfLEU8Phuf6JKiiE8YmsNC0aCgQv4192s4Vai8YZ6VNM6vyQ=="
+          crossorigin="anonymous"
+          referrerpolicy="no-referrer" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.15.2/js/selectize.min.js"
+            integrity="sha512-IOebNkvA/HZjMM7MxL0NYeLYEalloZ8ckak+NDtOViP7oiYzG5vn6WVXyrJDiJPhl4yRdmNAG49iuLmhkUdVsQ=="
+            crossorigin="anonymous"
+            referrerpolicy="no-referrer"></script>
+    <style>
+        .product-center .current-product-price label.text-green {
+            display: none
+        }
+
+        .btn-pass {
+            appearance: button;
+            backface-visibility: hidden;
+            background-color: #405cf5;
+            border-radius: 6px;
+            border-width: 0;
+            box-shadow: rgba(50, 50, 93, .1) 0 0 0 1px inset,rgba(50, 50, 93, .1) 0 2px 5px 0,rgba(0, 0, 0, .07) 0 1px 1px 0;
+            box-sizing: border-box;
+            color: #fff;
+            cursor: pointer;
+            font-family: -apple-system,system-ui,"Segoe UI",Roboto,"Helvetica Neue",Ubuntu,sans-serif;
+            font-size: 100%;
+            height: 44px;
+            line-height: 1.15;
+            margin: 12px 0 0;
+            outline: none;
+            overflow: hidden;
+            padding: 0 25px;
+            position: relative;
+            text-align: center;
+            text-transform: none;
+            transform: translateZ(0);
+            transition: all .2s,box-shadow .08s ease-in;
+            user-select: none;
+            -webkit-user-select: none;
+            touch-action: manipulation;
+            width: 100%;
+        }
+
+        .button-9:disabled {
+            cursor: default;
+        }
+
+        .button-9:focus {
+            box-shadow: rgba(50, 50, 93, .1) 0 0 0 1px inset, rgba(50, 50, 93, .2) 0 6px 15px 0, rgba(0, 0, 0, .1) 0 2px 2px 0, rgba(50, 151, 211, .3) 0 0 0 4px;
+        }
+
+        .profileTile-contain {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .btn-profile {
+            margin-bottom: 10px;
+        }
+
+        .iziModal-content {
+            text-align: center;
+            padding-bottom: 20px;
+        }
+
+        .modal-content {
+            padding-bottom: 16px;
+        }
+
+        #otpInput {
+            width: 84%;
+            border-radius: 3px;
+            border: 1px solid #ddd;
+            margin-bottom: 26px;
+            padding: 15px;
+            font-size: 14px;
+            text-align: center;
+        }
+
+        #verifyOTP {
+            background: #28CA97;
+            color: white;
+            margin: 0;
+            border: 0;
+            cursor: pointer;
+            width: 33%;
+            height: 28px;
+            border-radius: 3px;
+        }
+
+        #old-password {
+            width: 88%;
+            border-radius: 3px;
+            border: 1px solid #ddd;
+            margin-bottom: 26px;
+            padding: 15px;
+            font-size: 14px;
+        }
+
+        .btn-modal-contain {
+            height: 50px;
+            padding: 0 30px;
+        }
+
+        #btn-old {
+            background: #28CA97;
+            color: white;
+            margin: 0;
+            border: 0;
+            cursor: pointer;
+            width: 50%;
+            height: 32px;
+            float: left;
+            border-radius: 3px 0 0 3px;
+        }
+
+        #old-cancel {
+            color: white;
+            margin: 0;
+            border: 0;
+            cursor: pointer;
+            width: 50%;
+            height: 32px;
+            float: left;
+            border-radius: 0px 3px 3px 0px;
+            background: #aaa;
+        }
+
+        #new-password {
+            width: 88%;
+            border-radius: 3px;
+            border: 1px solid #ddd;
+            margin-bottom: 26px;
+            padding: 15px;
+            font-size: 14px;
+        }
+
+        #re-new-password {
+            width: 88%;
+            border-radius: 3px;
+            border: 1px solid #ddd;
+            margin-bottom: 26px;
+            padding: 15px;
+            font-size: 14px;
+        }
+
+        #btn-change {
+            background: #28CA97;
+            color: white;
+            margin: 0;
+            border: 0;
+            cursor: pointer;
+            width: 50%;
+            height: 32px;
+            float: left;
+            border-radius: 3px 0 0 3px;
+        }
+
+        #change-cancel {
+            background: #aaa;
+            color: white;
+            margin: 0;
+            border: 0;
+            cursor: pointer;
+            width: 50%;
+            height: 32px;
+            float: left;
+            border-radius: 0 3px 3px 0;
+        }
+    </style>
+    <script>
+        $(function () {
+            $("#dob").datepicker();
+        });
+    </script>
+
+
+    <title>Chỉnh sửa thông tin người dùng</title>
+    <link href="https://hoanghamobile.com/Content/web/css/styles.users.css?c=638546836954349887" rel="stylesheet" />
+
+</head>
+
+<body class="account">
+
+    <section class="account">
+        <div class="sidebar">
+            <div class="ctn">
+                <div class="header">
+                    <div class="logo" style="
+                         background-color: gray;
+                         opacity: 0.3;
+                         padding: 13px;
+                         border-radius: 4px;
+                         margin-bottom: 21px" ;>
+                        <a href="javascript:void(0);" onclick="goBack()"><img src="~/images/logo/image-removebg-preview (2).png" alt="Hoàng Hà Mobile" /></a>
+                    </div>
+
+                    <div class="info">
+                        <div class="avt" id="myAvatar">
+                            <strong>N</strong>
+                        </div>
+
+                        <div class="summer" style="margin:auto 0;">
+                            <p><strong id="name-user2">@Model.FullName</strong></p>
+                        </div>
+                    </div>
+                </div>
+                <nav>
+                    <ul>
+                        <li><a asp-controller="Profile" asp-action="ProfileScreen" class="actived"><i class="fa-regular fa-user"></i><span>Thông tin tài khoản</span></a></li>
+                        @if (ViewBag.roleId == 1)
+                        {
+                            <li><a asp-controller="Orders" asp-action="Index"><i class="fa-solid fa-cart-shopping"></i><span>Đơn hàng của bạn</span></a></li>
+                        }
+                        <li><a asp-controller="Login" asp-action="Logout"><i class="fa-solid fa-right-from-bracket"></i><span>Đăng xuất</span></a></li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+        <div class="body-content">
+
+
+
+            <h1>Th&#244;ng tin t&#224;i khoản</h1>
+
+            <div class="header">
+                <div class="bg">
+                    <div class="text">
+                        <h2>CHÀO MỪNG QUAY TRỞ LẠI, <span id="name-user1">@Model.FullName</span></h2>
+                        <p><i>Kiểm tra và chỉnh sửa thông tin cá nhân của bạn tại đây</i></p>
+                    </div>
+                </div>
+                <div class="icon">
+                    <img src="https://hoanghamobile.com/Content/web/content-icon/icon-account-info.png" />
+                </div>
+            </div>
+
+
+
+            <div class="account-layout ">
+                <div class="row equaHeight" data-obj=".col .box-bg-white">
+                    <div class="col col-lg">
+                        <div class="profileTile-contain">
+                            <div class="title-profile">
+                                <h3>Cập nhật thông tin cá nhân</h3>
+
+                            </div>
+                            @if (ViewBag.googleCheck == false)
+                            {
+                                <div class="btn-profile">
+
+                                    <button class="btn-pass">Đổi mật khẩu</button>
+                                </div>
+
+                            }
+                        </div>
+                        <div class="box-bg-white">
+                            <div class="account-form">
+                                <div class="form-controls">
+                                    <label>Họ tên:</label>
+                                    <div class="controls">
+                                        <input type="text" value="" name="FullName" id="fullname" placeholder="Họ tên *" />
+                                    </div>
+                                </div>
+
+                                <div class="form-controls">
+                                    <label>Giới tính:</label>
+                                    <div class="controls">
+                                        <label class="radio-ctn">
+                                            <input type="radio" name="Sex" id="male" value="true">
+                                            <span class="checkmark"></span>
+                                            <span><strong>Nam</strong></span>
+                                        </label>
+
+                                        <label class="radio-ctn">
+                                            <input type="radio" name="Sex" value="false" id="female">
+                                            <span class="checkmark"></span>
+                                            <span><strong>Nữ</strong></span>
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="form-controls">
+                                    <label>Điện thoại:</label>
+                                    <div class="controls">
+                                        <input type="tel" value="" name="Phone" id="Phone" placeholder="Điện thoại *" />
+                                    </div>
+                                </div>
+
+                                    <div class="form-controls">
+                                        <label>Email:</label>
+                                        <div class="controls">
+                                        <input type="text" value="" name="Email" id="Email" placeholder="Email *" data-required="1" @(ViewBag.googleCheck == true ? "readonly" : "") />
+                                        </div>
+                                    </div>
+                                    <div class="form-controls">
+                                        <label>Tỉnh/Thành phố:</label>
+                                        <div class="controls">
+                                            <select name="city_id" id="city_id" placeholder="Tỉnh/Thành phố">
+                                                <option>Chọn tỉnh/thành phố</option>
+
+                                        </select>
+                                        <input type="hidden" id="tinh" name="tinh" value="" />
+                                    </div>
+                                </div>
+
+                                <div class="form-controls">
+                                    <label>Quận/Huyện:</label>
+                                    <div class="controls">
+                                        <select id="province_id" name="province_id" placeholder="Quận/Huyện *">
+                                            <option value="">Chọn quận/Huyện *</option>
+                                        </select>
+                                        <input type="hidden" id="huyen" name="huyen" value="" />
+                                    </div>
+                                </div>
+
+                                <div class="form-controls">
+                                    <label>Quận/Huyện:</label>
+                                    <div class="controls">
+                                        <select id="commune_id" name="commune_id" placeholder="Chọn Xã/Phường *">
+                                            <option value="">Chọn Xã/Phường *</option>
+                                        </select>
+                                        <input type="hidden" id="xa" name="xa" value="" />
+                                    </div>
+                                </div>
+
+                                <div class="form-controls">
+                                    <label>Ngày tháng năm sinh:</label>
+                                    <div class="controls">
+                                        <input type="text" value="" name="Dob" id="dob" placeholder="Ngày tháng năm sinh" />
+                                    </div>
+                                </div>
+
+                                <div class="form-controls">
+                                    <div class="controls submit-controls">
+                                        <button id="btn-submit">XÁC NHẬN</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col col-sm" style="margin-top:65px;">
+
+                        <div class="box-bg-white">
+                            <div class="user-sticker">
+
+                                <div class="user-acc-links">
+                                    <h3>Sonic Store</h3>
+                                    <p>Cửa hàng điện thoại uy tín số 1 Việt Nam chuyên bán máy chính hãng , chất lượng tốt , phục vụ tận tận tình mọi lúc mọi nơi.</p>
+                                    <div class="acc">
+
+                                        <button class="btn-extlogin btn-facebook" title="Liên kết tài khoản Facebook" type="submit" id="Facebook" name="provider" value="Facebook">
+                                            <i class="fa-solid fa-phone"></i> 0977251662
+                                        </button>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+
+
+        </div>
+        <div id="modal-otp" class="iziModal" style="display: none;">
+            <div class="modal-content">
+                <h2>Xác thực OTP</h2>
+                <p>Vui lòng nhập mã OTP đã được gửi đến email của bạn.</p>
+                <input type="text" id="otpInput" placeholder="Nhập mã OTP">
+                <button id="verifyOTP">Xác nhận</button>
+            </div>
+        </div>
+        <div id="modal-old-password" class="iziModal" style="display: none;">
+            <div class="modal-content1">
+                <h2>Đổi mật khẩu</h2>
+                <p>Nhập mật khẩu hiện tại .</p>
+                <div>
+                    <div>
+                        <input type="password" id="old-password" placeholder="Mật khẩu">
+                    </div>
+                    <div class="btn-modal-contain">
+                        <button id="btn-old">Xác nhận</button>
+                        <button id="old-cancel">Hủy bỏ</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="modal-change-password" class="iziModal" style="display: none;">
+            <div class="modal-content1">
+                <h2>Đổi mật khẩu</h2>
+                <p>Nhập mật khẩu mới .</p>
+                <div>
+                    <div>
+                        <input type="password" id="new-password" placeholder="Mật khẩu mới">
+                        <input type="password" id="re-new-password" placeholder="Nhập lại mật khẩu mới">
+                    </div>
+                    <div class="btn-modal-contain">
+                        <button id="btn-change">Xác nhận</button>
+                        <button id="change-cancel">Hủy bỏ</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="alertModal" style="display: none;">
+        </div>
+        <div id="successAlertModal" style="display: none;">
+        </div>
+    </section>
+
+
+    <iframe src="https://asia.creativecdn.com/tags?id=pr_n4X0y6ApZyJaHX1dNxQd&amp;ncm=1" width="1" height="1" scrolling="no" frameBorder="0" style="display: none;"></iframe>
+
+
+
+
+
+
+
+
+    <!-- Google Tag Manager -->
+
+
+    <script src="/js-css/web_v1.2.2.9.js"></script>
+
+
+    <script src="/Content/web/js/app.users.js?c=638546836954349887"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            var reqPath = '/account' + location.pathname.toLowerCase();
+            var hasActived = false;
+            $('nav ul li a').each(function (idx, value) {
+                var href = $(this).attr('href').toLowerCase();
+                if (href && reqPath.indexOf(href) >= 0) {
+                    $(this).addClass('actived');
+                    hasActived = true;
+                }
+            });
+
+            if (!hasActived) {
+                $('nav ul li:eq(0) a').addClass('actived');
+            }
+        });
+    </script>
+
+    <script src="https://hoanghamobile.com/Content/web/js/plugins/jquery-datepicker/datepicker.min.js"></script>
+    <link href="https://hoanghamobile.com/Content/web/js/plugins/jquery-datepicker/datepicker.min.css" rel="stylesheet" />
+    <script type="text/javascript">
+        $(document).ready(function () {
+            init_cityChange(360);
+            $('#UserBirthDate').datepicker({ format: 'dd/mm/yyyy' });
+        });
+    </script>
+    <script>
+        $(document).ready(function () {
+
+            function loadData() {
+                $.ajax({
+                    url: '/loadData-user',
+                    type: 'GET',
+                    dataType: 'json',
+                    success: function (response) {
+                        $('#fullname').val(response.fullName);
+                        if (response.gender == "true") {
+                            $('#male').prop('checked', true);
+                        }
+                        if (response.gender == "false") {
+                            $('#female').prop('checked', true);
+                        }
+                        $('#Phone').val(response.phone);
+                        $('#Email').val(response.email);
+                        $('#dob').val(response.dob);
+                        var address = response.address;
+                        var city = address[2].trim();
+                        var district = address[1].trim();
+                        var commune = address[0].trim();
+                        console.log(city);
+                        console.log(district);
+                        console.log(commune);
+                        console.log(address);
+                        if (response.flag == false) {
+                            $('#checkAddress').prop('checked', false);
+                        }
+                        function loadDistricts(idtinh, selectedDistrict) {
+                            $.getJSON('https://esgoo.net/api-tinhthanh/2/' + idtinh + '.htm', function (data_quan) {
+                                if (data_quan.error == 0) {
+                                    $("#province_id").html('<option value="0">Quận Huyện</option>');
+                                    $("#commune_id").html('<option value="0">Phường Xã</option>');
+                                    $.each(data_quan.data, function (key_quan, val_quan) {
+                                        $("#province_id").append('<option value="' + val_quan.id + '">' + val_quan.full_name + '</option>');
+                                        if (selectedDistrict && val_quan.full_name.trim() === selectedDistrict.trim()) {
+                                            $("#province_id").val(val_quan.id);
+
+                                            $("#huyen").val(val_quan.full_name.trim());
+                                            loadCommunes(val_quan.id, commune);
+                                        }
+                                    });
+                                }
+                            });
+                        }
+
+                        function loadCommunes(idquan, selectedCommune) {
+                            $.getJSON('https://esgoo.net/api-tinhthanh/3/' + idquan + '.htm', function (data_phuong) {
+                                if (data_phuong.error == 0) {
+                                    $("#commune_id").html('<option value="0">Phường Xã</option>');
+                                    $.each(data_phuong.data, function (key_phuong, val_phuong) {
+                                        $("#commune_id").append('<option value="' + val_phuong.id + '">' + val_phuong.full_name + '</option>');
+                                        if (selectedCommune && val_phuong.full_name.trim() === selectedCommune.trim()) {
+                                            $("#commune_id").val(val_phuong.id);
+
+                                            $("#xa").val(val_phuong.full_name.trim());
+                                        }
+                                    });
+                                }
+                            });
+                        }
+
+                        $.getJSON('https://esgoo.net/api-tinhthanh/1/0.htm', function (data_tinh) {
+                            console.log(data_tinh);
+                            if (data_tinh.error == 0) {
+                                $("#city_id").html('<option value="">Chọn tỉnh/thành phố</option>');
+                                $.each(data_tinh.data, function (key_tinh, val_tinh) {
+                                    $("#city_id").append('<option value="' + val_tinh.id + '">' + val_tinh.full_name + '</option>');
+                                    if (val_tinh.full_name.trim() === city) {
+                                        $("#city_id").val(val_tinh.id);
+
+                                        $("#tinh").val(val_tinh.full_name.trim());
+                                        loadDistricts(val_tinh.id, district);
+                                    }
+                                });
+                            }
+                        });
+
+                        $("#city_id").change(function (e) {
+                            var idtinh = $(this).val();
+                            var selectedText = $("#city_id option:selected").text();
+                            $("#tinh").val(selectedText);
+                            $('#huyen').val('');
+                            $('#xa').val('');
+                            if (idtinh) {
+                                loadDistricts(idtinh, null);
+                            }
+                        });
+
+                        $("#province_id").change(function (e) {
+                            var idquan = $(this).val();
+                            var selectedText = $("#province_id option:selected").text();
+                            $("#huyen").val(selectedText);
+                            if (idquan) {
+                                loadCommunes(idquan, null);
+                            }
+                        });
+
+                        $("#commune_id").change(function (e) {
+                            var selectedText = $("#commune_id option:selected").text();
+                            $("#xa").val(selectedText);
+                        });
+
+
+                        if (commune) {
+                            $("#xa").val(commune);
+                        }
+
+                    },
+                    error: function (err) {
+                        console.log(err);
+                    }
+                });
+            }
+            function SaveDataAjax() {
+                var fullName = $('#fullname').val();
+                var email = $('#Email').val();
+                var gender = $('input[name="Sex"]:checked').val();
+                var dob = $('#dob').val();
+                var phone = $('#Phone').val();
+                var tinh = $('#tinh').val();
+                var huyen = $('#huyen').val();
+                var xa = $('#xa').val();
+                var userInput = {
+                    fullName: fullName,
+                    email: email,
+                    gender: gender,
+                    dob: dob,
+                    phone: phone,
+                    tinh: tinh,
+                    huyen: huyen,
+                    xa: xa
+                }
+                if (!checkValidFullname(fullName)) {
+                    showAlert('Tên không hợp lệ');
+                    return;
+                }
+                if (!fullName || fullName.trim() === "") {
+                    showAlert('Vui lòng nhập tên của bạn');
+                    return;
+                }
+                if (!checkValidPhone(phone)) {
+                    showAlert('Số điện thoại không hợp lệ');
+
+                    return;
+                }
+                if (!checkValidEmail(email)) {
+                    showAlert('Email không hợp lệ');
+
+                    return;
+                }
+                if (!xa || !huyen || !tinh || xa.trim() === "" || huyen.trim() === "" || tinh.trim() === "") {
+                    showAlert('Bạn chưa chọn địa chỉ');
+                    return;
+                }
+                var dobDate = new Date(dob);
+                var currentDate = new Date();
+                if (dobDate > currentDate) {
+                    showAlert('Ngày sinh không được lớn hơn ngày hiện tại');
+                    return;
+                }
+                $.ajax({
+                    url: '/save-user',
+                    data: {
+                        strUser: JSON.stringify(userInput)
+                    },
+                    type: 'POST',
+                    dataType: 'json',
+                    success: function (response) {
+                        if (response.status === 5) {
+                            showOTPModal(userInput);
+                        } else if (response.status === 1) {
+                            $('#name-user1').text(fullName);
+                            $('#name-user2').text(fullName);
+                            loadData();
+                            showSuccessAlert("Thông tin đã được cập nhật thành công");
+                        } else if (response.status === 2) {
+                            $('#Phone').val(response.phone);
+                            showAlert("Số điện thoại đã tồn tại");
+                        } else if (response.status === 3) {
+                            $('#Email').val(response.email);
+                            showAlert("Email đã tồn tại");
+                        } else if (response.status === 4) {
+                            $('#Phone').val(response.phone);
+                            $('#Email').val(response.email);
+                            showAlert("Email và số điện thoại đã tồn tại");
+                        }
+                    },
+                    error: function (err) {
+                        console.log(err);
+                    }
+                });
+            }
+            function showOTPModal(userInput) {
+                openOtpModal();
+                $(document).off('click', '#verifyOTP').on('click', '#verifyOTP', function () {
+                    console.log('Verify OTP clicked');
+                    var otpInput = $('#otpInput').val();
+                    console.log('Sending OTP:', otpInput);
+                    console.log('Sending User Input:', userInput);
+                    $.ajax({
+                        url: '/verify-otp-profile',
+                        data: {
+                            otp: otpInput,
+                            strUser: JSON.stringify(userInput)
+                        },
+                        type: 'POST',
+                        dataType: 'json',
+                        success: function (response) {
+                            if (response.status === 1) {
+                                $("#modal-otp").iziModal('close');
+                                alert('Xác thực thành công. Thông tin đã được cập nhật.');
+                                loadData();
+                            } else {
+                                alert('Mã OTP không chính xác. Vui lòng thử lại.');
+                            }
+                        },
+                        error: function (xhr, status, error) {
+                            console.error('Verify OTP error:', xhr);
+                            console.log('Status:', status);
+                            console.log('Error:', error);
+                            if (xhr.responseJSON) {
+                                console.error('Error :', xhr.responseJSON.message);
+                            } else {
+                                console.error('Error:', xhr.responseText);
+                            }
+                        }
+                    });
+                });
+            }
+            function checkOldPassword(password) {
+                $.ajax({
+                    url: 'old-password',
+                    data: {
+                        password: password
+                    },
+                    type: 'POST',
+                    dataType: 'json',
+                    success: function (response) {
+                        if (response.status == 1) {
+                            $("#modal-old-password").iziModal('close');
+                            changePasswordAjax();
+                        } else {
+                            showAlert('Mật khẩu không chính xác');
+                        }
+                    },
+                    error: function (err) {
+                        console.log(err);
+                    }
+                });
+            }
+            function changePasswordAjax() {
+                showChangePass('Nhập mật khẩu mới');
+                $(document).off('click', '#btn-change').on('click', '#btn-change', function () {
+                    var newPassword = $('#new-password').val();
+                    var reNewPassword = $('#re-new-password').val();
+                    if (!reNewPassword || !newPassword || newPassword.trim() === "" || reNewPassword.trim() === 0) {
+                        showAlert('Không được để trống');
+                        return;
+                    }
+                    if (newPassword !== reNewPassword) {
+                        showAlert('Mật khẩu không khớp');
+                        return;
+                    }
+                    $.ajax({
+                        url: '/change-password',
+                        data: {
+                            password: reNewPassword
+                        },
+                        type: 'POST',
+                        dataType: 'json',
+                        success: function (response) {
+                            $("#modal-change-password").iziModal('close');
+                            if (response.status == 1) {
+                                showSuccessAlert('Thay đổi mật khẩu thành công');
+
+                            }
+                        },
+                        error: function (err) {
+                            console.log(err);
+                        }
+                    });
+                });
+
+            }
+            function updateUserInfo(user) {
+                $('#fullname').val(user.fullName);
+                $('#Email').val(user.email);
+                $(`input[name="Sex"][value="${user.gender}"]`).prop('checked', true);
+                $('#dob').val(user.dob);
+                $('#Phone').val(user.phone);
+            }
+            $(document).on('click', '#btn-submit', function () {
+                SaveDataAjax();
+            });
+            $(document).on('click', '#btn-old', function () {
+                var password = $('#old-password').val();
+                checkOldPassword(password);
+            });
+            $(document).on('click', '.btn-pass', function () {
+                showOldPass('Nhập mật khẩu cũ');
+            });
+            $(document).on('click', '#old-cancel', function () {
+                $("#modal-old-password").iziModal('close');
+            });
+            $(document).on('click', '#change-cancel', function () {
+                $("#modal-change-password").iziModal('close');
+            });
+            $("#modal-old-password").iziModal({
+                title: 'Thông Báo',
+                subtitle: 'Đây là thông báo của bạn',
+                headerColor: '#88A0B9',
+                width: 500,
+                transitionIn: 'fadeInUp',
+                transitionOut: 'fadeOutDown',
+                overlayClose: false
+            });
+            $("#modal-change-password").iziModal({
+                title: 'Thông Báo',
+                subtitle: 'Đây là thông báo của bạn',
+                headerColor: '#88A0B9',
+                width: 500,
+                transitionIn: 'fadeInUp',
+                transitionOut: 'fadeOutDown',
+                overlayClose: false
+            });
+            $("#alertModal").iziModal({
+                title: 'Thông Báo',
+                subtitle: 'Đây là thông báo của bạn',
+                headerColor: '#88A0B9',
+                width: 600,
+                timeout: 5000,
+                timeoutProgressbar: true,
+                transitionIn: 'fadeInUp',
+                transitionOut: 'fadeOutDown'
+            });
+            $("#successAlertModal").iziModal({
+                title: 'Thành Công',
+                subtitle: '',
+                headerColor: '#4CAF50',
+                width: 600,
+                timeout: 5000,
+                timeoutProgressbar: true,
+                transitionIn: 'fadeInUp',
+                transitionOut: 'fadeOutDown',
+
+            });
+            $("#modal-otp").iziModal({
+                title: 'Xác thực OTP',
+                subtitle: '',
+                headerColor: '#00af66',
+                width: 400,
+                overlayColor: 'rgba(0, 0, 0, 0.6)',
+                transitionIn: 'fadeInUp',
+                transitionOut: 'fadeOutDown',
+                overlayClose: false
+            });
+            function showAlert(message) {
+                $("#alertModal").iziModal('setSubtitle', message);
+                $("#alertModal").iziModal('open');
+            }
+            function showSuccessAlert(message) {
+                $("#successAlertModal").iziModal('setSubtitle', message);
+                $("#successAlertModal").iziModal('open');
+            }
+            function showOldPass(message) {
+                $("#modal-old-password").iziModal('setSubtitle', message);
+                $("#modal-old-password").iziModal('open');
+            }
+            function showChangePass(message) {
+                $("#modal-change-password").iziModal('setSubtitle', message);
+                $("#modal-change-password").iziModal('open');
+            }
+            function openOtpModal() {
+                $("#modal-otp").iziModal('open');
+            }
+            function checkValidPhone(phone) {
+                var phoneRegex = /^0[0-9]{9,10}$/;
+                return phoneRegex.test(phone);
+            }
+            function checkValidEmail(email) {
+                var emailRegex = @regexEmail;
+                return emailRegex.test(email);
+            }
+            function checkValidFullname(name) {
+                var fullnameRegex = /^[a-zA-ZÃ€ÃÃ‚ÃƒÃˆÃ‰ÃŠÃŒÃÃ’Ã“Ã”Ã•Ã™ÃšÄ‚ÄÄ¨Å¨Æ Ã Ã¡Ã¢Ã£Ã¨Ã©ÃªÃ¬Ã­Ã²Ã³Ã´ÃµÃ¹ÃºÄƒÄ‘Ä©Å©Æ¡Æ¯Ä‚áº áº¢áº¤áº¦áº¨áºªáº¬áº®áº°áº²áº´áº¶áº¸áººáº¼á»€á»€á»‚áº¾Æ°Äƒáº¡áº£áº¥áº§áº©áº«áº­áº¯áº±áº³áºµáº·áº¹áº»áº½á»á»á»ƒáº¿á»„á»†á»ˆá»Šá»Œá»Žá»á»’á»”á»–á»˜á»šá»œá»žá» á»¢á»¤á»¦á»¨á»ªá»…á»‡á»‰á»‹á»á»á»‘á»“á»•á»—á»™á»›á»á»Ÿá»¡á»£á»¥á»§á»©á»«á»¬á»®á»°á»²á»´Ãá»¶á»¸á»­á»¯á»±á»³á»µá»·á»¹\s\W|_]{3,30}$/;
+                return fullnameRegex.test(name);
+            }
+            loadData();
+        });
+    </script>
+    <script>
+        function goBack() {
+            var previousPage = sessionStorage.getItem('previousPageProfile');
+            if (previousPage) {
+                window.location.href = previousPage;
+            } else {
+                window.history.back();
+            }
+        }
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootbox@6.0.0/dist/bootbox.min.js"></script>
+
+</body>
+</html>
+

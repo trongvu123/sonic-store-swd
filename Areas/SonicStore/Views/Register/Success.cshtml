@@ -1,0 +1,59 @@
+﻿@{
+    Layout = null;
+    var statusMessage = TempData["StatusMessage"] as string;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Thành công</title>
+    <style>
+        .container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f7f7f7;
+        }
+
+        .message-box {
+            background: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+            .message-box h2 {
+                color: #333;
+            }
+
+            .message-box p {
+                color: #333;
+            }
+
+            .message-box a {
+                display: inline-block;
+                margin-top: 20px;
+                padding: 10px 20px;
+                background-color: #007bff;
+                color: #fff;
+                text-decoration: none;
+                border-radius: 5px;
+            }
+
+                .message-box a:hover {
+                    background-color: #0056b3;
+                }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="message-box">
+            <h2>Thông báo</h2>
+            <p>@statusMessage</p>
+            <a asp-action="Index" asp-controller="Login">Trở lại trang đăng nhập</a>
+        </div>
+    </div>
+</body>
+</html>

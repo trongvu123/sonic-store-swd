@@ -1,0 +1,616 @@
+﻿<link href="~/css/PageDesign/cart-address-screen.css" rel="stylesheet" />
+<link href="~/css/PageDesign/form-change-address.css" rel="stylesheet" />
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<link href="https://cdn.jsdelivr.net/npm/pretty-checkbox@3.0/dist/pretty-checkbox.min.css" rel="stylesheet" />
+<title>Change Address</title>
+<style>
+    body{
+        display:flex;
+        flex-direction: column;
+    }
+    body{
+        min-height:100vh;
+        margin:0;
+    }
+    main{
+        flex:1;
+    }
+</style>
+<main>
+<section>
+    <div class="grid">
+            <div style="display:flex; justify-content:space-between;">
+            <div class="title">2. Địa chỉ giao hàng</div>
+                <div style="margin-top:14px; cursor:pointer" onclick="goBack()">
+                    <span>Quay lại</span>
+                    <svg xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" width="20" height="40" x="0" y="0" viewBox="0 0 32 32" style="enable-background:new 0 0 512 512" xml:space="preserve" class=""><g><path d="M19.508 8.34H7.949l1.172-1.743a1.533 1.533 0 0 0-1.268-2.393H7.85a1.67 1.67 0 0 0-1.304.627L2.939 9.34a.8.8 0 0 0 0 1l3.607 4.508a1.67 1.67 0 0 0 1.304.627h.003a1.533 1.533 0 0 0 1.268-2.393L7.95 11.339h11.559a6.728 6.728 0 1 1 0 13.456h-3.272a1.5 1.5 0 0 0 0 3h3.272a9.728 9.728 0 1 0 0-19.456z" data-name="Arrow Outline" fill="#e25e5e" opacity="1" data-original="#000000" class=""></path></g></svg>
+                </div>
+            </div>
+            <div class="choose-address">Chọn địa chỉ giao hàng có sẵn bên dưới:</div>
+        <div class="grid-contain" id="address-html">
+       @*  <div class="address-contain active">
+           <div class="name-contain">
+                <div class="name">Zhong Yu</div>
+                <div class="address-choose">Default</div>
+           </div>
+           <div class="address-detail">
+                <span>
+                    Address: 
+                </span>
+                    Village 8 Cultural House, Thach Xa Commune, Thach That District, Hanoi
+                    Vietnam
+           </div>
+           <div class="phone">
+               <span>Phone: </span>
+                0377580457
+           </div>
+           <div class="btn-contain">
+               <button>Delivered to this address</button>
+               <button>Edit</button>
+               <button>Delete</button>
+           </div>
+                <div class="new-address">
+                    Want to ship to another address? <span>Add a new shipping address</span>
+                </div>
+        </div> *@
+       @*      <div class="address-contain">
+                <div class="name-contain">
+                    <div class="name">Zhong Yu</div>
+                    <div class="address-choose">Default</div>
+                </div>
+                <div class="address-detail">
+                    <span>
+                        Address: Village 8 Cultural House, Thach Xa Commune, Thach That District, Hanoi
+                        Vietnam
+                    </span>
+
+                </div>
+                <div class="phone">
+                    <span>Phone: </span>
+                    0377580457
+                </div>
+                <div class="btn-contain">
+                    <button>Delivered to this address</button>
+                    <button>Edit</button>
+                    <button>Delete</button>
+                </div>
+      
+            </div> *@
+      @*       <div class="address-contain">
+                <div class="name-contain">
+                    <div class="name">Zhong Yu</div>
+                    <div class="address-choose">Default</div>
+                </div>
+                <div class="address-detail">
+                    <span>
+                        Address: Village 8 Cultural House, Thach Xa Commune, Thach That District, Hanoi
+                        Vietnam
+                    </span>
+
+                </div>
+                <div class="phone">
+                    <span>Phone: </span>
+                    0377580457
+                </div>
+                <div class="btn-contain">
+                    <button>Delivered to this address</button>
+                    <button>Edit</button>
+                    <button>Delete</button>
+                </div>
+            </div> *@
+        </div>
+   
+        <div class="login-form">
+            <div class="form">
+                <div id="registerForm" class="hh-form">                    
+                        <div class="form-controls">
+                            <label>Tỉnh:</label>
+                            <div class="controls">
+                                    <select name="city_id" id="city_id" placeholder="Tỉnh/Thành phố">
+                                    <option value="">Chọn tỉnh/thành phố *</option>
+                                </select>
+                                    <input type="hidden" id="tinh" name="tinh" value="" />
+                            </div>
+                        </div>
+
+                        <div class="form-controls">
+                            <label>Huyện:</label>
+                            <div class="controls">
+                                    <select name="province_id" id="province_id" placeholder="Quận/Huyện *">
+                                    <option value="">Chọn quận/huyện *</option>
+                                </select>
+                                    <input type="hidden" id="huyen" name="huyen" value="" />
+                            </div>
+                        </div>
+
+                        <div class="form-controls">
+                            <label>Xã:</label>
+                            <div class="controls">
+                                    <select name="commune_id" id="commune_id" placeholder="Xã/Phường *">
+                                    <option value="">Chọn xã/Phường *</option>
+                                </select>
+                                    <input type="hidden" id="xa" name="xa" value="" />
+                            </div>
+                        </div>
+                        <div class="form-controls" style="align-items: center;margin-left: 170px;">
+                            <div class="pretty p-default p-curve p-fill">
+                                <input type="checkbox" id="checkAddress" value="check" />
+                                <div class="state" style="display:flex;">
+                                    <label></label>
+                                </div>
+                            </div>
+                            <div>
+                                Sử dụng địa chỉ này làm mặc định.
+                            </div>
+                        </div>
+                        <input type="hidden" id="addressId" name="addressId" value="" />
+                        <div class="form-controls">
+                                <button type="button">Hủy</button>
+                                <button type="submit" id="btn-submit">Cập nhật</button>
+                        </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+</main>
+<script id="data-template" type="x-tmpl-mustache">
+        <div class="address-contain">
+        <div class="name-contain">
+            <div class="name">{{fullName}}</div>
+            <div class="address-choose" style="display:none;">Mặc định</div>
+        </div>
+        <div class="address-detail">
+            <span>
+                Địa chỉ: {{user_Address}}
+            </span>
+
+        </div>
+        <div class="phone">
+            <span>Số điện thoại: </span>
+            {{phone}}
+        </div>
+        <div class="btn-contain">
+            <button id="btn-default" data-id="{{id}}">Gửi tới địa chỉ này</button>
+            <button id="btn-edit" data-edit="{{id}}">Thay đổi</button>
+             {{^isFirst}}<button id="btn-delete" data-delete="{{id}}">Xóa</button>{{/isFirst}}
+        </div>
+
+    </div>
+</script>
+<script>
+    $(document).ready(function () {
+        var flag = true;
+        function resetValue() {
+            $('#city_id').val('');
+            $('#province_id').val('Chọn quận/huyện *');
+            $('#commune_id').val('Chọn xã/Phường *');
+            $('#addressId').val('');
+            $('#checkAddress').prop('checked', false);
+        }
+        function loadData() {
+            $.ajax({
+                url: '/loadDataAddress',
+                type: 'GET',
+                dataType: 'json',
+                success: function (response) {
+                    var data = response.data;
+                    data.sort((a, b) => b.status - a.status);
+                    var html = '';
+                    var template = $('#data-template').html();
+                    $.each(data, function (i, item) {
+                        var rendered = Mustache.render(template, {
+                            id: item.id,
+                            fullName: item.fullName,
+                            user_Address: item.user_Address,
+                            phone: item.phone,
+                            isFirst: i === 0
+                        });
+                        if (item.status == true) {
+                            rendered = rendered.replace('<div class="address-contain">', '<div class="address-contain active">');
+                            rendered = rendered.replace('<div class="address-choose" style="display:none;">Mặc định</div>', '<div class="address-choose" >Mặc định</div>');
+                        }
+                        if (i === 0) {
+                            var index = rendered.lastIndexOf('</div>');
+                            rendered = rendered.slice(0, index) +
+                                '<div class="new-address">Bạn muốn gửi đến địa chỉ khác? <span>Thêm địa chỉ giao hàng mới</span></div>' +
+                                rendered.slice(index);
+                            $('#checkAddress').prop('checked', true);
+                        }
+                        if (i !== 0) {
+                            $('#checkAddress').prop('checked', false);
+                        }
+                        html += rendered;
+                    });
+                    $('#address-html').html(html);
+                    var changeAdress = document.querySelector('.login-form .form');
+                    var newAdress = document.querySelector('.new-address span');
+                    var btn_cancel = document.querySelector('.form-controls:last-child button');
+                    console.log(changeAdress);
+                    newAdress.addEventListener('click', () => {
+                        resetValue();
+                        flag = false;
+                        changeAdress.style.display = 'flex';
+                    })
+                    btn_cancel.addEventListener('click', () => {
+                        changeAdress.style.display = 'none';
+                    })
+                }
+            });
+        }
+        function editAddressAjax(id) {
+            console.log("editAddressAjax called with id:", id);
+            $('#addressId').val(id);
+            $.ajax({
+                url: '/update-address',
+                data: {
+                    edit: id
+                },
+                type: 'POST',
+                dataType: 'json',
+                success: function (response) {
+                    var address = response.address;
+                    var city = address[2].trim();
+                    var district = address[1].trim();
+                    var commune = address[0].trim();
+                    console.log(city);
+                    console.log(district);
+                    console.log(commune);
+                    console.log(address);
+                    if (response.flag == false) {
+                        $('#checkAddress').prop('checked', false);
+                    }
+                    function loadDistricts(idtinh, selectedDistrict) {
+                        $.getJSON('https://esgoo.net/api-tinhthanh/2/' + idtinh + '.htm', function (data_quan) {
+                            if (data_quan.error == 0) {
+                                $("#province_id").html('<option value="0">Quận Huyện</option>');
+                                $("#commune_id").html('<option value="0">Phường Xã</option>');
+                                $.each(data_quan.data, function (key_quan, val_quan) {
+                                    $("#province_id").append('<option value="' + val_quan.id + '">' + val_quan.full_name + '</option>');
+                                    if (selectedDistrict && val_quan.full_name.trim() === selectedDistrict.trim()) {
+                                        $("#province_id").val(val_quan.id);
+                                        // Manually set the hidden input value
+                                        $("#huyen").val(val_quan.full_name.trim());
+                                        loadCommunes(val_quan.id, commune);
+                                    }
+                                });
+                            }
+                        });
+                    }
+
+                    function loadCommunes(idquan, selectedCommune) {
+                        $.getJSON('https://esgoo.net/api-tinhthanh/3/' + idquan + '.htm', function (data_phuong) {
+                            if (data_phuong.error == 0) {
+                                $("#commune_id").html('<option value="0">Phường Xã</option>');
+                                $.each(data_phuong.data, function (key_phuong, val_phuong) {
+                                    $("#commune_id").append('<option value="' + val_phuong.id + '">' + val_phuong.full_name + '</option>');
+                                    if (selectedCommune && val_phuong.full_name.trim() === selectedCommune.trim()) {
+                                        $("#commune_id").val(val_phuong.id);
+                                        // Manually set the hidden input value
+                                        $("#xa").val(val_phuong.full_name.trim());
+                                    }
+                                });
+                            }
+                        });
+                    }
+
+                    $.getJSON('https://esgoo.net/api-tinhthanh/1/0.htm', function (data_tinh) {
+                        console.log(data_tinh);
+                        if (data_tinh.error == 0) {
+                            $("#city_id").html('<option value="">Chọn tỉnh/thành phố</option>');
+                            $.each(data_tinh.data, function (key_tinh, val_tinh) {
+                                $("#city_id").append('<option value="' + val_tinh.id + '">' + val_tinh.full_name + '</option>');
+                                if (val_tinh.full_name.trim() === city) {
+                                    $("#city_id").val(val_tinh.id);
+                                    // Manually set the hidden input value
+                                    $("#tinh").val(val_tinh.full_name.trim());
+                                    loadDistricts(val_tinh.id, district);
+                                }
+                            });
+                        }
+                    });
+
+                    $("#city_id").change(function (e) {
+                        var idtinh = $(this).val();
+                        var selectedText = $("#city_id option:selected").text();
+                        $("#tinh").val(selectedText);
+                        $('#huyen').val('');
+                        $('#xa').val('');
+                        if (idtinh) {
+                            loadDistricts(idtinh, null);
+                        }
+                    });
+
+                    $("#province_id").change(function (e) {
+                        var idquan = $(this).val();
+                        var selectedText = $("#province_id option:selected").text();
+                        $("#huyen").val(selectedText); // Set value for hidden input
+                        if (idquan) {
+                            loadCommunes(idquan, null);
+                        }
+                    });
+
+                    $("#commune_id").change(function (e) {
+                        var selectedText = $("#commune_id option:selected").text();
+                        $("#xa").val(selectedText); // Set value for hidden input
+                    });
+
+                    // Manually set the hidden input for commune
+                    if (commune) {
+                        $("#xa").val(commune);
+                    }
+
+                }
+            });
+        }
+        $('#myForm').validate({
+            errorClass: 'error',
+            rules: {
+                city_id: {
+                    required: true
+                },
+                province_id: {
+                    required: true
+                },
+                commune_id: {
+                    required: true
+                }
+            },
+            messages: {
+                city_id: {
+                    required: "Vui lòng lựa chọn !"
+                },
+                province_id: {
+                    required: "Vui lòng lựa chọn !"
+                },
+                commune_id: {
+                    required: "Vui lòng lựa chọn !"
+                }
+            }
+        });
+        function saveDataAjax() {
+            var tinh = $('#tinh').val();
+            var huyen = $('#huyen').val();
+            var xa = $('#xa').val();
+            var id = $('#addressId').val();
+            var check = $('#checkAddress').is(':checked');
+            if (!tinh || !huyen || !xa || tinh.trim() === "" || huyen.trim() === "" || xa.trim() === "") {
+                Swal.fire({
+                    title: "Địa chỉ trống!",
+                    text: "Vui lòng chọn địa chỉ!",
+                    icon: "warning"
+                });
+                return;
+            }
+
+            var addressInput = {
+                id: id,
+                tinh: tinh,
+                huyen: huyen,
+                xa: xa,
+                check: check
+            }
+            $.ajax({
+                url: '/save-address',
+                data: {
+                    strAddress: JSON.stringify(addressInput)
+                },
+                type: 'POST',
+                dataType: 'json',
+                success: function (response) {
+                    console.log(response.status);
+                    if (response.status == true) {
+                        $('.login-form .form').fadeOut();
+                        loadData();
+                    } else {
+                        Swal.fire({
+                            title: "Địa chỉ tồn tại!",
+                            text: "Địa chỉ này đã có trong danh sách!",
+                            icon: "warning"
+                        });
+                    }
+
+                }
+            });
+        }
+        function changeDefaultAdressAjax(id) {
+            $.ajax({
+                url: 'change-default',
+                data: {
+                    id: id
+                },
+                type: 'POST',
+                dataType: 'json',
+                success: function (response) {
+                        loadData();
+                    if (response == true) {
+                    }
+                }
+            });
+        }
+        function deleteAddressAjax(id) {
+            $.ajax({
+                url: '/delete-address',
+                data: {
+                    delete: id
+                },
+                type: 'POST',
+                dataType: 'json',
+                success: function (response) {
+                    loadData();
+                }
+            });
+        }
+        function addAddressAjax() {
+            var tinh = $('#tinh').val();
+            var huyen = $('#huyen').val();
+            var xa = $('#xa').val();
+            var check = $('#checkAddress').is(':checked');
+
+            if (!tinh || !huyen || !xa || tinh.trim() === "" || huyen.trim() === "" || xa.trim() === "") {
+                Swal.fire({
+                    title: "Địa chỉ trống!",
+                    text: "Vui lòng chọn địa chỉ!",
+                    icon: "warning"
+                });
+                return;
+            }
+            var addressInput = {
+                tinh: tinh,
+                huyen: huyen,
+                xa: xa,
+                check: check
+            }
+            $.ajax({
+                url: '/add-address',
+                data: {
+                    strAddress: JSON.stringify(addressInput)
+                },
+                type: 'POST',
+                dataType: 'json',
+                success: function (response) {
+                    console.log(response.status);
+                    if (response.status == true) {
+                        $('.login-form .form').fadeOut();
+                        loadData();
+                    } else {
+                        Swal.fire({
+                            title: "Địa chỉ tồn tại!",
+                            text: "Địa chỉ này đã có trong danh sách!",
+                            icon: "warning"
+                        });
+                    }
+
+                }
+            });
+        }
+        $(document).on('click', '#btn-submit', function () {
+            if (flag == true) {
+                saveDataAjax();
+            } else {
+                addAddressAjax();
+            }
+        });
+
+        $(document).on('click', '#btn-delete', function () {
+            var id = $(this).data('delete');
+            Swal.fire({
+                title: "Bạn có chắc chắn thay đổi ?",
+                text: "Địa chỉ này sẽ bị xóa khỏi danh sách!",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonText: 'Xóa',
+                cancelButtonText: 'Hủy'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    deleteAddressAjax(id);
+                }
+            });
+        })
+        $(document).on('click', '#btn-default', function () {
+            var id = $(this).data('id');
+            Swal.fire({
+                title: "Bạn có chắc chắn thay đổi ?",
+                text: "Địa chỉ này sẽ là chỉ khi nhận hàng của bạn!",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonText: 'Chọn ',
+                cancelButtonText: 'Hủy'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    changeDefaultAdressAjax(id);
+                }
+            });
+        });
+
+        $(document).on('click', '#btn-edit', function () {
+                var id = $(this).data('edit');
+            var changeAdress = document.querySelector('.login-form .form');
+            var btn_cancel = document.querySelector('.form-controls:last-child button');
+            console.log(changeAdress);
+                changeAdress.style.display = 'flex';
+                $('#checkAddress').prop('checked', true);
+                flag = true;
+            btn_cancel.addEventListener('click', () => {
+                changeAdress.style.display = 'none';
+            })
+                console.log("Edit button clicked, id:", id);
+                editAddressAjax(id);
+            });
+        loadData();
+
+    });
+</script>
+<script>
+    $(document).ready(function () {
+        //Lấy tỉnh thành
+        $.getJSON('https://esgoo.net/api-tinhthanh/1/0.htm', function (data_tinh) {
+            if (data_tinh.error == 0) {
+                $.each(data_tinh.data, function (key_tinh, val_tinh) {
+                    $("#city_id").append('<option value="' + val_tinh.id + '">' + val_tinh.full_name + '</option>');
+                });
+                $("#city_id").change(function (e) {
+                    var idtinh = $(this).val();
+                    console.log(idtinh)
+                    $('input[name="tinh"]').val($('#city_id option:selected').text());
+                    $('#huyen').val('');
+                    $('#xa').val('');
+                    console.log($('input[name="tinh"]').val($('#city_id option:selected').text()));
+
+                    //Lấy quận huyện
+                    $.getJSON('https://esgoo.net/api-tinhthanh/2/' + idtinh + '.htm', function (data_quan) {
+                        if (data_quan.error == 0) {
+                            $("#province_id").html('<option value="0"></option>');
+                            $("#commune_id").html('<option value="0"></option>');
+                            $.each(data_quan.data, function (key_quan, val_quan) {
+                                $("#province_id").append('<option value="' + val_quan.id + '">' + val_quan.full_name + '</option>');
+                            });
+                            //Lấy phường xã
+                            $("#province_id").change(function (e) {
+                                var idquan = $(this).val();
+
+
+                                $('input[name="huyen"]').val($('#SystemDistrictID option:selected').text());
+                                console.log($('input[name="huyen"]').val($('#province_id option:selected').text()))
+                                $.getJSON('https://esgoo.net/api-tinhthanh/3/' + idquan + '.htm', function (data_phuong) {
+                                    if (data_phuong.error == 0) {
+                                        $("#commune_id").html('<option value="0"></option>');
+                                        $.each(data_phuong.data, function (key_phuong, val_phuong) {
+                                            $("#commune_id").append('<option value="' + val_phuong.id + '">' + val_phuong.full_name + '</option>');
+                                        });
+                                    }
+                                    $("#commune_id").change(function (e) {
+                                        $('input[name="xa"]').val($('#SystemCommuneID option:selected').text());
+
+                                        console.log($('input[name="xa"]').val($('#commune_id option:selected').text()))
+                                    });
+                                });
+                            });
+
+                        }
+                    });
+                });
+
+            }
+        });
+    });
+</script>
+<script>
+    function goBack() {
+        var previousPage = sessionStorage.getItem('previousPage');
+        if (previousPage) {
+            window.location.href = previousPage;
+        } else {         
+            window.history.back();
+        }
+    }
+</script>
+@section scripts{
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="~/js/mustache.min.js"></script>
+}

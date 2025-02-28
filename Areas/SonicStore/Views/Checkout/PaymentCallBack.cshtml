@@ -1,0 +1,46 @@
+﻿@{
+    string loi = TempData["message"] as string;
+}
+<link href="~/css/Checkout/StatusOrder.css" rel="stylesheet" />
+<title>Trạng thái thanh toán</title>
+<style>
+	body {
+		display: flex;
+		flex-direction: column;
+	}
+
+	body {
+		min-height: 100vh;
+		margin: 0;
+	}
+
+	main {
+		flex: 1;
+	}
+
+	main {
+		background-color: #f2f4f5;
+	}
+</style>
+<main>
+	<section>
+		<div class="contain-mess">
+			<div class="circle">
+				<div class="tick-icon">
+					<svg xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" width="30" height="60" x="0" y="0" viewBox="0 0 24 24" style="enable-background:new 0 0 512 512" xml:space="preserve" class=""><g><switch><g><path fill="#d76262" d="M9.8 18c-.3 0-.5-.1-.7-.3l-4.9-5.2c-.4-.4-.4-1 0-1.4s1-.4 1.4 0l4.1 4.4 8.4-9.2c.3-.4 1-.5 1.4-.2s.5 1 .2 1.4l-.1.1-9.1 10c-.1.3-.4.4-.7.4z" opacity="1" data-original="#02bc7d" class=""></path></g></switch></g></svg>
+				</div>
+			</div>
+			<div class="mess">
+				<div class="success-mess">@loi</div>
+				<div class="thanks-mess">Cảm ơn bạn rất nhiều vì đã đặt hàng</div>
+			</div>
+			<div class="check-status">
+				<a href="/orders/Index">
+					<button>
+						Kiểm tra hóa đơn
+					</button>
+				</a>
+			</div>
+		</div>
+	</section>
+</main>

@@ -1,0 +1,131 @@
+﻿@{
+    Layout = "_LayoutSale";
+    var listProduct = ViewBag.ProductList;
+}
+@using System.Web
+
+<div class="card mb-4">
+    <div class="card-header">
+        Quản lý sản phẩm
+        <a asp-controller="CreateProductSale" asp-action="CreateProductSaleScreen">
+            <button class="btn btn-outline-primary" style="margin-left:100px">
+                Tạo sản phảm mới
+            </button>
+        </a>
+    </div>
+
+    <title>Danh sách sản phẩm</title>
+    <div class="card-body">
+        <table id="datatablesSimple">
+            <thead>
+                <tr>
+                    <th>Tên sản phẩm</th>
+                    <th>Bộ nhớ</th>
+                    <th>Số lượng</th>
+                    <th>Trạng thái</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tfoot>
+                <tr>
+                    <th>Tên sản phẩm</th>
+                    <th>Bộ nhớ</th>
+                    <th>Số lượng</th>
+                    <th>Trạng thái</th>
+                    <th></th>
+                </tr>
+            </tfoot>
+            <tbody>
+                @foreach (var p in listProduct)
+                {
+                    <tr>
+                        <th>@p.Name</th>
+                        <th>@p.Storage</th>
+                        <th>@p.Quantity</th>
+                        <th>
+                            @if (@p.Quantity <= 10)
+                            {
+                                <div class="badge bg-danger text-white">Sản phẩm sắp hết</div>
+                            }
+                            @if (@p.Quantity <= 100)
+                            {
+                                <div class="badge bg-warning text-white">Cần nhập thêm</div>
+                            }
+                            else
+                            {
+                                <div class="badge bg-success text-white">Còn đủ</div>
+
+                            }
+
+
+                            @if (@p.Status == true)
+                            {
+                                <div class="badge bg-primary text-white">Hiển thị</div>
+                            }
+                            else
+                            {
+                                <div class="badge bg-danger text-white">Bị ẩn</div>
+
+                            }
+
+                        </th>
+                        <td>
+                            <form asp-action="UpdateProductStatus" asp-controller="ProductListSale" asp-route-id="@p.Id" method="post">
+                                <div class="row">
+                                    <div class="col-3">
+                                        <button type="submit" class="btn btn-datatable btn-info btn-icon btn-transparent-dark">
+                                            <i class="fa-regular fa-trash-can"></i>
+                                        </button>
+                                    </div>
+                                    <div class="col-9">
+                                        <p>Ẩn/ Hiện</p>
+                                    </div>
+                                </div>
+                            </form>
+                            <form asp-action="ViewDetailSale" asp-controller="ViewDetailSale" asp-route-id="@p.StorageID">
+                                <div class="row">
+                                    <div class="col-3">
+                                        <button type="submit" class="btn btn-datatable btn-icon btn-transparent-dark">
+                                            <i class="fa-solid fa-info"></i>
+                                        </button>
+                                    </div>
+                                    <div class="col-9">
+                                        <p>Xem chi tiết</p>
+                                    </div>
+                                </div>
+                            </form>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+        var formatter = new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' });
+        var priceTags = document.querySelectorAll('.js-format-price');
+        priceTags.forEach(tag => {
+            var price = tag.getAttribute('data-price');
+            var formattedPrice = formatter.format(price);
+            tag.textContent = formattedPrice;
+        });
+
+        var saleTags = document.querySelectorAll('.ex_pricesale');
+        saleTags.forEach(tag => {
+            var price = parseFloat(tag.getAttribute('data-price'));
+            var originalPrice = parseFloat(tag.getAttribute('data-price1'));
+            var discountPercent = ((originalPrice - price) / originalPrice) * 100;
+            var roundedDiscountPercent = Math.round(discountPercent);
+            tag.textContent = roundedDiscountPercent + '%';
+        });
+        // Hiển thị thông báo nếu có
+        var statusMessage = @Html.Raw(Json.Serialize(@TempData["Message"]));
+        if (statusMessage) {
+            alert(statusMessage);
+        }
+    })
+</script>
+<script>
+    sessionStorage.setItem('previousPageProfile', window.location.href);
+</script>

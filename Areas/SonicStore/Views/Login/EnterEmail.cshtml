@@ -1,0 +1,88 @@
+﻿@{
+    Layout = null;
+    var statusMessage = TempData["StatusMessage"] as string;
+}
+
+<!DOCTYPE html>
+<title>Nhập email</title>
+<html>
+<head>
+    <style>
+        .container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f7f7f7;
+        }
+
+        .email-form {
+            background: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 300px;
+            text-align: center;
+        }
+
+            .email-form h2 {
+                margin-bottom: 20px;
+                color: #333;
+            }
+
+            .email-form label {
+                display: block;
+                margin-bottom: 10px;
+                color: #333;
+            }
+
+            .email-form input[type="email"] {
+                width: calc(100% - 20px);
+                padding: 10px;
+                margin-bottom: 20px;
+                border: 1px solid #ddd;
+                border-radius: 5px;
+            }
+
+            .email-form button {
+                background: #007bff;
+                color: #fff;
+                padding: 10px 20px;
+                border: none;
+                border-radius: 5px;
+                cursor: pointer;
+                width: 100%;
+            }
+
+                .email-form button:hover {
+                    background: #0056b3;
+                }
+
+        .alert-info {
+            background: #e7f3fe;
+            border-left: 6px solid #2196F3;
+            margin-bottom: 15px;
+            padding: 10px;
+            color: #31708f;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="email-form">
+            @if (!string.IsNullOrEmpty(statusMessage))
+            {
+                <div class="alert alert-info">@statusMessage</div>
+            }
+            <h2>Quên mật khẩu</h2>
+            <form id="enterEmailForm" method="post" asp-action="SendOTPToEmail">
+                <div>
+                    <label>Nhập email:</label>
+                    <input type="email" name="email" required />
+                </div>
+                <button type="submit">Gửi OTP</button>
+            </form>
+        </div>
+    </div>
+</body>
+</html>

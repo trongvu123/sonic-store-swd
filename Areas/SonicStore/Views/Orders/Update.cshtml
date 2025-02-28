@@ -1,0 +1,404 @@
+﻿@using SonicStore.Areas.SonicStore.Dtos;
+@model User
+@using System.Collections.Generic
+@{
+    Layout = null;
+    OrderModel order = ViewBag.Order;
+    List<OrderDetailsModel>? listOrderDetails = order.OrderDetails;
+
+    var discount = 10;
+    var shippingCharge = 5;
+    var tax = 1;
+
+    var total = order?.Total + discount - shippingCharge - tax;
+}
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/MaterialDesign-Webfont/5.3.45/css/materialdesignicons.css" integrity="sha256-NAxhqDvtY0l4xn+YVa6WjAcmd94NNfttjNsDmNatFVc=" crossorigin="anonymous" />
+<link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+<link href='~/css/order.css' rel='stylesheet'>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
+
+<!doctype html>
+<html>
+<head>
+
+    <meta charset="utf-8">
+    <meta name="author" content="hoanghamobile.com">
+    <meta property='og:site_name' content='hoanghamobile.com' />
+    <meta name="google-site-verification" content="JOFGGI7j9vWfBf-xpElM5Tec0UJ1k_CfdNjpaHm5z10" />
+    <meta name="msvalidate.01" content="5C8CDF0992489498A30F9E5F6668A4D5" />
+    <meta name="geo.placename" content="Hanoi, Hoàn Kiếm, Hanoi, Vietnam" />
+    <meta name="geo.position" content="21.017249242314964;105.84134504199028" />
+    <meta name="geo.region" content="VN-Hanoi" />
+    <meta name="ICBM" content="21.017249242314964, 105.84134504199028" />
+
+    <title>Cập nhập đơn hàng</title>
+    <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+    <link rel="preload" href="/Content/web/fonts/Segoe UI/Segoe UI.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="/Content/web/fonts/Segoe UI/Segoe UI Italic.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="/Content/web/fonts/Segoe UI/Segoe UI Bold.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="/Content/web/fonts/Segoe UI/Segoe UI Bold Italic.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="/Content/web/fonts/Segoe UI/Segoe UI Semilight.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="/Content/web/fonts/Segoe UI/Segoe UI Semilight Italic.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="/Content/web/fonts/icon/fonts/hoangha.woff" as="font" type="font/woff" crossorigin>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <link rel="preload" as="style" href="~/css/UserProfile/main.css">
+    <link href="~/css/UserProfile/main2.css" rel="stylesheet" type="text/css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/izimodal/1.6.1/js/iziModal.min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/izimodal/1.6.1/css/iziModal.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <style>
+        .product-center .current-product-price label.text-green {
+            display: none
+        }
+
+        .status-tag {
+            color: white;
+            width: 160px;
+            border-radius: 5px;
+            text-align: center;
+        }
+
+        .bg-green {
+            background: green;
+        }
+
+
+        a, a:link, a:visited, a:hover {
+            text-decoration: none;
+            color: white;
+        }
+
+        .btn-info:hover {
+            color: white;
+            background-color: #31d3f2;
+        }
+    </style>
+    <script>
+        $(function () {
+            $("#dob").datepicker();
+        });
+    </script>
+    <script>
+        $(document).ready(function () {
+            var formatter = new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' });
+            var priceTags = document.querySelectorAll('.js-format-price');
+            priceTags.forEach(tag => {
+                var price = tag.getAttribute('data-price');
+                var formattedPrice = formatter.format(price);
+                tag.textContent = formattedPrice;
+            });
+        });
+    </script>               
+
+
+    <link href="https://hoanghamobile.com/Content/web/css/styles.users.css?c=638546836954349887" rel="stylesheet" />
+
+</head>
+
+<body class="account">
+    <section class="account">
+        <div class="sidebar">
+            <div class="ctn">
+                <div class="header">
+                    <div class="logo" style="
+                         background-color: gray;
+                         opacity: 0.3;
+                         padding: 13px;
+                         border-radius: 4px;
+                         margin-bottom: 21px" ;>
+                        <a href="/"><img src="~/images/logo/image-removebg-preview (2).png" alt="Hoàng Hà Mobile" /></a>
+                    </div>
+
+                    <div class="info">
+                        <div class="avt" id="myAvatar">
+                            <strong>N</strong>
+                        </div>
+
+                        <div class="summer" style="margin:auto 0;">
+                            <p><strong id="name-user2">@Model?.FullName</strong></p>
+                        </div>
+                    </div>
+                </div>
+                <nav>
+                    <ul>
+                        <li><a asp-controller="Profile" asp-action="ProfileScreen"><i class="fa-regular fa-user"></i><span>Thông tin tài khoản</span></a></li>
+                        @if (Model?.RoleId == 1)
+                        {
+                            <li><a asp-controller="Orders" asp-action="Index" class="actived"><i class="fa-solid fa-cart-shopping"></i><span>Đơn hàng của bạn</span></a></li>
+                        }
+                        <li><a asp-controller="Login" asp-action="Logout"><i class="fa-solid fa-right-from-bracket"></i><span>Đăng xuất</span></a></li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+        <div class="body-content">
+            <h5 class="fw-bold">Cập nhật thông tin đơn hàng của bạn</h5>
+
+            <div class="header mb-3">
+                <div class="bg">
+                    <div class="text">
+                        <h2>CHÀO MỪNG QUAY TRỞ LẠI, <span id="name-user1">@Model?.FullName</span></h2>
+                        <p><i>Kiểm tra thông tin đơn hàng của bạn tại đây</i></p>
+                    </div>
+                </div>
+                <div class="icon">
+                    <img src="https://hoanghamobile.com/Content/web/content-icon/icon-account-order.png" />
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xl-7">
+                    <div class="row">
+                        <h6 class="col-md-8 fw-bold">Danh sách sản phẩm: </h6>
+                        <div class="col-md-4 d-flex justify-content-end">
+                            <div>
+                                @if (order?.Status == "Đã mua")
+                                {
+                                    <div class="status-tag bg-green">@order?.Status</div>
+                                }
+
+                                @if (order?.Status == "Đang vận chuyển")
+                                {
+                                    <div class="status-tag bg-info">@order?.Status</div>
+                                }
+
+                                @if (order?.Status == "Chờ duyệt")
+                                {
+                                    <div class="status-tag bg-warning">@order?.Status</div>
+                                }
+
+                                @if (order?.Status == "Đã hủy")
+                                {
+                                    <div class="status-tag bg-danger">@order?.Status</div>
+                                }
+
+                                @if (order?.Status == "Vận chuyển thành công")
+                                {
+                                    <div class="status-tag bg-secondary">@order?.Status</div>
+                                }
+                            </div>
+                        </div>
+                    </div>
+
+                    @foreach (var details in listOrderDetails)
+                    {
+                        <div class="card border shadow-none">
+                            <div class="card-body">
+
+                                <div class="d-flex align-items-start border-bottom pb-3">
+                                    <div class="me-4">
+                                        <img src="@details?.ImageUrl" alt="" class="avatar-lg rounded">
+                                    </div>
+                                    <div class="flex-grow-1 align-self-center overflow-hidden">
+                                        <div>
+                                            <h5 class="text-truncate font-size-18"><a href="#" class="text-dark">@details?.ProductName </a></h5>
+                                            <p class="text-muted mb-0">
+                                                <i class="bx bxs-star text-warning"></i>
+                                                <i class="bx bxs-star text-warning"></i>
+                                                <i class="bx bxs-star text-warning"></i>
+                                                <i class="bx bxs-star text-warning"></i>
+                                                <i class="bx bxs-star-half text-warning"></i>
+                                            </p>
+                                            <p class="mb-0 mt-1">Color : <span class="fw-medium">Gray</span></p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div>
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <div class="mt-3">
+                                                <p class="text-muted mb-2 js-format-price" data-price="@details?.Price">Giá: @details?.Price </p>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-5">
+                                            <div class="mt-3">
+                                                <select class="form-select" id="@details?.OrderDetailsId" name="product">
+                                                    @for (int i = 1; i <= 100; i++)
+                                                    {
+                                                        if (i == details?.Quantity)
+                                                        {
+                                                            <option selected value="@i">@i</option>
+
+                                                        }
+                                                        else
+                                                        {
+                                                            <option value="@i">@i</option>
+                                                        }
+                                                    }
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="mt-3">
+                                                <p class="text-muted mb-2 js-format-price" data-price="@details.Total">Tổng: @details?.Total</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                        <!-- end card -->
+                    }
+                    <div class="row my-4">
+                        <div class="col-sm-6">
+                            <a asp-action="Index" asp-controller="Orders" class="btn btn-link text-muted">
+                                <i class="mdi mdi-arrow-left me-1"></i> Trở về
+                            </a>
+                        </div> <!-- end col -->
+                        <div class="col-sm-6">
+                            <div class="text-sm-end mt-2 mt-sm-0">
+                                <button class="btn btn-primary me-2" onclick="UpdateOrder();">
+                                    <i class="mdi mdi-cart-outline me-1"></i> Lưu
+                                </button>
+                                <a asp-action="Cancel" asp-controller="Orders" asp-route-id="@order?.Index" class="btn btn-danger">
+                                    <i class="fa fa-trash"></i> Hủy đơn hàng
+                                </a>
+                            </div>
+                        </div> <!-- end col -->
+                    </div> <!-- end row-->
+                </div>
+
+                <div class="col-xl-5">
+                    <div class="mt-4">
+                        <div class="card border shadow-none">
+                            <div class="card-header bg-transparent border-bottom py-3 px-4">
+                                <div class="row">
+                                    <div class="flex-grow-1 align-self-center overflow-hidden ">
+                                        <h6 class="fw-bold font-size-16 mb-0"> <i class="mdi mdi-cart-outline me-1"></i> Đơn hàng <span class="float-end">#@order?.Index</span></h6>
+                                        <h6 class="mt-1">Ngày đặt: @order?.OrderDate?.ToShortDateString()</h6>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="card-body p-4 pt-2">
+
+                                <div class="table-responsive">
+                                   @*  <table class="table mb-0">
+                                        <tbody>
+                                            <tr>
+                                                <td>Tổng ban đầu :</td>
+                                                <td class="text-end js-format-price" data-price="@order.Total"> @order?.Total</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Giảm giá : </td>
+                                                <td class="text-end js-format-price" data-price="@discount">-@discount</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Phí vận chuyển :</td>
+                                                <td class="text-end js-format-price" data-price="@shippingCharge"> @shippingCharge</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Thuế : </td>
+                                                <td class="text-end js-format-price" data-price="@tax"> @tax</td>
+                                            </tr>
+                                            <tr class="bg-light">
+                                                <th>Tổng :</th>
+                                                <td class="text-end js-format-price" data-price="@total">
+                                                    <span class="fw-bold">
+                                                        @total
+                                                    </span>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table> *@
+                                </div>
+                                <!-- end table-responsive -->
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mt-4">
+                        <div class="card border shadow-none">
+                            <div class="card-header bg-transparent border-bottom py-3 px-4">
+                                <div class="row">
+                                    <div class="flex-grow-1 align-self-center overflow-hidden ">
+                                        <h6 class="fw-bold font-size-16 mb-0"> <i class="fa-regular fa-user"></i> Thông tin người đặt hàng: </h6>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="card-body p-4 pt-2">
+                                <div class="table-responsive">
+                                    <table class="table mb-0">
+                                        <tbody>
+                                            <tr>
+                                                <td>Họ và tên:</td>
+                                                <td class="text-end">@Model?.FullName</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Email:</td>
+                                                <td class="text-end">@Model?.Email</td>
+                                            </tr>
+                                            <tr>
+                                                <td>SĐT:</td>
+                                                <td class="text-end">@Model?.Phone</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Địa chỉ:</td>
+                                                <td class="text-end">@ViewBag?.Address</td>
+                                            </tr>
+                                            <tr>
+                                                <td></td>
+                                                <td>
+                                                    <div class="d-flex justify-content-end">
+                                                        <a asp-controller="Profile" asp-action="ProfileScreen" class="btn btn-info"><i class="fa fa-pencil me-1"></i><span>Chỉnh sửa thông tin</span></a>
+
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <!-- end table-responsive -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <form id="form-update" method="post" asp-controller="Orders" asp-action="Update">
+                <input type="hidden" name="data" id="data" />
+            </form>
+
+            <!-- end row -->
+        </div>
+        <iframe src="https://asia.creativecdn.com/tags?id=pr_n4X0y6ApZyJaHX1dNxQd&amp;ncm=1" width="1" height="1" scrolling="no" frameBorder="0" style="display: none;"></iframe>
+    </section>
+    <script>
+        sessionStorage.setItem('previousPageProfile', window.location.href);
+        function UpdateOrder() {
+            var products = document.getElementsByName("product");
+            var data = [];
+
+            for (var i = 0; i < products.length; i++) {
+                var product = products[i];
+                console.log(product);
+                var order = {
+                    OrderId: product.id,
+                    Quantity: product.options[product.selectedIndex].value
+                };
+
+                data.push(order)
+            }
+
+            document.getElementById("data").value = JSON.stringify(data);
+            document.getElementById("form-update").submit();
+        }
+
+    </script>
+    <!-- Google Tag Manager -->
+    <script src="/js-css/web_v1.2.2.9.js"></script>
+    <script src="/Content/web/js/app.users.js?c=638546836954349887"></script>
+
+    <script src="https://hoanghamobile.com/Content/web/js/plugins/jquery-datepicker/datepicker.min.js"></script>
+    <link href="https://hoanghamobile.com/Content/web/js/plugins/jquery-datepicker/datepicker.min.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/bootbox@6.0.0/dist/bootbox.min.js"></script>
+
+</body>
+</html>
+
+
+

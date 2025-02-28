@@ -1,0 +1,190 @@
+﻿@{
+    ViewData["Title"] = "ViewDetailSale";
+    Layout = "~/Views/Shared/_layoutSale.cshtml";
+    var product = ViewBag.product;
+    var spec = ViewBag.spec;
+    var image = ViewBag.image;
+    var storage = ViewBag.storage;
+}
+<title>Sửa thông tin sản phẩm</title>
+<div class="product-details-container">
+    <div>
+        <form asp-action="ViewDetailSale" asp-controller="ViewDetailSale" asp-route-id="@storage.Id">
+            <button class="btn btn-danger" type="submit">
+                Quay lại
+            </button>
+        </form>
+        <form asp-controller="EditProduct" asp-action="Edit" id="editForm" method="post">
+            <input type="hidden" name="spec.Id" value="@spec.Id" />
+            <input type="hidden" name="storage.Id" value="@storage.Id" />
+            <h2 style="font-weight:bold; color:#4a4a4a">@product.Name</h2>
+            <div class="row" style="margin-top: 25px">
+                <div class="col-md-4"><img src="@product.Image" class="img-thumbnail"></div>
+                <div class="col-md-5">
+                    <h4>Số lượng sản phẩm từng bộ nhớ</h4>
+                    <ul class="list-group">
+                        <li class="list-group-item">
+                            <div class="row">
+                                <div class="col-md-6">Bộ nhớ trong (GB)</div>
+                                <input type="number" class="col-md-6 morethanzero" name="storage.Storage_capacity" value="@storage.Storage_capacity" />
+                                <span class="warning-message text-danger"></span>
+                            </div>
+                        </li>
+                        <li class="list-group-item">
+                            <div class="row">
+                                <div class="col-md-6">Giá gốc (VND)</div>
+                                <input type="number" class="col-md-6 morethanzero" name="storage.OriginalPrice" value="@storage.OriginalPrice" />
+                                <span class="warning-message text-danger"></span>
+                            </div>
+                        </li>
+                        <li class="list-group-item">
+                            <div class="row">
+                                <div class="col-md-6">Giá bán (VND)</div>
+                                <input type="number" class="col-md-6 morethanzero" name="storage.SalePrice" value="@storage.SalePrice" />
+                                <span class="warning-message text-danger"></span>
+                            </div>
+                        </li>
+                        <li class="list-group-item">
+                            <div class="row">
+                                <div class="col-md-6">Số lượng (Chiếc)</div>
+                                <input type="number" class="col-md-6 morethanzero" name="storage.quantity" value="@storage.quantity" />
+                                <span class="warning-message text-danger"></span>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                <div class="col-md-3">
+                    <h4>Thông số kĩ thuật</h4>
+                    <ul class="list-group">
+                        <li class="list-group-item">
+                            <div class="row">
+                                <div class="col-md-6">Kích cỡ màn hình (inches)</div>
+                                <input type="number" class="col-md-6 morethanzero2" name="spec.ScreenSize" value="@spec.ScreenSize" />
+                                <span class="warning-message text-danger"></span>
+                            </div>
+                        </li>
+                        <li class="list-group-item">
+                            <div class="row">
+                                <div class="col-md-6">Độ phân giải màn hình (pixels)</div>
+                                <input type="text" class="col-md-6" name="spec.ScreenResolution" value="@spec.ScreenResolution" />
+                                <span class="warning-message text-danger"></span>
+                            </div>
+                        </li>
+                        <li class="list-group-item">
+                            <div class="row">
+                                <div class="col-md-6">CPU</div>
+                                <input type="text" class="col-md-6" name="spec.Cpu" value="@spec.Cpu" />
+                                <span class="warning-message text-danger"></span>
+                            </div>
+                        </li>
+                        <li class="list-group-item">
+                            <div class="row">
+                                <div class="col-md-6">Hệ điều hành</div>
+                                <input type="text" class="col-md-6" name="spec.OperatingSystem" value="@spec.OperatingSystem" />
+                                <span class="warning-message text-danger"></span>
+                            </div>
+                        </li>
+                        <li class="list-group-item">
+                            <div class="row">
+                                <div class="col-md-6">Ram (GB)</div>
+                                <input type="number" class="col-md-6 morethanzero" name="spec.Ram" value="@spec.Ram" />
+                                <span class="warning-message text-danger"></span>
+                            </div>
+                        </li>
+                        <li class="list-group-item">
+                            <div class="row">
+                                <div class="col-md-6">Camera chính (MB)</div>
+                                <input type="number" class="col-md-6 morethanzero" name="spec.MainCamera" value="@spec.MainCamera" />
+                                <span class="warning-message text-danger"></span>
+                            </div>
+                        </li>
+                        <li class="list-group-item">
+                            <div class="row">
+                                <div class="col-md-6">Dung lượng pin (mAh)</div>
+                                <input type="number" class="col-md-6 morethanzero" name="spec.BatteryCapacity" value="@spec.BatteryCapacity" />
+                                <span class="warning-message text-danger"></span>
+                            </div>
+                        </li>
+                        <li class="list-group-item">
+                            <div class="row">
+                                <div class="col-md-6">Camera trước (MB)</div>
+                                <input type="number" class="col-md-6 morethanzero" name="spec.FrontCamera" value="@spec.FrontCamera" />
+                                <span class="warning-message text-danger"></span>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div>
+                <button class="btn btn-secondary" type="submit" onclick="return myFunction()">
+                    Lưu
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+    sessionStorage.setItem('previousPageProfile', window.location.href);
+    var statusMessage = @Html.Raw(Json.Serialize(@TempData["Message"]));
+    if (statusMessage) {
+        alert(statusMessage);
+    }
+
+    // Function to validate number inputs
+    function validateNumberInput(input) {
+        const value = parseFloat(input.value);
+        if (isNaN(value) || value < 1 || !Number.isInteger(value)) {
+            input.nextElementSibling.textContent = "Giá trị phải là số nguyên lớn hơn hoặc bằng 1.";
+        } else {
+            input.nextElementSibling.textContent = "";
+        }
+    }
+    function validateNumberInput(input) {
+        const value = parseFloat(input.value);
+        if (isNaN(value) || value < 1) {
+            input.nextElementSibling.textContent = "Giá trị phải lớn hơn hoặc bằng 1.";
+        } else {
+            input.nextElementSibling.textContent = "";
+        }
+    }
+
+    // Function to validate text inputs
+    function validateTextInput(input) {
+        if (input.value.trim() === "") {
+            input.nextElementSibling.textContent = "Giá trị không được để trống.";
+        } else {
+            input.nextElementSibling.textContent = "";
+        }
+    }
+
+    // Add event listeners to inputs
+    document.querySelectorAll('input.morethanzero').forEach(input => {
+        input.addEventListener('input', () => validateNumberInput(input));
+    });
+    document.querySelectorAll('input.morethanzero2').forEach(input => {
+        input.addEventListener('input', () => validateNumberInput(input));
+    });
+
+    document.querySelectorAll('input[type="text"]').forEach(input => {
+        input.addEventListener('input', () => validateTextInput(input));
+    });
+
+    // Function to validate the form before submitting
+    function myFunction() {
+        let isValid = true;
+
+        if (isValid) {
+            let text = "Bạn có muốn lưu không!";
+            if (confirm(text)) {
+                document.getElementById('editForm').submit();
+                return true;
+            } else {
+                return false;
+            }
+        } else {
+            alert("Vui lòng điền tất cả các trường hợp lệ trước khi lưu.");
+            return false;
+        }
+    }
+</script>

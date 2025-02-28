@@ -1,0 +1,145 @@
+﻿﻿@using Newtonsoft.Json
+@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
+@using Microsoft.AspNetCore.Http
+@using SonicStore.Areas.SonicStore.Models
+
+@{
+    var userJson = HttpContextAccessor.HttpContext.Session.GetString("user");
+    User user = null;
+    if (!string.IsNullOrEmpty(userJson))
+    {
+        user = JsonConvert.DeserializeObject<User>(userJson);
+    }
+}
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+
+    <link href="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/style.min.css" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/litepicker/dist/css/litepicker.css" rel="stylesheet" />
+    <link href="https://sb-admin-pro.startbootstrap.com/css/styles.css" rel="stylesheet" />
+    <link rel="icon" type="image/x-icon" href="assets/img/favicon.png" />
+    <script data-search-pseudo-elements="" defer="" src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/js/all.min.js" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/feather-icons/4.29.0/feather.min.js" crossorigin="anonymous"></script>
+    <style>
+        .sb-customizer-toggler{
+            display: none!important;
+        }
+    </style>
+</head>
+
+<body class="nav-fixed">
+    <nav class="topnav navbar navbar-expand shadow justify-content-between justify-content-sm-start navbar-light bg-white" id="sidenavAccordion">
+        <h4 style="padding-left:20px">Nhân viên bán hàng</h4>
+        <!-- Navbar Items-->
+        <ul class="navbar-nav align-items-center ms-auto">
+            <!-- Documentation Dropdown-->
+            <li class="nav-item dropdown no-caret d-none d-md-block me-3">
+
+
+            </li>
+            <!-- Navbar Search Dropdown-->
+            <!-- * * Note: * * Visible only below the lg breakpoint-->
+            <li class="nav-item dropdown no-caret me-3 d-lg-none">
+                <a class="btn btn-icon btn-transparent-dark dropdown-toggle" id="searchDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i data-feather="search"></i></a>
+                <!-- Dropdown - Search-->
+                <div class="dropdown-menu dropdown-menu-end p-3 shadow animated--fade-in-up" aria-labelledby="searchDropdown">
+                    <form class="form-inline me-auto w-100">
+                        <div class="input-group input-group-joined input-group-solid">
+                            <input class="form-control pe-0" type="text" placeholder="Search for..." aria-label="Search" aria-describedby="basic-addon2" />
+                            <div class="input-group-text"><i data-feather="search"></i></div>
+                        </div>
+                    </form>
+                </div>
+            </li>
+
+            <!-- User Dropdown-->
+
+
+            <a class="dropdown-item" asp-controller="Profile" asp-action="ProfileScreen">
+                <div class="row" style="margin-right:20px">
+                    <div class="col-md-2" style="magin:auto;padding-top: 12px;"> <i class="fa-solid fa-user"></i></div>
+                    <div class="col-md-10">
+                        <div class="dropdown-user-details-name" style="font-weight:bold">@user.FullName</div>
+                        <div class="dropdown-user-details-email">@user.Email</div>
+                    </div>
+                </div>
+            </a>
+
+
+        </ul>
+    </nav>
+    <div id="layoutSidenav">
+        <div id="layoutSidenav_nav">
+            <nav class="sidenav shadow-right sidenav-light">
+                <div class="sidenav-menu">
+                    <div class="nav accordion" id="accordionSidenav">
+
+                        <!-- Sidenav Menu Heading (Core)-->
+                        <div class="sidenav-menu-heading">Menu của nhân viên</div>
+                        <!-- Sidenav Accordion (Dashboard)-->
+
+                        <a asp-action="SaleScreen" asp-controller="Sale" class="nav-link collapsed @(Url.RouteUrl(ViewContext.RouteData.Values) == "/sale-json" ? "active" : "")">
+                            <div class="nav-link-icon action"><i data-feather="package"></i></div>
+                            Bảng thông kê
+                        </a>
+
+
+                        <!-- Sidenav Accordion (Product List)-->
+                        <a asp-action="ProductListSale" asp-controller="ProductListSale" class="nav-link collapsed @(Url.RouteUrl(ViewContext.RouteData.Values) == "/productsSale" ? "active" : "")">
+                            <div class="nav-link-icon action"><i data-feather="package"></i></div>
+                            Danh sách sản phẩm
+                        </a>
+
+                        <!-- Sidenav Accordion (Customer Contact List)-->
+                        <a asp-action="CustomerContact" asp-controller="CustomerContact" class="nav-link collapsed @(Url.RouteUrl(ViewContext.RouteData.Values) == "/customer-contact" ? "active" : "")">
+                            <div class="nav-link-icon action"><i data-feather="package"></i></div>
+                            Danh sách khách hàng
+                        </a>
+                        <!-- Sidenav Accordion (Order List)-->
+                        <a asp-action="OrderListScreen" asp-controller="OrderList" class="nav-link collapsed @(Url.RouteUrl(ViewContext.RouteData.Values) == "/order-list" ? "active" : "")">
+                            <div class="nav-link-icon action"><i data-feather="package"></i></div>
+                            Danh sách đơn hàng
+                        </a>
+
+                    </div>
+                </div>
+                <!-- Sidenav Footer-->
+
+            </nav>
+        </div>
+        <div id="layoutSidenav_content">
+
+            <main>
+                <header class="page-header page-header-dark pb-10">
+                    <div class=" px-4">
+                        <div class="page-header-content pt-4">
+                            <div class="row align-items-center justify-content-between">
+                                @RenderBody()
+                            </div>
+                        </div>
+                    </div>
+                </header>
+            </main>
+
+        </div>
+    </div>
+    <script data-cfasync="false" src="https://sb-admin-pro.startbootstrap.com/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+    <script src="https://sb-admin-pro.startbootstrap.com/js/scripts.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.js" crossorigin="anonymous"></script>
+    <script src="https://sb-admin-pro.startbootstrap.com/assets/demo/chart-area-demo.js"></script>
+    <script src="https://sb-admin-pro.startbootstrap.com/assets/demo/chart-bar-demo.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js" crossorigin="anonymous"></script>
+    <script src="https://sb-admin-pro.startbootstrap.com/js/datatables/datatables-simple-demo.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/litepicker/dist/bundle.js" crossorigin="anonymous"></script>
+    <script src="https://sb-admin-pro.startbootstrap.com/js/litepicker.js"></script>
+
+    <script src="https://assets.startbootstrap.com/js/sb-customizer.js"></script>
+    <sb-customizer project="sb-admin-pro"></sb-customizer>
+    <script>(function () { if (!document.body) return; var js = "window['__CF$cv$params']={r:'88dddfcbfbc184f6',t:'MTcxNzM5ODc0MC4wMTIwMDA='};_cpo=document.createElement('script');_cpo.nonce='',_cpo.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js',document.getElementsByTagName('head')[0].appendChild(_cpo);"; var _0xh = document.createElement('iframe'); _0xh.height = 1; _0xh.width = 1; _0xh.style.position = 'absolute'; _0xh.style.top = 0; _0xh.style.left = 0; _0xh.style.border = 'none'; _0xh.style.visibility = 'hidden'; document.body.appendChild(_0xh); function handler() { var _0xi = _0xh.contentDocument || _0xh.contentWindow.document; if (_0xi) { var _0xj = _0xi.createElement('script'); _0xj.innerHTML = js; _0xi.getElementsByTagName('head')[0].appendChild(_0xj); } } if (document.readyState !== 'loading') { handler(); } else if (window.addEventListener) { document.addEventListener('DOMContentLoaded', handler); } else { var prev = document.onreadystatechange || function () { }; document.onreadystatechange = function (e) { prev(e); if (document.readyState !== 'loading') { document.onreadystatechange = prev; handler(); } }; } })();</script>
+    <script defer src="https://static.cloudflareinsights.com/beacon.min.js/vef91dfe02fce4ee0ad053f6de4f175db1715022073587" integrity="sha512-sDIX0kl85v1Cl5tu4WGLZCpH/dV9OHbA4YlKCuCiMmOQIk4buzoYDZSFj+TvC71mOBLh8CDC/REgE0GX0xcbjA==" data-cf-beacon='{"rayId":"88dddfcbfbc184f6","version":"2024.4.1","token":"6e2c2575ac8f44ed824cef7899ba8463"}' crossorigin="anonymous"></script>
+</body>
